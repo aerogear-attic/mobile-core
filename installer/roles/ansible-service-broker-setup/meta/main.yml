@@ -1,6 +1,6 @@
 galaxy_info:
   author: Aerogear
-  description: Setup Ansible Service Broker in OpenShift
+  description: Setup OpenShift Ansible Broker (OAB) in OpenShift
 
   issue_tracker_url: https://github.com/aerogear/mobile-core/issues
 

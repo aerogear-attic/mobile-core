@@ -1,8 +1,8 @@
-# Mobile Control Panel UI
+# Mobile UI
 
 ## Overview
 
-The Mobile Control Panel (MCP) UI is built using:
+The Mobile UI is built using:
 * AngularJS https://angularjs.org/
 * Patternfly http://www.patternfly.org/
 

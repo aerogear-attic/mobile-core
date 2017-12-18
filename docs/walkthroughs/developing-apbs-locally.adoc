@@ -2,7 +2,7 @@
 Developing APBs Locally
 -----------------------
 
-The document is documenting best practises for the Aerogear APB development! Some general information about the Ansible Service Broker (ASB) & Ansible Playbook Bundles (APB) can be found link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[here].
+The document is documenting best practises for the Aerogear APB development! Some general information about the OpenShift Ansible Broker (OAB) & Ansible Playbook Bundles (APB) can be found link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[here].
 
 ## Installation
 
@@ -42,7 +42,7 @@ make DOCKERORG="my_org"
 
 _NOTE:_ With `DOCKERHOST` you can also override the dockerhost; default is `docker.io`.
 
-### Locally pushing APBs to Ansible Service Broker (ASB)
+### Locally pushing APBs to OpenShift Ansible Broker (OAB)
 
 #### Setup of MCP
 

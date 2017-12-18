@@ -149,7 +149,7 @@ function check_oc() {
         oc_install_dir=$(dirname $(command -v oc))
         rm $(command -v oc)
       else
-        echo -e "${RED}The Mobile Control Panel requires oc >= 3.7${RESET}"
+        echo -e "${RED}Mobile requires oc >= 3.7${RESET}"
         exit 1
       fi
     fi
@@ -165,7 +165,7 @@ function read_oc_install_dir() {
 }
 
 function run_installer() {
-  echo -e "\nThe Mobile Control Panel installer requires valid DockerHub credentials
+  echo -e "\nThe Mobile installer requires valid DockerHub credentials
   to communicate with the DockerHub API. If you enter invalid credentials or then
   Mobile Services will not be available in the Service Catalog.\n"
 

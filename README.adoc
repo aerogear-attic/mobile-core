@@ -1,25 +1,23 @@
-[[mobile-control-panel-mcp]]
-Mobile Control Panel (MCP)
+[[mobile-core]]
+Mobile Core
 --------------------------
 
-image:https://travis-ci.org/aerogear/mobile-core.png[Build Status (Travis CI), link=https://travis-ci.org/aerogear/mobile-core]
-image:https://img.shields.io/docker/stars/aerogear/mobile-core.svg[Docker Stars, link=https://registry.hub.docker.com/v2/repositories/aerogear/mobile-core/stars/count/]
-image:https://img.shields.io/docker/pulls/aerogear/mobile-core.svg[Docker Pulls, link=https://registry.hub.docker.com/v2/repositories/aerogear/mobile-core/]
 image:https://img.shields.io/:license-Apache2-blue.svg[License, link=http://www.apache.org/licenses/LICENSE-2.0]
 
 
-The Mobile Control Panel is PoC for a `per namespace' service that helps
-developers discover, create and integrate Mobile Apps and Services on
-OpenShift.
+The Mobile Core is a central repo for all things related to Mobile on OpenShift.
+This repo has the source for:
 
-* Mobile SDKs are developed and maintained in their respective repos
-* The Backend is a Golang server in this repo
-* The Frontend is a set of AngularJS services, controllers, views etc…
-in this repo that extend the OpenShift Web Console UI (via extensions)
-* Services are developeed and maintained in their respective repos. They
-leverage the Service Catalog and various brokers to help provision them
+* Mobile specific UI extensions fo the OpenShift Web Console
+* Mobile App Ansible Playbook Bundles (APBs)
+* Local Development environment
 
-The MCP brings all of these componments together to create a unified
+The following components are maintained in their respective repos:
+* Mobile CLI
+* Mobile SDKs
+* Mobile Services
+
+The Mobile Core brings all of these componments together to create a unified
 Mobile developer experience on top of OpenShift.
 
 [[contributing]]
@@ -38,12 +36,7 @@ Communication
 Daily communication happens on #aerogear on
 https://webchat.freenode.net/[freenode IRC]. The
 http://lists.jboss.org/pipermail/aerogear-dev/[aerogear-dev@lists.jboss.org
-mailing list] is also used for team-wide & community comms. Issues are
-tracked in both
-https://issues.jboss.org/secure/RapidBoard.jspa?rapidView=4143&view=planning.nodetail[Jira]
-and Github Issues. Where issues are duplicates, they should be linked so
-that only 1 source of info exists (automation would be nice here).
-Typically the core Red Hat team will create and work from Jira Issues.
+mailing list] is also used for team-wide & community comms.
 
 [[onboarding-resources]]
 Onboarding Resources
@@ -54,7 +47,7 @@ Onboarding Resources
 ** https://github.com/feedhenry/fh-sync-js[Cordova/Browser Sync SDK]
 ** https://www.aerogear.org/docs/specs/#push[Push SDKs]
 ** https://www.npmjs.com/package/keycloak-js[Keycloak JS Adapter]
-* Backend Resources
+* Mobile CLI Resources
 ** https://tour.golang.org/welcome/1[Tour of Go]
 * Frontend Resources
 ** https://github.com/aerogear/mobile-core/tree/master/ui[UI src]
@@ -62,39 +55,20 @@ Onboarding Resources
 ** https://docs.angularjs.org/api[AngularJS API Docs]
 ** http://www.patternfly.org/[Patternfly]
 ** https://github.com/openshift/origin-web-console[OpenShift Web Console]
-** https://docs.openshift.com/container-platform/3.6/install_config/web_console_customization.html[Customising
+** https://docs.openshift.com/container-platform/3.7/install_config/web_console_customization.html[Customising
 the OpenShift Web Console (Extensions]
 ** https://github.com/openshift/origin-web-catalog[Service
 Catalog/OpenShift Mall UI]
 * Catalog/Mall, Brokers & Services
-** https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/index.html[Service
+** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/index.html[Service
 Catalog]
-** https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[Ansible
-Service Broker (ASB) & Ansbile Playbook Bundles (APB)]
-** https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/template_service_broker.html[Template
-Service Broker]
+** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/ansible_service_broker.html[OpenShift Ansible Broker (OAB) & Ansible Playbook Bundles (APB)]
+** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/template_service_broker.html[Template Service Broker]
 ** https://github.com/feedhenry/fh-sync-server[fh-sync-server]
 ** https://github.com/feedhenry/fh-sync-server/blob/master/fh-sync-server-DEVELOPMENT.yaml[fh-sync-server
 Template]
 ** https://github.com/keycloak/keycloak[Keycloak]
 ** https://github.com/aerogearcatalog/keycloak-apb[Keycloak APB]
-
-[[walkthroughs]]
-Walkthroughs
-~~~~~~~~~~~~
-
-* link:./docs/walkthroughs/local-setup.adoc[Local Setup]
-* link:./docs/walkthroughs/developing-apbs-locally.adoc[Developing APBs Locally]
-* link:./docs/walkthroughs/sync-and-keycloak.adoc[Data Sync & Keycloak Walkthough]
-* link:./docs/walkthroughs/keycloak.adoc[Keycloak Walkthrough]
-* link:./docs/walkthroughs/mobile-ci-cd.adoc[Mobile CI/CD Walkthough]
-* link:./docs/walkthroughs/sync-and-3scale.adoc[3scale Walkthrough]
-
-[[videos]]
-Videos
-~~~~~~
-
-* https://www.youtube.com/user/feedhenrytv/videos[FeedHenry Youtube Channel]
 
 [[doing-a-development-release]]
 Development Release

@@ -8,10 +8,10 @@ readonly LAUNCH_APB_ON_BIND="${4}"
 readonly TAG="${5}"
 readonly WILDCARD_DNS="${6}"
 
-echo "starting install of ansible service broker"
+echo "starting install of OpenShift Ansible Broker (OAB)"
 
 function finish {
-  echo "unexpected exit of ansible service broker installation script"
+  echo "unexpected exit of OpenShift Ansible Broker (OAB) installation script"
 }
 
 trap 'finish' EXIT
