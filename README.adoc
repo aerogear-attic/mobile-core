@@ -9,13 +9,13 @@ The Mobile Core is a central repo for all things related to Mobile on OpenShift.
 This repo has the source for:
 
 * Mobile specific UI extensions fo the OpenShift Web Console
-* Mobile App Ansible Playbook Bundles (APBs)
 * Local Development environment
 
 The following components are maintained in their respective repos:
 * Mobile CLI
 * Mobile SDKs
 * Mobile Services
+* All Ansible Playbook Bundles (APBs) for Apps & Services
 
 The Mobile Core brings all of these componments together to create a unified
 Mobile developer experience on top of OpenShift.
