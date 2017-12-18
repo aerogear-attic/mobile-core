@@ -102,7 +102,7 @@ as part of your `ansible-playbook` command.
 
 ....
 cd ui
-grunt local
+npm run grunt local
 ....
 
 If you see an `ENOSPC` error, you may need to increase the number of
