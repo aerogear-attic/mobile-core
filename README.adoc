@@ -1,6 +1,6 @@
 [[mobile-core]]
 Mobile Core
---------------------------
+-----------
 
 image:https://img.shields.io/:license-Apache2-blue.svg[License, link=http://www.apache.org/licenses/LICENSE-2.0]
 
