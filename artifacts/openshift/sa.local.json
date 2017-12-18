@@ -2,7 +2,7 @@
     "kind": "ServiceAccount",
     "apiVersion": "v1",
     "metadata": {
-        "name": "mcp-standalone",
+        "name": "mobile-core",
         "annotations": {
             "serviceaccounts.openshift.io/oauth-redirecturi.first": "https://127.0.0.1:9000"
         }

@@ -1,7 +1,7 @@
 package testclient
 
 import (
-	"github.com/feedhenry/mcp-standalone/pkg/openshift/client"
+	"github.com/aerogear/mobile-core/pkg/openshift/client"
 	"k8s.io/client-go/testing"
 )
 

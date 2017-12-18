@@ -2,9 +2,9 @@
 Mobile Control Panel (MCP)
 --------------------------
 
-image:https://travis-ci.org/feedhenry/mcp-standalone.png[Build Status (Travis CI), link=https://travis-ci.org/feedhenry/mcp-standalone]
-image:https://img.shields.io/docker/stars/feedhenry/mcp-standalone.svg[Docker Stars, link=https://registry.hub.docker.com/v2/repositories/feedhenry/mcp-standalone/stars/count/]
-image:https://img.shields.io/docker/pulls/feedhenry/mcp-standalone.svg[Docker Pulls, link=https://registry.hub.docker.com/v2/repositories/feedhenry/mcp-standalone/]
+image:https://travis-ci.org/aerogear/mobile-core.png[Build Status (Travis CI), link=https://travis-ci.org/aerogear/mobile-core]
+image:https://img.shields.io/docker/stars/aerogear/mobile-core.svg[Docker Stars, link=https://registry.hub.docker.com/v2/repositories/aerogear/mobile-core/stars/count/]
+image:https://img.shields.io/docker/pulls/aerogear/mobile-core.svg[Docker Pulls, link=https://registry.hub.docker.com/v2/repositories/aerogear/mobile-core/]
 image:https://img.shields.io/:license-Apache2-blue.svg[License, link=http://www.apache.org/licenses/LICENSE-2.0]
 
 
@@ -35,9 +35,9 @@ passing CI build.
 Communication
 ~~~~~~~~~~~~~
 
-Daily communication happens on #feedhenry on
+Daily communication happens on #aerogear on
 https://webchat.freenode.net/[freenode IRC]. The
-http://feedhenry-dev.2363497.n4.nabble.com/[feedhenry-dev@redhat.com
+http://lists.jboss.org/pipermail/aerogear-dev/[aerogear-dev@lists.jboss.org
 mailing list] is also used for team-wide & community comms. Issues are
 tracked in both
 https://issues.jboss.org/secure/RapidBoard.jspa?rapidView=4143&view=planning.nodetail[Jira]
@@ -57,7 +57,7 @@ Onboarding Resources
 * Backend Resources
 ** https://tour.golang.org/welcome/1[Tour of Go]
 * Frontend Resources
-** https://github.com/feedhenry/mcp-standalone/tree/master/ui[UI src]
+** https://github.com/aerogear/mobile-core/tree/master/ui[UI src]
 ** https://docs.angularjs.org/tutorial[AngularJS PhoneCat Tutorial]
 ** https://docs.angularjs.org/api[AngularJS API Docs]
 ** http://www.patternfly.org/[Patternfly]
@@ -77,7 +77,7 @@ Service Broker]
 ** https://github.com/feedhenry/fh-sync-server/blob/master/fh-sync-server-DEVELOPMENT.yaml[fh-sync-server
 Template]
 ** https://github.com/keycloak/keycloak[Keycloak]
-** https://github.com/feedhenry/keycloak-apb[Keycloak APB]
+** https://github.com/aerogearcatalog/keycloak-apb[Keycloak APB]
 
 [[walkthroughs]]
 Walkthroughs

@@ -3,7 +3,7 @@ Data Sync and 3Scale in the MCP
 -------------------------------
 
 This is a guide for provisioning the 3scale service from the OpenShift service
-catalog and integrating it with the FeedHenry Sync service. The 3scale service
+catalog and integrating it with the Aerogear Sync service. The 3scale service
 will provision an APIcast API Gateway that can be placed in front of other
 services.
 
@@ -15,7 +15,7 @@ Prerequisites
 ** the MCP UI extension enabled
 ** Mobile Services available in the Service Catalog
 ** a Project containing the MCP Server
-** FeedHenry Sync provisioned in the Project
+** Aerogear Sync provisioned in the Project
 
 * A 3scale.net account
 
@@ -46,13 +46,13 @@ Integrate 3scale with Data Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once the 3scale service has finished provisioning it will be available as an
-integration in the Service Integrations tab of the FeedHenry Sync Server.
+integration in the Service Integrations tab of the Aerogear Sync Server.
 Enabling the service integration is done via the 'bind' playbook in the 3Scale APB.
 The 'bind' playbook will do the following:
 
 * Configure the 3Scale Service for App ID/Key Auth with a Self Managed APIcast i.e. the APICast is in our namespace.
-* Configure the 3Scale Service Proxy settings to proxy on to the FeedHenry Sync Server in our namepsace.
-* Configure GET & POST Mappings for the Service. The mappings are simple with any GET or POST request getting proxied on to the FeedHenry Sync Server. It is possible to manage mappings at a more granular level afterwards via the 3Scale Admin Portal.
+* Configure the 3Scale Service Proxy settings to proxy on to the Aerogear Sync Server in our namepsace.
+* Configure GET & POST Mappings for the Service. The mappings are simple with any GET or POST request getting proxied on to the Aerogear Sync Server. It is possible to manage mappings at a more granular level afterwards via the 3Scale Admin Portal.
 * Promote the Proxy Configuration to production so the APICast in our namespace will use it.
 * Get the App ID that our Mobile App will use with every request. This is stored in the `fh-sync-server` secret.
 * Generate an App Key that our Mobile App will use with every request. This is stored in the `fh-sync-server` secret. An App Key can be revoked/regenerated as needed from the 3Scale Admin Portal. If regenerating, the key will need to be manually updated in the `fh-sync-server` secret.
@@ -123,7 +123,7 @@ mobileCore.configure(mcpConfig).then((config) => {
 ----
 
 Before the 3scale integration is made the app will make requests directly to
-the FeedHenry Sync Server without `app_id` and `app_key` headers. Once the
+the Aerogear Sync Server without `app_id` and `app_key` headers. Once the
 integration is made the app will start sending requests to APIcast with the
 headers included. This will allow APIcast to send metrics about the apps
 requests to 3scale.
@@ -132,7 +132,7 @@ requests to 3scale.
 Viewing requests in 3scale
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When the 3scale integration is enabled on the FeedHenry Sync Server. Metrics
+When the 3scale integration is enabled on the Aerogear Sync Server. Metrics
 about requests being made to the server will be visible in 3scale. When signed
 in to 3scale an 'Analytics' section will be available for the service. This
 contains metrics about requests being sent to the Sync Server through the

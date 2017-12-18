@@ -10,7 +10,7 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/pkg/errors"
 
-	"github.com/feedhenry/mcp-standalone/pkg/web/headers"
+	"github.com/aerogear/mobile-core/pkg/web/headers"
 )
 
 // ConsoleConfigHandler handle console config route

@@ -7,12 +7,12 @@ import (
 
 	"time"
 
-	"github.com/feedhenry/mcp-standalone/pkg/data"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile/app"
-	"github.com/feedhenry/mcp-standalone/pkg/openshift/build"
-	"github.com/feedhenry/mcp-standalone/pkg/openshift/client"
-	"github.com/feedhenry/mcp-standalone/pkg/openshift/testclient"
+	"github.com/aerogear/mobile-core/pkg/data"
+	"github.com/aerogear/mobile-core/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/mobile/app"
+	"github.com/aerogear/mobile-core/pkg/openshift/build"
+	"github.com/aerogear/mobile-core/pkg/openshift/client"
+	"github.com/aerogear/mobile-core/pkg/openshift/testclient"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/kubernetes/fake"

@@ -6,15 +6,15 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	"github.com/codegangsta/negroni"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
-	"github.com/feedhenry/mcp-standalone/pkg/web/middleware"
+	"github.com/aerogear/mobile-core/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/web/middleware"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	kerror "k8s.io/apimachinery/pkg/api/errors"
 
-	"github.com/feedhenry/mcp-standalone/pkg/data"
+	"github.com/aerogear/mobile-core/pkg/data"
 )
 
 // NewRouter sets up the HTTP Router

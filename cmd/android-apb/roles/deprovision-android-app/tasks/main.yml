@@ -1,5 +1,5 @@
 - name: check_exists
-  shell: "oc get routes mcp-standalone -n '{{ namespace }}' | grep -v NAME | awk '{print $2}'"
+  shell: "oc get routes mobile-core -n '{{ namespace }}' | grep -v NAME | awk '{print $2}'"
   register: mobile_route
 
 - name: retrieve_token

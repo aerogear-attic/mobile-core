@@ -21,7 +21,7 @@ angular.module('mobileControlPanelApp').component('mpGetStarted', {
                 You can provision or link a Mobile Enabled Service to enable a Mobile App Integration.
               </p>
               <p>
-                Learn more about Mobile Apps & Services <a href="http://feedhenry.org/docs/">in the documentation</a>.
+                Learn more about Mobile Apps & Services <a href="http://aerogear.org/docs/">in the documentation</a>.
               </p>
               <div class="blank-slate-pf-main-action">
                 <a ng-href="project/{{ $ctrl.projectName }}/create-mobileapp" class="btn btn-primary btn-lg">Create Mobile App</a>

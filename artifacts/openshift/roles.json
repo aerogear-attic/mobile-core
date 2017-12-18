@@ -9,6 +9,6 @@
         "namespace": "myproject"
     },
     "userNames": [
-        "system:serviceaccount:myproject:mcp-standalone"
+        "system:serviceaccount:myproject:mobile-core"
     ]
 }

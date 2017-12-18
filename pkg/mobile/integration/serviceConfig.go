@@ -1,7 +1,7 @@
 package integration
 
 import (
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/mobile"
 	"github.com/pkg/errors"
 )
 

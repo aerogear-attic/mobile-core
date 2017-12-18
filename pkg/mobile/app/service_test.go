@@ -4,10 +4,10 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/feedhenry/mcp-standalone/pkg/mobile/app"
+	"github.com/aerogear/mobile-core/pkg/mobile/app"
 
-	"github.com/feedhenry/mcp-standalone/pkg/data"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/data"
+	"github.com/aerogear/mobile-core/pkg/mobile"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/kubernetes/fake"

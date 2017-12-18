@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/mobile"
 	"github.com/pkg/errors"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"

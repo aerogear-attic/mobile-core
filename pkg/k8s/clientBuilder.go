@@ -1,7 +1,7 @@
 package k8s
 
 import (
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/mobile"
 	"github.com/pkg/errors"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"

@@ -2,9 +2,9 @@
     "kind": "ServiceAccount",
     "apiVersion": "v1",
     "metadata": {
-        "name": "mcp-standalone",
+        "name": "mobile-core",
         "annotations": {
-            "serviceaccounts.openshift.io/oauth-redirectreference.mcp-standalone": "{\"kind\":\"OAuthRedirectReference\",\"apiVersion\":\"v1\",\"reference\":{\"kind\":\"Route\",\"name\":\"mcp-standalone\"}}"
+            "serviceaccounts.openshift.io/oauth-redirectreference.mobile-core": "{\"kind\":\"OAuthRedirectReference\",\"apiVersion\":\"v1\",\"reference\":{\"kind\":\"Route\",\"name\":\"mobile-core\"}}"
         }
     }
 }

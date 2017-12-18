@@ -1,4 +1,4 @@
-PKG     = github.com/feedhenry/mcp-standalone
+PKG     = github.com/aerogear/mobile-core
 TOP_SRC_DIRS   = pkg
 TEST_DIRS     ?= $(shell sh -c "find $(TOP_SRC_DIRS) -name \\*_test.go \
                    -exec dirname {} \\; | sort | uniq")
@@ -33,7 +33,7 @@ image: build
 	mkdir -p tmp
 	cp ./mcp-api tmp
 	cp artifacts/Dockerfile tmp
-	cd tmp && docker build -t docker.io/feedhenry/mcp-standalone:$(TAG) .
+	cd tmp && docker build -t docker.io/aerogear/mobile-core:$(TAG) .
 	rm -rf tmp
 
 run_server:
@@ -42,8 +42,8 @@ run_server:
 	oc login -u developer -panything
 	oc new-project $(NAMESPACE) | true
 	oc create -f artifacts/openshift/sa.local.json -n  $(NAMESPACE) | true
-	oc policy add-role-to-user edit system:serviceaccount:$(NAMESPACE):mcp-standalone -n  $(NAMESPACE) | true
-	oc sa get-token mcp-standalone -n  $(NAMESPACE) > token
+	oc policy add-role-to-user edit system:serviceaccount:$(NAMESPACE):mobile-core -n  $(NAMESPACE) | true
+	oc sa get-token mobile-core -n  $(NAMESPACE) > token
 	./mcp-api -namespace=$(NAMESPACE) -k8-host=$(OSCP) -satoken-path=./token -log-level=debug -insecure=true
 
 .PHONY: test
@@ -73,7 +73,7 @@ apbs:
     ifdef TAG
 	@echo "Preparing $(TAG)"
         ifeq ($(shell git ls-files -m | wc -l),0)
-			@echo "Doing the releae of the FeedHenry MCP APBs"
+			@echo "Doing the releae of the Aerogear MCP APBs"
 			cp artifacts//openshift/template.json cmd/android-apb/roles/provision-android-app/templates
 			cp artifacts/openshift/template.json cmd/cordova-apb/roles/provision-cordova-apb/templates
 			cp artifacts/openshift/template.json cmd/ios-apb/roles/provision-ios-apb/templates

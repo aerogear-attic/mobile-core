@@ -18,7 +18,7 @@ import (
 	"bytes"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/mobile"
 	"github.com/pkg/errors"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"

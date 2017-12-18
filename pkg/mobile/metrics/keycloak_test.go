@@ -4,15 +4,15 @@ import (
 	"testing"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/feedhenry/mcp-standalone/pkg/data"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/data"
+	"github.com/aerogear/mobile-core/pkg/mobile"
 
 	"net/http"
 
 	"bytes"
 	"io/ioutil"
 
-	"github.com/feedhenry/mcp-standalone/pkg/mock"
+	"github.com/aerogear/mobile-core/pkg/mock"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"

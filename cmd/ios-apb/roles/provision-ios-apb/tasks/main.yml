@@ -1,5 +1,5 @@
 - name: check_exists
-  shell: "oc get routes mcp-standalone -n '{{ namespace }}' | grep -v NAME | awk '{print $2}'"
+  shell: "oc get routes mobile-core -n '{{ namespace }}' | grep -v NAME | awk '{print $2}'"
   register: mobile_route
 
 - name: provision
@@ -9,11 +9,11 @@
 
 - name: add-role
   shell: |
-    oc policy add-role-to-user edit system:serviceaccount:{{namespace}}:mcp-standalone -n {{namespace}}
+    oc policy add-role-to-user edit system:serviceaccount:{{namespace}}:mobile-core -n {{namespace}}
   when: mobile_route.stdout == ""  
 
 - name: check_exists_again
-  shell: "oc get routes mcp-standalone -n '{{ namespace }}' | grep -v NAME | awk '{print $2}'"
+  shell: "oc get routes mobile-core -n '{{ namespace }}' | grep -v NAME | awk '{print $2}'"
   register: mobile_route
 
 

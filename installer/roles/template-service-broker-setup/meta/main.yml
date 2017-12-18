@@ -1,8 +1,8 @@
 galaxy_info:
-  author: FeedHenry
+  author: Aerogear
   description: Setup Template Service Broker in OpenShift
 
-  issue_tracker_url: https://github.com/feedhenry/mobile-control-panel/issues
+  issue_tracker_url: https://github.com/aerogear/mobile-core/issues
 
   license: license (MIT)
 
@@ -21,7 +21,7 @@ galaxy_info:
     - 25
 
   galaxy_tags:
-  - feedhenry
+  - aerogear
   - openshift
   - template
   - service

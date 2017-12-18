@@ -69,15 +69,15 @@ export PATH="$PATH:$GOPATH/bin"
 * Option 1: If `GOPATH` is set
 [source,bash]
 ----
-mkdir -p $GOPATH/src/github.com/feedhenry
-cd $GOPATH/src/github.com/feedhenry
-git clone https://github.com/feedhenry/mcp-standalone
+mkdir -p $GOPATH/src/github.com/aerogear
+cd $GOPATH/src/github.com/aerogear
+git clone https://github.com/aerogear/mobile-core
 ----
 
 * Option 2: If `GOPATH` is *not* set
 [source,bash]
 ----
-git clone https://github.com/feedhenry/mcp-standalone
+git clone https://github.com/aerogear/mobile-core
 ----
 
 
@@ -86,7 +86,7 @@ git clone https://github.com/feedhenry/mcp-standalone
 
 [source,sh]
 ----
-cd mcp-standalone
+cd mobile-core
 ansible-galaxy install -r ./installer/requirements.yml
 ----
 *Note (macOS):* If you're using `ansible` installed via `pip`, you may need create 
@@ -106,7 +106,7 @@ The installer sets up your OpenShift environment with the service catalog and th
 
 A DockerHub username and password are currently currently required because the
 Ansible Service Broker calls Docker APIs to read/load Ansible Playbook
-Bundles from a Docker Hub organisation (defaults to `feedhenry`).
+Bundles from a Docker Hub organisation (defaults to `aerogear`).
 
 NOTE: If the installer fails, run
 `make clean` in the repo home directory before running the installer again.
@@ -155,7 +155,7 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 _NOTE_: Running `grunt local` will _not_ run `uglify` (to help with
 local dev), and _will_ include `scripts/config.local.js`. This file is
 used to point to a local running MCP server rather than the default of
-looking up a Route names `mcp-standalone` and using that as the MCP
+looking up a Route names `mobile-core` and using that as the MCP
 server host.
 
 [[creating-mobile-apps]]
@@ -184,7 +184,7 @@ Browser. To do this:
 * If running MCP Server locally, go to https://localhost:3001.
 * Otherwise, get the route from OpenShift using:
 +
-`oc get route mcp-standalone -n myproject --template "https://{{.spec.host}} "`
+`oc get route mobile-core -n myproject --template "https://{{.spec.host}} "`
 
 . Visit the route in your browser and accept the cert.
 +
@@ -208,16 +208,16 @@ Add the following to your bash_profile
 ....
 export DOCKERHUB_PASSWORD="supersecret"
 export DOCKERHUB_USERNAME="user"
-export DOCKERHUB_APBS_ORG="feedhenry"
+export DOCKERHUB_APBS_ORG="aerogear"
 export TAG=latest
 
 function mcp(){
         if [ "$1" == "up" ]; then
           echo "mcp up"
-          cd $GOPATH/src/github.com/feedhenry/mcp-standalone/installer/ && ansible-playbook playbook.yml -e "dockerhub_username=$DOCKERHUB_USERNAME" -e "dockerhub_tag=${TAG:-latest}" -e "dockerhub_password=$DOCKERHUB_PASSWORD" -e "dockerhub_org=$DOCKERHUB_APBS_ORG" --ask-become-pass
+          cd $GOPATH/src/github.com/aerogear/mobile-core/installer/ && ansible-playbook playbook.yml -e "dockerhub_username=$DOCKERHUB_USERNAME" -e "dockerhub_tag=${TAG:-latest}" -e "dockerhub_password=$DOCKERHUB_PASSWORD" -e "dockerhub_org=$DOCKERHUB_APBS_ORG" --ask-become-pass
        fi
        if [ "$1" == "down" ]; then
-         cd $GOPATH/src/github.com/feedhenry/mcp-standalone && make clean
+         cd $GOPATH/src/github.com/aerogear/mobile-core && make clean
        fi
 
 }

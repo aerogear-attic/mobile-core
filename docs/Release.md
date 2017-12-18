@@ -2,10 +2,10 @@
 
 ## Release of independent apbs
 
-- keycloak https://github.com/feedhenry/keycloak-apb
-- 3scale https://github.com/feedhenry/3scale-apb
-- sync https://github.com/feedhenry/fh-sync-server-apb
-- digger (mobile ci cd) https://github.com/feedhenry/aerogear-digger-apb  
+- keycloak https://github.com/aerogearcatalog/keycloak-apb
+- 3scale https://github.com/aerogearcatalog/3scale-apb
+- sync https://github.com/aerogearcatalog/fh-sync-server-apb
+- digger (mobile ci cd) https://github.com/aerogearcatalog/aerogear-digger-apb  
 
 Run the following command in each of the above repos:
 
@@ -20,7 +20,7 @@ For MCP tag as above and run the following commands
 
 ```bash
 make image TAG=$(TAG)
-docker push docker.io/feedhenry/mcp-standalone:$(TAG)
+docker push docker.io/aerogear/mobile-core:$(TAG)
 ```
 
 ### MCP included APBs

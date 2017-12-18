@@ -3,7 +3,7 @@ package client
 import (
 	"net/http"
 
-	"github.com/feedhenry/mcp-standalone/pkg/openshift/build"
+	"github.com/aerogear/mobile-core/pkg/openshift/build"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 

@@ -14,7 +14,7 @@
 
 package main
 
-import "github.com/feedhenry/mcp-standalone/pkg/cli/cmd"
+import "github.com/aerogear/mobile-core/pkg/cli/cmd"
 
 func main() {
 	cmd.Execute()

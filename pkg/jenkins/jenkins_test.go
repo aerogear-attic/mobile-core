@@ -12,9 +12,9 @@ import (
 	"net/url"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/feedhenry/mcp-standalone/pkg/jenkins"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
-	"github.com/feedhenry/mcp-standalone/pkg/mock"
+	"github.com/aerogear/mobile-core/pkg/jenkins"
+	"github.com/aerogear/mobile-core/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/mock"
 )
 
 func TestClientRetrieve(t *testing.T) {

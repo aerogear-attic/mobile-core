@@ -9,8 +9,8 @@ import (
 
 	"bytes"
 	"fmt"
-	"github.com/feedhenry/mcp-standalone/pkg/httpclient"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/httpclient"
+	"github.com/aerogear/mobile-core/pkg/mobile"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

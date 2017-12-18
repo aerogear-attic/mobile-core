@@ -2,11 +2,11 @@
     "kind": "DeploymentConfig",
     "apiVersion": "v1",
     "metadata": {
-        "name": "mcp-standalone",
+        "name": "mobile-core",
         "generation": 1,
         "creationTimestamp": null,
         "labels": {
-            "run": "mcp-standalone"
+            "run": "mobile-core"
         }
     },
     "spec": {
@@ -28,22 +28,22 @@
         "replicas": 1,
         "test": false,
         "selector": {
-            "run": "mcp-standalone"
+            "run": "mobile-core"
         },
         "template": {
             "metadata": {
                 "creationTimestamp": null,
                 "labels": {
-                    "run": "mcp-standalone"
+                    "run": "mobile-core"
                 }
             },
             "spec": {
-                "serviceAccountName": "mcp-standalone",
+                "serviceAccountName": "mobile-core",
                 "containers": [{
-                    "name": "mcp-standalone",
-                    "image": "feedhenry/mcp-standalone",
+                    "name": "mobile-core",
+                    "image": "aerogear/mobile-core",
                     "command": [
-                        "./mcp-standalone",
+                        "./mobile-core",
                         "-web-dir=/web/dist",
                         "-cert=/etc/tls/tls.crt",
                         "-key=/etc/tls/tls.key"

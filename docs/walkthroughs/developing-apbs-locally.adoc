@@ -2,7 +2,7 @@
 Developing APBs Locally
 -----------------------
 
-The document is documenting best practises for the FeedHenry APB development! Some general information about the Ansible Service Broker (ASB) & Ansible Playbook Bundles (APB) can be found link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[here].
+The document is documenting best practises for the Aerogear APB development! Some general information about the Ansible Service Broker (ASB) & Ansible Playbook Bundles (APB) can be found link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[here].
 
 ## Installation
 
@@ -22,7 +22,7 @@ _NOTE:_ It's a good practise to have the APB end with `-apb`!
 
 ### Create a Makefile
 
-Until link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/pull/149[this PR] gets merged, it is highly recommended to create a `Makefile`, like link:https://raw.githubusercontent.com/feedhenry/fh-sync-server-apb/master/Makefile[here]:
+Until link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/pull/149[this PR] gets merged, it is highly recommended to create a `Makefile`, like link:https://raw.githubusercontent.com/aerogearcatalog/fh-sync-server-apb/master/Makefile[here]:
 
 ### Local Build
 
@@ -46,7 +46,7 @@ _NOTE:_ With `DOCKERHOST` you can also override the dockerhost; default is `dock
 
 #### Setup of MCP
 
-Create a MCP cluster pointing at your own docker organisation, this will also copy all the existing APBs in feedhenry to the dockerhub_org:
+Create a MCP cluster pointing at your own docker organisation, this will also copy all the existing APBs in aerogear to the dockerhub_org:
 ....
 ansible-playbook playbook.yml -e "dockerhub_username=<dockerusername>" -e "dockerhub_password=<dockerpassword>" -e "dockerhub_org=<USE_THIS_VALUE>" -e "apb_sync=true" --ask-become-pass
 ....
@@ -80,7 +80,7 @@ Inside of the `apb.yml` file, make sure you use the `serviceName:` label, like:
 ....
 ...
 metadata:
-  displayName: FeedHenry Sync Server
+  displayName: Aerogear Sync Server
   console.openshift.io/iconClass: icon-nodejs
   serviceName: fh-sync-server
 ...

@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/feedhenry/mobile-control-panel.git"
+    "url": "git+https://github.com/aerogear/mobile-core.git"
   },
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/feedhenry/mobile-control-panel/issues"
+    "url": "https://github.com/aerogear/mobile-core/issues"
   },
-  "homepage": "https://github.com/feedhenry/mobile-control-panel#readme",
+  "homepage": "https://github.com/aerogear/mobile-core#readme",
   "dependencies": {
     "js-yaml": "^3.9.1"
   },

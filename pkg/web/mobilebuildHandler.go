@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile/app"
-	"github.com/feedhenry/mcp-standalone/pkg/web/headers"
+	"github.com/aerogear/mobile-core/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/mobile/app"
+	"github.com/aerogear/mobile-core/pkg/web/headers"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 )

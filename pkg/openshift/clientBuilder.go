@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
-	"github.com/feedhenry/mcp-standalone/pkg/openshift/client"
+	"github.com/aerogear/mobile-core/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/openshift/client"
 )
 
 //ClientBuilder is a utility to help in the construction of OpenShift clients

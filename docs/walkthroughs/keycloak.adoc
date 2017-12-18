@@ -44,15 +44,15 @@ be configured in the same way as any other.
 When other services integrate with Keycloak they will use the realm named after
 the OpenShift project and the two clients that are created within it. When
 trying to add new users, roles or authentication flows to, for example a
-FeedHenry Sync integration, that realm should be modified.
+Aerogear Sync integration, that realm should be modified.
 
 Integrate Keycloak with a Mobile Service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Only a number of services can be integrated with Keycloak e.g. FeedHenry Sync.
+Only a number of services can be integrated with Keycloak e.g. Aerogear Sync.
 The Keycloak integration will not be visible for other services.
 
-To integrate Keycloak with the FeedHenry Sync Server navigate to the MCP and
+To integrate Keycloak with the Aerogear Sync Server navigate to the MCP and
 then to the Mobile Enabled Service that will be integrated with Keycloak.
 In the Service Integrations tab click Create Integration for Keycloak.
 
@@ -61,11 +61,11 @@ case `keycloak`, into the Mobile Enabled Service. The contents of the secret
 will then be available in the file system of the service container.
 The files that are created will be in the `/etc/secrets/{service-name}`
 directory of the service container. For example, when integration Keycloak into
-the FeedHenry Sync service, a `/etc/secrets/keycloak` directory will be created
+the Aerogear Sync service, a `/etc/secrets/keycloak` directory will be created
 in the sync service container.
 
 Services will detect that new integrations have been made. When, for example,
-the FeedHenry Sync service integrates with Keycloak it will restart and detect
+the Aerogear Sync service integrates with Keycloak it will restart and detect
 that keycloak has been integrated by looking for whether the mounted files
 exist. If they do then the service will protect itself using Keycloak.
 
@@ -100,7 +100,7 @@ mobileCore.configure(mcpConfig).then((config) => {
 Next Steps
 ~~~~~~~~~~
 
-* An example Cordova App showing a Keycloak integration with FeedHenry Sync
+* An example Cordova App showing a Keycloak integration with Aerogear Sync
 https://github.com/aidenkeating/cordova-sync-app.
 * To contribute to MCP, check out the link:../../README.adoc#contributing[Contributing]
 section of the README.

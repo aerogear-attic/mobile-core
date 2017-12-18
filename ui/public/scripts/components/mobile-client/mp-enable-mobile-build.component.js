@@ -21,7 +21,7 @@ angular.module('mobileControlPanelApp').component('mpEnableMobileBuild', {
                 This can be provisioned via the Service Catalog.
               </p>
               <p>
-                Learn more about this <a href="http://feedhenry.org/docs/">in the documentation</a>.
+                Learn more about this <a href="http://aerogear.org/docs/">in the documentation</a>.
               </p>
               <div class="blank-slate-pf-main-action">
                 <a ng-href="/" class="btn btn-primary btn-lg">Provision Mobile CI/CD Service</a>

@@ -1,7 +1,7 @@
 node ("go") {
-  sh "mkdir -p src/github.com/feedhenry/mcp-standalone"
+  sh "mkdir -p src/github.com/aerogear/mobile-core"
   withEnv(["GOPATH=${env.WORKSPACE}/","PATH=${env.PATH}:${env.WORKSPACE}/bin"]) {
-    dir ("src/github.com/feedhenry/mcp-standalone") {
+    dir ("src/github.com/aerogear/mobile-core") {
       stage("Checkout") {
         checkout scm
       }

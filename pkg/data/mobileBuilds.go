@@ -5,9 +5,9 @@ import (
 
 	"strconv"
 
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
-	"github.com/feedhenry/mcp-standalone/pkg/openshift/build"
-	"github.com/feedhenry/mcp-standalone/pkg/openshift/client"
+	"github.com/aerogear/mobile-core/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/openshift/build"
+	"github.com/aerogear/mobile-core/pkg/openshift/client"
 	"github.com/pkg/errors"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/json"

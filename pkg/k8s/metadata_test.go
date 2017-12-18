@@ -10,7 +10,7 @@ import (
 
 	"fmt"
 
-	"github.com/feedhenry/mcp-standalone/pkg/mock"
+	"github.com/aerogear/mobile-core/pkg/mock"
 )
 
 func TestGetMetadata(t *testing.T) {

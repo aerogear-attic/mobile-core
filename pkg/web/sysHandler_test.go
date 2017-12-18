@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/feedhenry/mcp-standalone/pkg/web"
+	"github.com/aerogear/mobile-core/pkg/web"
 )
 
 func setupSysHandler() http.Handler {

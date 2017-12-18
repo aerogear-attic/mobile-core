@@ -13,7 +13,7 @@ angular.module('mobileControlPanelApp').component('mpOverview', {
                   <div class="column col-xs-12 col-sm-12 col-md-6">
                     <h1>{{$ctrl.model.title}}</h1>
                     <span class="page-header-link">
-                      <a ng-href="http://feedhenry.org/docs/" target="_blank" href="http://feedhenry.org/docs/">
+                      <a ng-href="http://aerogear.org/docs/" target="_blank" href="http://aerogear.org/docs/">
                       Learn More <i class="fa fa-external-link" aria-hidden="true"></i>
                       </a>
                     </span>
@@ -50,7 +50,7 @@ angular.module('mobileControlPanelApp').component('mpOverview', {
                   {{$ctrl.model.text}}
                 </p>
                 <p>
-                  Learn more about {{$ctrl.model.title}} <a href="http://feedhenry.org/docs/">in the documentation</a>.
+                  Learn more about {{$ctrl.model.title}} <a href="http://aerogear.org/docs/">in the documentation</a>.
                 </p>
                 <div ng-repeat="action in $ctrl.model.actions | orderBy: 'primary'" ng-init="created = action.action" class="blank-slate-pf-main-action">
                   <a ng-if="!action.modal" ng-class="['btn', {'btn-default': !action.primary, 'btn-primary': action.primary}]" ng-click="action.action()" ng-if="action.canView()">

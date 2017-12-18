@@ -2,7 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "mcp-standalone",
+        "name": "mobile-core",
         "creationTimestamp": null
     },
     "objects": [
@@ -10,11 +10,11 @@
             "kind": "DeploymentConfig",
             "apiVersion": "v1",
             "metadata": {
-                "name": "mcp-standalone",
+                "name": "mobile-core",
                 "generation": 1,
                 "creationTimestamp": null,
                 "labels": {
-                    "run": "mcp-standalone"
+                    "run": "mobile-core"
                 }
             },
             "spec": {
@@ -37,12 +37,12 @@
                 ],
                 "replicas": 1,
                 "selector": {
-                    "run": "mcp-standalone"
+                    "run": "mobile-core"
                 },
                 "template": {
                     "metadata": {
                         "labels": {
-                            "run": "mcp-standalone"
+                            "run": "mobile-core"
                         }
                     },
                     "spec": {
@@ -56,8 +56,8 @@
                         ],
                         "containers": [
                             {
-                                "name": "mcp-standalone",
-                                "image": "feedhenry/mcp-standalone:${IMAGE_TAG}",
+                                "name": "mobile-core",
+                                "image": "aerogear/mobile-core:${IMAGE_TAG}",
                                 "command": [
                                     "./mcp-api",
                                     "-cert=/etc/tls/tls.crt",
@@ -124,8 +124,8 @@
                         "restartPolicy": "Always",
                         "terminationGracePeriodSeconds": 30,
                         "dnsPolicy": "ClusterFirst",
-                        "serviceAccountName": "mcp-standalone",
-                        "serviceAccount": "mcp-standalone",
+                        "serviceAccountName": "mobile-core",
+                        "serviceAccount": "mobile-core",
                         "securityContext": {},
                         "schedulerName": "default-scheduler"
                     }
@@ -136,9 +136,9 @@
             "kind": "Service",
             "apiVersion": "v1",
             "metadata": {
-                "name": "mcp-standalone",
+                "name": "mobile-core",
                 "labels": {
-                    "run": "mcp-standalone"
+                    "run": "mobile-core"
                 },
                 "annotations": {
                     "service.alpha.openshift.io/serving-cert-secret-name": "api-serving-cert"
@@ -154,7 +154,7 @@
                     }
                 ],
                 "selector": {
-                    "run": "mcp-standalone"
+                    "run": "mobile-core"
                 },
                 "type": "ClusterIP",
                 "sessionAffinity": "None"
@@ -167,9 +167,9 @@
             "kind": "ServiceAccount",
             "apiVersion": "v1",
             "metadata": {
-                "name": "mcp-standalone",
+                "name": "mobile-core",
                 "annotations": {
-                    "serviceaccounts.openshift.io/oauth-redirectreference.mcp-standalone": "{\"kind\":\"OAuthRedirectReference\",\"apiVersion\":\"v1\",\"reference\":{\"kind\":\"Route\",\"name\":\"mcp-standalone\"}}"
+                    "serviceaccounts.openshift.io/oauth-redirectreference.mobile-core": "{\"kind\":\"OAuthRedirectReference\",\"apiVersion\":\"v1\",\"reference\":{\"kind\":\"Route\",\"name\":\"mobile-core\"}}"
                 }
             }
         },
@@ -177,9 +177,9 @@
             "kind": "Route",
             "apiVersion": "v1",
             "metadata": {
-                "name": "mcp-standalone",
+                "name": "mobile-core",
                 "labels": {
-                    "run": "mcp-standalone"
+                    "run": "mobile-core"
                 },
                 "annotations": {
                     "openshift.io/host.generated": "true"
@@ -189,7 +189,7 @@
                 "host": "",
                 "to": {
                     "kind": "Service",
-                    "name": "mcp-standalone",
+                    "name": "mobile-core",
                     "weight": 100
                 },
                 "port": {

@@ -3,9 +3,9 @@ package integration_test
 import (
 	"testing"
 
-	"github.com/feedhenry/mcp-standalone/pkg/data"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile"
-	"github.com/feedhenry/mcp-standalone/pkg/mobile/integration"
+	"github.com/aerogear/mobile-core/pkg/data"
+	"github.com/aerogear/mobile-core/pkg/mobile"
+	"github.com/aerogear/mobile-core/pkg/mobile/integration"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"

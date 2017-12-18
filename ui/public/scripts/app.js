@@ -54,7 +54,7 @@ var resolveMCPRoute = {
       }
       return ProjectsService.get($route.current.params.project).then(
         _.spread(function(project, context) {
-          return DataService.get('routes', 'mcp-standalone', context, {
+          return DataService.get('routes', 'mobile-core', context, {
             errorNotification: false
           })
             .then(function(route) {
