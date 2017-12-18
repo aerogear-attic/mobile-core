@@ -11,62 +11,9 @@ NAMESPACE =project2
 TAG=latest
 LDFLAGS=-ldflags "-w -s -X main.Version=${TAG}"
 
-.PHONY: check-gofmt
-check-gofmt:
-	diff -u <(echo -n) <(gofmt -d `find . -type f -name '*.go' -not -path "./vendor/*"`)
-
-.PHONY: gofmt
-gofmt:
-	gofmt -w `find . -type f -name '*.go' -not -path "./vendor/*"`
-
 .PHONY: ui
 ui:
 	cd ui && npm install && npm run bower install && npm run grunt build
-
-build_cli:
-	go build -o mcp ./cmd/mcp-cli
-
-build: test-unit
-	export GOOS=linux && go build ${LDFLAGS} ./cmd/mcp-api
-
-image: build
-	mkdir -p tmp
-	cp ./mcp-api tmp
-	cp artifacts/Dockerfile tmp
-	cd tmp && docker build -t docker.io/aerogear/mobile-core:$(TAG) .
-	rm -rf tmp
-
-run_server:
-	@echo Running Server
-	time go build ${LDFLAGS} ./cmd/mcp-api
-	oc login -u developer -panything
-	oc new-project $(NAMESPACE) | true
-	oc create -f artifacts/openshift/sa.local.json -n  $(NAMESPACE) | true
-	oc policy add-role-to-user edit system:serviceaccount:$(NAMESPACE):mobile-core -n  $(NAMESPACE) | true
-	oc sa get-token mobile-core -n  $(NAMESPACE) > token
-	./mcp-api -namespace=$(NAMESPACE) -k8-host=$(OSCP) -satoken-path=./token -log-level=debug -insecure=true
-
-.PHONY: test
-test: test-unit
-
-.PHONY: setup
-setup:
-	@go get github.com/kisielk/errcheck
-
-.PHONY: check
-check:
-	@echo Running checks:
-	@echo errcheck
-	@errcheck -ignoretests $$(go list ./...)
-	@echo go vet
-	@go vet ./...
-	@echo go fmt
-	diff -u <(echo -n) <(gofmt -d `find . -type f -name '*.go' -not -path "./vendor/*"`)
-
-test-unit:
-	@echo Running tests:
-	go test -v -race -cover $(UNIT_TEST_FLAGS) \
-	  $(addprefix $(PKG)/,$(TEST_DIRS))
 
 apbs:
 ## Evaluate the presence of the TAG, to avoid evaluation of the nested shell script, during the read phase of make
