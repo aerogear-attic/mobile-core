@@ -68,6 +68,16 @@ or run it with `sudo`. This is because non-root user does not have write access 
 === Run the Ansible Installer
 
 The installer sets up your OpenShift environment with the service catalog and the OpenShift Ansible Broker (OAB).
+To run the ansible installer directly and specify any property values:
+
+[source,sh]
+----
+export DOCKERHUB_USERNAME=<my_dockerhub_username>
+export DOCKERHUB_PASSWORD=<my_dockerhub_password>
+ansible-playbook ./installer/playbook.yml -e "dockerhub_username=$DOCKERHUB_USERNAME" -e "dockerhub_password=$DOCKERHUB_PASSWORD" --ask-become-pass
+----
+
+Alternatively, to run a script that prompts for property values:
 
 [source,sh]
 ----
