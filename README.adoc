@@ -12,6 +12,7 @@ This repo has the source for:
 * Local Development environment
 
 The following components are maintained in their respective repos:
+
 * Mobile CLI
 * Mobile SDKs
 * Mobile Services
