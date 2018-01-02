@@ -34,7 +34,7 @@
     "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-imagemin": "^1.0.0",
     "grunt-contrib-less": "^1.4.1",
-    "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-filerev": "^2.1.2",
     "grunt-postcss": "^0.5.5",
