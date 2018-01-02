@@ -60,10 +60,11 @@ git clone https://github.com/aerogear/mobile-core
 cd mobile-core
 ansible-galaxy install -r ./installer/requirements.yml
 ----
-*Note (macOS):* If you're using `ansible` installed via `pip`, you may need create 
-a special folder for ansible-roles and run this command with `--roles-path <ansible-roles-folder-path>`,
-or run it with `sudo`. This is because non-root user does not have write access to default ansible roles folder (`/etc/ansible/roles`).
+*Note:* If you encounter a permission error for files under `/etc/ansible/roles/` this is because non-root user does not have write access to the default ansible roles folder.
+You can either:
 
+* Allow write access to `/etc/ansible/roles/`
+* Run the above command with `--roles-path ./installer/roles/`
 
 [[run-the-ansible-installer]]
 === Run the Ansible Installer
