@@ -4,7 +4,7 @@
 This walkthrough sets up a locally running OpenShift cluster for:
 
 * developing Mobile Services (via APBs)
-* developing the Mobile CLI against
+* developing the Mobile CLI
 * developing the Mobile specific UI in the OpenShift Web Console
 
 [[requirements]]
