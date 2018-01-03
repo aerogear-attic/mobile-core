@@ -200,7 +200,7 @@ function run_installer() {
   read -p "Wildcard DNS Host (Defaults to nip.io): " wildcard_dns_host
   wildcard_dns_host=${wildcard_dns_host:-"nip.io"}
 
-  echo "Performing and clean and running the installer. You will be asked for your password."
+  echo "Performing clean and running the installer. You will be asked for your password."
 
   cd ${SCRIPT_ABSOLUTE_PATH}
   cd .. && make clean &>/dev/null
