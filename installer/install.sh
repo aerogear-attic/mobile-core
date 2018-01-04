@@ -173,10 +173,14 @@ function run_installer() {
   while [ $docker_credentials -eq 0 ];
   do
     docker_credentials=1
-    read -p "DockerHub Username: " dockerhub_username
+    read -p "DockerHub Username (Defaults to DOCKERHUB_USERNAME env var): " dockerhub_username
     stty -echo
-    read -p "DockerHub Password: " dockerhub_password
+    read -p "DockerHub Password (Defaults to DOCKERHUB_PASSWORD env var): " dockerhub_password
     stty echo
+
+    ## If empty use global system variables
+    dockerhub_username=${dockerhub_username:-$DOCKERHUB_USERNAME}
+    dockerhub_password=${dockerhub_password:-$DOCKERHUB_PASSWORD}
 
     echo -e "\nChecking DockerHub credentials are valid...\n"
 
