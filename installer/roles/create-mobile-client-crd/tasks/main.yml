@@ -1,19 +1,26 @@
 ---
 # tasks file for create-mobile-client-crd
 
-- name: Copy CRD definition to tmp file
-  template:
-    src: ../files/mobile-client-crd.yaml
-    dest: /tmp/mobile-client-crd.yaml  
-
-- name: Create mobileClient CRD
-  shell: "oc create -f /tmp/mobile-client-crd.yaml"
+- name: Check for mobileClient CRD
+  shell: "oc get customresourcedefinitions"
+  register: current_crds
 
 - block:
-  - name: Get admin clusterrole
-    shell: "oc get clusterrole admin -o yaml"
-    register: admin_original_content
+  - name: Copy CRD definition to tmp file
+    copy:
+      src: ../files/mobile-client-crd.yaml
+      dest: /tmp/mobile-client-crd.yaml  
 
+  - name: Create mobileClient CRD
+    shell: "oc create -f /tmp/mobile-client-crd.yaml"
+
+  when: "'mobileclients.mobile.k8s.io' not in current_crds.stdout"
+
+- name: Get admin clusterrole
+  shell: "oc get clusterrole admin -o yaml"
+  register: admin_original_content
+
+- block:
   - name: Create new admin clusterrole file
     template:
       src: ../files/clusterrole-template.j2
@@ -29,12 +36,13 @@
 
   - name: Replace admin clusterrole
     shell: "oc replace -f /tmp/clusterrole.yaml"
+  when: "'mobile.k8s.io' not in admin_original_content.stdout"
+  
+- name: Get edit clusterrole
+  shell: "oc get clusterrole edit -o yaml"
+  register: edit_original_content
 
 - block:
-  - name: Get edit clusterrole
-    shell: "oc get clusterrole admin -o yaml"
-    register: edit_original_content
-
   - name: Create new edit clusterrole file
     template:
       src: ../files/clusterrole-template.j2
@@ -50,3 +58,4 @@
 
   - name: Replace edit clusterrole
     shell: "oc replace -f /tmp/clusterrole.yaml"
+  when: "'mobile.k8s.io' not in edit_original_content.stdout"
