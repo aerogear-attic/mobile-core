@@ -178,6 +178,10 @@ function run_installer() {
     read -p "DockerHub Password: " dockerhub_password
     stty echo
 
+    ## If empty use global system variables
+    dockerhub_username=${dockerhub_username:-$DOCKERHUB_USERNAME}
+    dockerhub_password=${dockerhub_password:-$DOCKERHUB_PASSWORD}
+
     echo -e "\nChecking DockerHub credentials are valid...\n"
 
     curl --fail -u ${dockerhub_username}:${dockerhub_password} https://cloud.docker.com/api/app/v1/service/ &> /dev/null
