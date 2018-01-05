@@ -23,6 +23,18 @@ readonly TEMPLATE_VARS="-p BROKER_CA_CERT=$(oc get secret -n kube-service-catalo
 
 oc login -u system:admin
 oc new-project ansible-service-broker
+
+# Creating openssl certs to use.
+mkdir -p /tmp/etcd-cert
+openssl req -nodes -x509 -newkey rsa:4096 -keyout /tmp/etcd-cert/key.pem -out /tmp/etcd-cert/cert.pem -days 365 -subj "/CN=asb-etcd.ansible-service-broker.svc"
+openssl genrsa -out /tmp/etcd-cert/MyClient1.key 2048 \
+&& openssl req -new -key /tmp/etcd-cert/MyClient1.key -out /tmp/etcd-cert/MyClient1.csr -subj "/CN=client" \
+&& openssl x509 -req -in /tmp/etcd-cert/MyClient1.csr -CA /tmp/etcd-cert/cert.pem -CAkey /tmp/etcd-cert/key.pem -CAcreateserial -out /tmp/etcd-cert/MyClient1.pem -days 1024
+
+ETCD_CA_CERT=$(cat /tmp/etcd-cert/cert.pem | base64)
+BROKER_CLIENT_CERT=$(cat /tmp/etcd-cert/MyClient1.pem | base64)
+BROKER_CLIENT_KEY=$(cat /tmp/etcd-cert/MyClient1.key | base64)
+
 curl -s ${TEMPLATE_URL} > "${TEMPLATE_LOCAL}"
 
 oc process -f "${TEMPLATE_LOCAL}" \
@@ -35,6 +47,13 @@ oc process -f "${TEMPLATE_LOCAL}" \
 -p SANDBOX_ROLE="admin" \
 -p ROUTING_SUFFIX="192.168.37.1.${WILDCARD_DNS}" \
 -p TAG="${TAG:-latest}" \
+-p ETCD_TRUSTED_CA_FILE=/var/run/etcd-auth-secret/ca.crt \
+-p BROKER_CLIENT_CERT_PATH=/var/run/asb-etcd-auth/client.crt \
+-p BROKER_CLIENT_KEY_PATH=/var/run/asb-etcd-auth/client.key \
+-p ETCD_TRUSTED_CA="$ETCD_CA_CERT" \
+-p BROKER_CLIENT_CERT="$BROKER_CLIENT_CERT" \
+-p BROKER_CLIENT_KEY="$BROKER_CLIENT_KEY" \
+-p NAMESPACE=ansible-service-broker 
 -p LAUNCH_APB_ON_BIND="${LAUNCH_APB_ON_BIND}" \
 ${TEMPLATE_VARS} | oc create -f -
 
