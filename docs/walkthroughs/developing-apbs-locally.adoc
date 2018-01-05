@@ -65,7 +65,20 @@ make apb_push
 
 Afterwards your APB is ready to be used from the _Service Catalog_.
 
+*Note* - When pushing apb it will not be available immediately. 
+
+*Note* - `make build_and_push` will execute all phases at once.
+
 ## Best Practises
+
+### Bootstrap apb
+
+When configuring ansible broker to user our docker organization
+you can force broker to reload images from your org.
+
+```
+apb bootstrap
+```
 
 ### Mobile-Service Tag
 
