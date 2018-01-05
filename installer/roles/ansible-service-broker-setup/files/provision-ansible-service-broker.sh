@@ -54,6 +54,7 @@ oc process -f "${TEMPLATE_LOCAL}" \
 -p BROKER_CLIENT_CERT="$BROKER_CLIENT_CERT" \
 -p BROKER_CLIENT_KEY="$BROKER_CLIENT_KEY" \
 -p NAMESPACE=ansible-service-broker \
+-p AUTO_ESCALATE="true" \
 -p LAUNCH_APB_ON_BIND="${LAUNCH_APB_ON_BIND}" \
 ${TEMPLATE_VARS} | oc create -f -
 
