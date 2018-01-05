@@ -23,7 +23,7 @@
 - block:
   - name: Create new admin clusterrole file
     template:
-      src: ../files/clusterrole-template.j2
+      src: clusterrole.j2
       dest: /tmp/clusterrole.yaml
     vars:
       original_content: "{{ admin_original_content.stdout | from_yaml | to_nice_yaml (indent=2) }}"
@@ -45,7 +45,7 @@
 - block:
   - name: Create new edit clusterrole file
     template:
-      src: ../files/clusterrole-template.j2
+      src: clusterrole.j2
       dest: /tmp/clusterrole.yaml
     vars:
       original_content: "{{ edit_original_content.stdout | from_yaml | to_nice_yaml (indent=2) }}"
