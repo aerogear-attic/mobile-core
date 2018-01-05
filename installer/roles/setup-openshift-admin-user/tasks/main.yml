@@ -5,8 +5,13 @@
   shell: "oc login -u system:admin"
   register: oc_system_admin_login
 
+- name: Get all users
+  shell: "oc get user"
+  register: all_users
+
 - name: Create admin user
   shell: "oc create user {{ user_name }}"
+  when: "user_name not in all_users.stdout"
   register: oc_create_user
 
 - name: Give admin user permissions
