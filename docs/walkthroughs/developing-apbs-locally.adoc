@@ -80,6 +80,15 @@ you can force broker to reload images from your org.
 apb bootstrap
 ```
 
+### Pushing apb locally
+
+For testing purposes you may save time by building and using internal openshift registry 
+
+```
+apb prepare
+apb push -o 
+```
+
 ### Mobile-Service Tag
 
 For MCP enabled _APBs_, make sure we have a `mobile-service` tag inside the `apb.yml` file:
