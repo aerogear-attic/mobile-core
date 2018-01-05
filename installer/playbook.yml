@@ -23,6 +23,9 @@
   - role: setup-openshift-admin-user
     tags: [setup-admin-user, local-dev]
 
+  - role: create-mobile-client-crd
+    tags: [local, local-dev]
+    
   - role: ansible-service-broker-setup
     tags: [setup-asb, local, local-dev]
   vars_files:
