@@ -9,7 +9,7 @@ The document is documenting best practises for the Aerogear APB development! Som
 The `apb` CLI can be installed locally, _however_ it is highly recommended using it wrapped in a Linux container. Below is an example on how to create an alias for the _wrapped_`apb` CLI:
 
 ....
-alias apb='docker run --rm --privileged -v $PWD:/mnt -v $HOME/.kube:/.kube -v /var/run/docker.sock:/var/run/docker.sock -u $UID docker.io/ansibleplaybookbundle/apb'
+alias apb='docker run --rm --privileged -v $PWD:/mnt -v $HOME/.kube:/.kube -v /var/run/docker.sock:/var/run/docker.sock -u $UID docker.io/ansibleplaybookbundle/apb-tools'
 ....
 
 
