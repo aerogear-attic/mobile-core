@@ -38,7 +38,7 @@ BROKER_CLIENT_KEY=$(cat /tmp/etcd-cert/MyClient1.key | base64)
 curl -s ${TEMPLATE_URL} > "${TEMPLATE_LOCAL}"
 
 oc process -f "${TEMPLATE_LOCAL}" \
--n {{ ansible_service_broker }} \
+-n ansible-service-broker \
 -p DOCKERHUB_USER="$( echo ${DOCKERHUB_USER} | base64 )" \
 -p DOCKERHUB_PASS="$( echo ${DOCKERHUB_PASS} | base64 )" \
 -p DOCKERHUB_ORG="${DOCKERHUB_ORG}" \

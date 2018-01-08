@@ -6,4 +6,3 @@ dockerhost: docker.io
 launch_apb_on_bind: true
 skip_apb: 
 apb_sync: false
-ansible-service-broker: ansible-service-broker

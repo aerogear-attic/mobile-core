@@ -4,13 +4,15 @@
 - name: Login as system admin
   shell: "oc login -u system:admin"
 
-- name: Get all users
-  shell: "oc get user"
-  register: all_users
+- name: Get admin user
+  shell: "oc get user admin"
+  register: admin_user
+  failed_when: false
+  no_log: True
 
 - name: Create admin user
   shell: "oc create user {{ user_name }}"
-  when: "user_name not in all_users.stdout"
+  when: admin_user.rc == 1
 
 - name: Give admin user permissions
   shell: "oc adm policy add-cluster-role-to-user edit {{ user_name }}"
