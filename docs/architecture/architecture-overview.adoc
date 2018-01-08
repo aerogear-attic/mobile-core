@@ -1,0 +1,182 @@
+= Mobile Core (MC) Architecture Overview
+:toc:
+
+The overall goal of a full Mobile solution is a group of services working together in order to solve a problem through the medium of mobile devices. Each of those component services offers a piece of the functionality necessry for the solution to work. But the overall solution needs all these component parts (i.e. services) to be integrated together. MCP is the component which glues/integrates/orchestrates these componet service. MCP is the orchestrator in the context of Mobile.
+
+As well as the integration of Mobile Services with each other, another key aspect of building a solution is the integration with the platform, which is OpenShift. MCP takes ownership of this aspect of the solution design also.
+
+== Design Principles
+
+MC interacts with OpenShift and not directly with the services.
+
+== MC Installation
+The MC makes the Openshift platform Mobile aware. To do this the MC must perform a number of actions as part of its installation process.
+
+
+* Step 1: Ensure that Mobile Specific Services are made available through the Service Catalog
+
+For mobile develoeprs to be able to consume Mobile value add services, they must be available to them. The medium through which services are presented is the Openshift Service Catalog. In order to achieve this, the MC must perform a number of tasks:
+
+** Step 1.1: Install / Configure an Ansible Service Broker
+
+The Mobile value add services are represented as APBs (Ansible Playbooks). For these playbooks to be read in, and represented through the Service Catalog, an Ansible Service Broker must be created.
+
+image:images/5.x-Architecture-MC-ASB.png["My screenshot",width=1280, caption="Figure 1: Mobile Core Installation - Integrating Mobile Services into Service Catalog", title="Mobile Core Installation - Integrating Mobile Services into Service Catalog", link="images/5.x-Architecture-MC-ASB.png"]
+
+
+When the MC is installed, it will create a representation of a Broker inside the Service Catalog. A service broker is a server that conforms to the OSB API specification and manages a set of one or more services. The software could be hosted within your own OpenShift Container Platform cluster or elsewhere. The MC will create a specific type of Broker, an Ansible Service Broker. Once the ASB is created, it will try and invoke a GET on the its configured endpoint, to retrieve the catalog of services it has access to. The set of services are defined through Ansible playbooks, which for Mobile are located in Docker Hub. these services are returned to the Serice Catalog. At that point a user can see a representation of the services inside the Service Catalog.
+
+* Step 2: Extend the OpenShift UI, to offer a Mobile perspective
+  The installation of MC also incorporates, extending the OpenShift UI. It does this by updating the Openshift master-config.yml. The MC UI is an angular application and is using angularjs version 1.5. _Need to put in some images here of how the MC looks_
+
+
+== Use MC Features to Create a representation of a Mobile App
+The MC UI extension provides the user with the capabilitiy to create a representation of a Mobile App inside their Openshift project. Note that once MC is installed and configured its functionality is available throughout all Openshift projects/namespaces. Note there is no visible running pod representing the MC.
+
+MC allows the user to select the Mobile filter in the Service Catalog and select a representation of an App type to create. Note; an App representation is a set of configuration properties which any mobile client needs for it to communicate back to the Mobile Core.
+
+image::images/5.x-ServiceCatalog-MobileApps.png[width=1280, title="Service Catalog - Mobile App Perspective", link="images/5.x-ServiceCatalog-MobileApps.png"]
+
+The MC creates a Secret with the credentials/properties of the Mobile App and presents these in the Openshift UI. These credentials will need to be injected into a Mobile Client for it to communicate with the MC and potentially use deployed Mobile Services. Its the MC which creates this secret in OpenShift when the Mobile App representation is created from the catalog.
+
+== Use MC Features to Create a Mobile Service
+The next stage in the process, which is the next piece of vlaue add functionality provided by MC is the creation of a Mobile Service to you project. Again this instantion of a Mobile Service into you project is done via the Service Catalog.
+
+image::images/5.x-ServiceCatalog-MobileServices.png[width=1280, title="Service Catalog - Mobile Service Perspective", link="images/5.x-ServiceCatalog-MobileServices.png"]
+
+What happens behind the scene is that the provision ansible playbook of the service in question is invoked. This does the provisioning of the service into the project.
+
+When this provisioning is complete, MC creates secret(s) for the new service in OpenShift. _Does MC do anything else at this point?_
+
+
+== Use MC Features to integrate two Mobile Services
+It provides an initiation point where Mobile Services can be integrated with each other. Once there are Mobile Services provisioned, potential bindings available for each Mobile Service is read by MC and is presented as potential integration options for each service.
+
+**_How is this info extracted from the service, via some property in the service class?_**
+
+When a developer decides to perform an integration between two Mobile Services, via the UI or through the CLI, e.g.
+
+ > mobile create integration <consuming_service_instance_id> <providing_service_instance_id> --namespace=<yourProjectName>
+
+a number of actions are taken:
+
+* the bind APB is ran for each of the contributing services, both the consuming and the providing
+* the MC would create a PodPreset for the consuming service.
+** A https://docs.openshift.com/container-platform/3.6/dev_guide/pod_preset.html[pod preset] is an object that injects user-specified information into pods as they are created.
+** The MC uses the pod preset concept to inject the secret created by the binding of the providing service into the consuming service (e.g. if you wanted to protect the Mobile Synch Service with authentication from Keycloak, the Keycloak secret would be injected into the Synch Service)
+* The consuming service is restarted. This is done for it to pick up the pod preset that was injected into it.
+** What is done by the Sycnh Service when it restarts, it has a link to the secret, is there some endpoint that it must hit to trigger it into action.
+
+In general thats the flow which occurs during service integration. With some specific integrations, the MC does additioanl things to facilitate the integration in question. E.g. creation of relams and clients in Keycloak, which is needed for integration with the Mobile Synch Service. Sub chapters below highlight some of the specific logic which MC performs with certain integrations.
+
+=== Mobile Synch Service / Keycloak Integration
+MC does perform some additional logic when integrating these two mobile services.
+
+=== Mobile Synch Service / 3Scale Integration
+_Are there specifics which we should higlight here?_
+
+=== Possible Mobile Integrations to Date
+Below is a list of possible Mobile Service Integrations supported to date:
+[%header,cols=3*]
+|===
+|Providing Service
+|Consuming Service
+|Description
+
+|Keycloak
+|Feedhenry Synch Server
+|Provides Authentication and Authorisation of the Synch Server
+
+|3Scale
+|Feedhenry Synch Server
+|Provide an API Server in front of the Synch Server
+
+|3Scale
+|AeroGear UPS
+|Valid Integration ??
+
+|Keycloak
+|AeroGear UPS
+|Valid integration ??
+|===
+
+
+== MC extends the Kubernetes / OC CLI
+The functionality provided through the OpenShift UI is also available on the command line. MC extends the Kubernetes and OpenShift CLI to provide mobile specific commands. More details in how to extend the base CLI is available https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/[here]
+
+Almost all of the functionality available via the UI is available from the CLI. The mobile CLI runs standalone aswell as through the _kubectl_ and _oc_ commands. E.g.
+
+ MacBook-Pro:images joeBloggs$ mobile --help
+ A brief description of your application
+ Usage:
+  mobile [command]
+ Available Commands:
+  create      create clients integrations etc...
+  delete      delete clients, clientbuilds etc
+  get         get clients, service and clientbuilds
+  help        Help about any command
+  start       start clientbuild
+  stop        stop clientbuild
+ Flags:
+  -h, --help               help for mobile
+      --namespace string   --namespace=myproject
+  -o, --output string      -o=json -o=template (default "table")
+ Use "mobile [command] --help" for more information about a command.
+ MacBook-Pro:images joeBloggs$
+
+There is a separate repo for the Mobile CLI. Setup and usage guides are available https://github.com/aerogear/mobile-cli[here].
+
+
+== Repo Representation
+
+
+
+
+
+== Service Brokers
+Something that manages a set of services. A service can be a Postgres DB, a messag ebrober. Provision means make a new instance. Bind means a possible new set of credentials that is needed to use the service.
+
+- catalogue endpoint. get a list of services (Service Classes)
+- provision new instances
+- bind to an instance
+- unbind
+- deprovision
+
+Resources
+- Broker
+- Service Class
+- Instance
+- Binding
+
+K8S wraps the OpenService Broker API, which is called the K8S Service Catalogue API
+
+K8S's core is too big and service catalog API server is outside the core.
+
+Implement the Open Service Broker API
+Specific instance of one of the Brokers - Ansible Service Broker
+It picks up the Ansible Playbooks of different services (how does it know where to look for these?)
+
+Mobile Services
+~~~~~~~~~~~~~~~
+Each Mobile Service will have its own link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html#service-catalog-apb[Ansible Playbook Bundle] (APB). Each service will have playbooks for:
+
+Provision:: Playbook called to handle installing application to the cluster.
+Deprovision:: Playbook called to handle uninstalling.
+Bind:: Playbook to grant access to another service to use this service. For example, generating credentials.
+Unbind:: Playbook to revoke access to this service.
+
+
+need more info about the Secret
+Name;
+Url
+Mobile; enabled | disabled
+Others params……
+Need to be carefull what is put in here
+The MCP should be able to invoke getSDConfig(serviceName) and get the Secret returned from that Mobile Service.
+
+Terminology
+^^^^^^^^^^^
+Side-car concept
+Its a sub-process to a degree which performs some task along with the main functionof the Pod
+It will be the responsibility of the APB for the Service in question to code the side-car functionality, e.g.
+Create a process which monitors users being created inside OpenShift and propagate those onto new users inside Keycloak.
