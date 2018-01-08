@@ -71,6 +71,13 @@ Afterwards your APB is ready to be used from the _Service Catalog_.
 
 ## Best Practises
 
+### Debuging apb 
+
+When you run an APB a temporary namespace is created where a pod is created to run the provision process. The default behaviour is that this namespace is deleted as soon as provisioning is complete unless you are in development mode.
+
+If you want to debug namespace after provisioning please set following parameters for `broker-config`
+`keep_namespace_on_error` or `keep_namespace`
+
 ### Bootstrap apb
 
 When configuring ansible broker to user our docker organization
