@@ -28,10 +28,6 @@
     - apb_sync is defined
     - apb_sync
 
-- name: Get projects
-  shell: "oc get projects"
-  register: all_projects
-
 - block:
   - name: Ensure OpenShift Ansible Broker (OAB) install script is on host
     copy:
@@ -56,7 +52,6 @@
   - dockerhub_org != ''
   - launch_apb_on_bind is defined
   - launch_apb_on_bind != ''
-  - "'ansible-service-broker' not in all_projects.stdout"
   # - oc_get_broker.stderr.find('NotFound') > -1
 
 - name: Ensure oc cluster is up
