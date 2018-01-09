@@ -2,7 +2,8 @@
 Developing APBs Locally
 -----------------------
 
-The document is documenting best practises for the Aerogear APB development! Some general information about the OpenShift Ansible Broker (OAB) & Ansible Playbook Bundles (APB) can be found link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[here].
+The document is documenting best practises for the Aerogear APB development! 
+General information about the OpenShift Ansible Broker (OAB) & Ansible Playbook Bundles (APB) can be found link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[here].
 
 ## Installation
 
@@ -17,16 +18,17 @@ alias apb='docker run --rm --privileged -v $PWD:/mnt -v $HOME/.kube:/.kube -v /v
 
 There is a link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/blob/master/docs/getting_started.md[great tutorial] on how to write ABPs, it's highly recommended going through that!
 
+To create new `APB` module execute:
+
+....
+apb init
+....
+
 _NOTE:_ It's a good practise to have the APB end with `-apb`!
 
+### Build
 
-### Create a Makefile
-
-Until link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/pull/149[this PR] gets merged, it is highly recommended to create a `Makefile`, like link:https://raw.githubusercontent.com/aerogearcatalog/fh-sync-server-apb/master/Makefile[here]:
-
-### Local Build
-
-With the `Makefile` in place, run a _local_ build like:
+To build `APB` execute
 
 ....
 make apb_build
@@ -34,10 +36,10 @@ make apb_build
 
 ### Pushing to Dockerhub
 
-If you want to push the _APB_ to your own Dockerhub account, run the following, to run a _complete_ build:
+If you want to push the `APB` to your own Dockerhub account, run the following, to run a _complete_ build:
 
 ....
-make DOCKERORG="my_org"
+make DOCKERORG="my_org" docker_push
 ....
 
 _NOTE:_ With `DOCKERHOST` you can also override the dockerhost; default is `docker.io`.
@@ -46,22 +48,55 @@ _NOTE:_ With `DOCKERHOST` you can also override the dockerhost; default is `dock
 
 #### Setup of MCP
 
-Create a MCP cluster pointing at your own docker organisation, this will also copy all the existing APBs in aerogear to the dockerhub_org:
+Create a MCP cluster pointing at *your* own docker organisation, this will also copy all the existing APBs in aerogear to the dockerhub_org:
 ....
 ansible-playbook playbook.yml -e "dockerhub_username=<dockerusername>" -e "dockerhub_password=<dockerpassword>" -e "dockerhub_org=<USE_THIS_VALUE>" -e "apb_sync=true" --ask-become-pass
 ....
 
+*Note* - `apb_sync=true` will push all aerogear catalog to your dockerhub account.
+*Note* - developers can also use aerogearcatalog organization and openshift local registry for development.
+
 #### Push to ASB
 
-Once you have issued the (local) build, you can push your ABP to the running ASB of your MCP projct:
+Once you have issued the (local) build, you can push your ABP to the running ASB of your MCP project:
 
 ....
-apb push
+make apb_push
 ....
 
 Afterwards your APB is ready to be used from the _Service Catalog_.
 
+*Note* - When pushing apb it will not be available immediately. 
+
+*Note* - `make build_and_push` will execute all phases at once.
+
 ## Best Practises
+
+### Debuging APB 
+
+When you run an `APB` a temporary namespace is created where a pod is created to run the provision process. By default namespace will be deleted as soon as provisioning is complete.
+
+If you want to review logs in namespace after provisioning please set following parameters for `broker-config`
+`keep_namespace_on_error="true"` or `keep_namespace="true"`
+
+### Bootstrap APB
+
+When configuring ansible broker to user our docker organization
+you can force broker to reload images from your org.
+
+```
+apb bootstrap
+```
+
+### Pushing APB locally
+
+For testing purposes developers may save time by building and using internal openshift registry.
+To publish ABP to local OpenShift registry execute:
+
+```
+apb prepare
+apb push -o 
+```
 
 ### Mobile-Service Tag
 
