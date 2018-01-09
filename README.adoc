@@ -87,4 +87,4 @@ cd installer
 ./install.sh
 ```
 
-See our (Local Setup)[https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/local-setup.adoc] guide
+See our link:./docs/walkthroughs/local-setup.adoc[Local Setup] guide
