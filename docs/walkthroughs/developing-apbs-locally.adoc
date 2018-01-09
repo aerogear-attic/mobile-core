@@ -86,8 +86,11 @@ Afterwards your APB is available from the _Service Catalog_.
 
 When you run an `APB` a temporary namespace is created where a pod is created to run the provision process. By default that namespace is deleted when provisioning is complete.
 
-If you want to review logs in that namespace after provisioning, set the following parameters for `broker-config`
-`keep_namespace_on_error="true"` or `keep_namespace="true"`
+If you want to review logs in that namespace after provisioning, set the following parameter for `broker-config`
+```
+    openshift:
+      keep_namespace: true
+```
 
 == Bootstrapping an APB
 
