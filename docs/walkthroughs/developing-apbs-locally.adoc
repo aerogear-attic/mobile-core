@@ -34,6 +34,25 @@ To build an APB:
 make apb_build
 ....
 
+Every APB has a Docker Hub repository set up for hosting images.
+When a PR for an APB repository is merged to master, the Docker Hub respository detects this and kicks off an automated build.
+If the build is successful, the resulting image is tagged as `latest`, replacing the previous `latest` image for that APB.
+
+=== Setting up an Automated Build for APB Images
+
+IMPORTANT: Docker repositories for APBs need to be created as an 'Automated Build' rather than a 'Repository'. There doesn't seem to be a way to add an automated build to a repository afterwards.
+
+While signed into Docker Hub from a browser:
+
+* Create > Create Automated Build
+* Choose Github and allow access to repositories in the aerogearcatalog Github org
+* Look for the repo in the list and click it
+* Make sure the Repository Namespace & Name are correct e.g. aerogearcatalog/metrics-apb. Visibility public is fine.
+* After creating, go to Build Settings
+* Configure 'master' branch to build
+* Configure tags that match a name of `/^[0-9.]+/` to build
+* Save changes and Trigger a build for `master`. If successful, there should be an image with the 'latest' tag.
+
 === Pushing to Dockerhub
 
 If you want to push the APB to your own Dockerhub account:
