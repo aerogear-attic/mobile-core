@@ -67,6 +67,22 @@ function check_passed_msg() {
 }
 
 function check_docker() {
+  check_exists_msg "Docker" 
+  command -v docker &>/dev/null
+  docker_exists=${?}; if [[ ${docker_exists} -ne 0 ]]; then
+    does_not_exist_msg "Docker" "https://www.docker.com/get-docker"
+    exit 1
+  fi
+  check_passed_msg "Docker"
+
+  echo -e "Checking Docker is running"
+  command ps -A | grep docker | grep -v grep &>/dev/null
+  docker_running=${?}; if [[ ${docker_running} -ne 0 ]]; then
+    echo -e "${RED}Docker is not running.${RESET}"
+    exit 1
+  fi
+  check_passed_msg "Docker"
+
   check_version_msg "Docker" "using Stable channel"
   docker_version=$(docker version --format '{{json .Client.Version}}')
   if [[ ${docker_version} == *"-rc"* ]]; then
