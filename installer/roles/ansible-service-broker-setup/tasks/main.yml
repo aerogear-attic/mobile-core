@@ -28,6 +28,24 @@
     - apb_sync is defined
     - apb_sync
 
+- name: Check If OpenShift Ansible Broker Is Installed
+  shell: oc get namespace "{{ ansible_service_broker_namespace }}"
+  register: asb_namespace
+  failed_when: false
+  no_log: True
+
+- name: Ensure OpenShift Ansible Broker Is Deprovisioned
+  shell: >
+      oc delete clusterrolebinding asb &&
+      oc delete clusterrolebinding asb-auth-bind &&
+      oc delete clusterrolebinding ansibleservicebroker-client &&
+      oc delete clusterrole asb-auth &&
+      oc delete clusterrole access-asb-role &&
+      oc delete clusterservicebroker ansible-service-broker
+  when: "'not found' in asb_namespace.stderr"
+  failed_when: false
+  no_log: True
+
 - block:
   - name: Ensure OpenShift Ansible Broker (OAB) install script is on host
     copy:
@@ -52,6 +70,7 @@
   - dockerhub_org != ''
   - launch_apb_on_bind is defined
   - launch_apb_on_bind != ''
+  - "'not found' in asb_namespace.stderr"
   # - oc_get_broker.stderr.find('NotFound') > -1
 
 - name: Ensure oc cluster is up
