@@ -76,7 +76,7 @@ function check_docker() {
   check_passed_msg "Docker"
 
   echo -e "Checking Docker is running"
-  command ps -A | grep docker | grep -v grep &>/dev/null
+  command docker ps &>/dev/null
   docker_running=${?}; if [[ ${docker_running} -ne 0 ]]; then
     echo -e "${RED}Docker is not running.${RESET}"
     exit 1
