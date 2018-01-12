@@ -227,7 +227,7 @@ function run_installer() {
 
   set -e
   echo "Installing roles to ${SCRIPT_ABSOLUTE_PATH}/roles"
-  ansible-galaxy install -r ./installer/requirements.yml --roles-path="${SCRIPT_ABSOLUTE_PATH}/roles"
+  ansible-galaxy install -r ./installer/requirements.yml --roles-path="${SCRIPT_ABSOLUTE_PATH}/roles" --force
   set +e
 
   if [[ ${oc_version_comparison} -ne ${VER_LT} ]]; then
