@@ -86,7 +86,7 @@ Alternatively, to run a script that prompts for property values:
 ./installer/install.sh
 ----
 
-A DockerHub username and password are currently currently required because the
+A DockerHub username and password are currently required because the
 OpenShift Ansible Broker (OAB) calls Docker APIs to read/load Ansible Playbook
 Bundles from a Docker Hub organisation (defaults to `aerogear`).
 
