@@ -3,7 +3,7 @@
 
 service_catalog: "true"
 
-hawkular_metrics: "false"
+hawkular_metrics: "true"
 
 host_config_dir: "{{playbook_dir}}/../ui"
 
