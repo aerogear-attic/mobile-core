@@ -15,7 +15,7 @@ Additionally, we need to set up the appropriate permissions.
 oc login -u system:admin
 oc adm policy add-cluster-role-to-user cluster-admin admin
 oc adm policy add-cluster-role-to-user access-asb-role admin
-oc login -u developer
+oc login -u admin
 password: admin
 ```
 
