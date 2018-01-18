@@ -3,12 +3,16 @@
 
 - name: Login as system admin
   shell: "oc login -u system:admin"
-  register: oc_system_admin_login
+
+- name: Get admin user
+  shell: "oc get user admin"
+  register: admin_user
+  failed_when: false
+  no_log: True
 
 - name: Create admin user
   shell: "oc create user {{ user_name }}"
-  register: oc_create_user
+  when: admin_user.rc == 1
 
 - name: Give admin user permissions
   shell: "oc adm policy add-cluster-role-to-user edit {{ user_name }}"
-  register: oc_user_policy

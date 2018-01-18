@@ -7,6 +7,7 @@ readonly DOCKERHUB_ORG="${3}"
 readonly LAUNCH_APB_ON_BIND="${4}"
 readonly TAG="${5}"
 readonly WILDCARD_DNS="${6}"
+readonly ANSIBLE_SERVICE_BROKER_NAMESPACE="${7}"
 
 echo "starting install of OpenShift Ansible Broker (OAB)"
 
@@ -38,7 +39,7 @@ BROKER_CLIENT_KEY=$(cat /tmp/etcd-cert/MyClient1.key | base64)
 curl -s ${TEMPLATE_URL} > "${TEMPLATE_LOCAL}"
 
 oc process -f "${TEMPLATE_LOCAL}" \
--n ansible-service-broker \
+-n ${ANSIBLE_SERVICE_BROKER_NAMESPACE} \
 -p DOCKERHUB_USER="$( echo ${DOCKERHUB_USER} | base64 )" \
 -p DOCKERHUB_PASS="$( echo ${DOCKERHUB_PASS} | base64 )" \
 -p DOCKERHUB_ORG="${DOCKERHUB_ORG}" \
@@ -53,7 +54,7 @@ oc process -f "${TEMPLATE_LOCAL}" \
 -p ETCD_TRUSTED_CA="$ETCD_CA_CERT" \
 -p BROKER_CLIENT_CERT="$BROKER_CLIENT_CERT" \
 -p BROKER_CLIENT_KEY="$BROKER_CLIENT_KEY" \
--p NAMESPACE=ansible-service-broker \
+-p NAMESPACE=${ANSIBLE_SERVICE_BROKER_NAMESPACE} \
 -p AUTO_ESCALATE="true" \
 -p LAUNCH_APB_ON_BIND="${LAUNCH_APB_ON_BIND}" \
 ${TEMPLATE_VARS} | oc create -f -
