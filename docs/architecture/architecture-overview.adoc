@@ -4,11 +4,16 @@
 .Target Audience
 ****
 The target audience for this document is developers who want a better understanding of what Mobile Core does, what value it brings and if they were to build a Mobile Service, how would they get MC to discover it and integrate with it.
+
+It is not the intention of this document to describe the full Mobile offering. This document focuses on what the Mobile Core component provides.
 ****
 
 == Terminology
 
 ****
+*Mobile Core*
+Mobile Core is a component which provides a Mobile Perspective on OpenShift. It extends the OpenShift UI to give a Mobile perspective. It enables the OpenShift Service Catalog to include Mobile Services. It is a facilitator, when integrating Mobile Services.
+
 *Mobile Service*;
 A service which delivers functionality that can be used as part of a Mobile solution. These services are offered through the OpenShift Service Catalog.
 
@@ -23,7 +28,9 @@ A Mobile Service Integration, is one Mobile Service making use of another Mobile
 ****
 
 == Introduction
-The overall goal of a full Mobile solution is a group of services working together in order to solve a problem. Each of those component services offers a piece of the functionality necessary for the solution to work. But the overall solution needs all these component parts (i.e. services) to be integrated together. MC is the component which glues/integrates/orchestrates these component services. MC is the orchestrator in the context of Mobile.
+The overall goal of a full Mobile solution is to enable mobile developers to easily provision and consume a set of valuable mobile services on top of Kubernetes or OpenShift. Each service solves an individual set of problems, but in many cases are designed to work together to provide a cohesive single solution.
+
+MC is the component which glues/integrates/orchestrates these services. MC is the orchestrator in the context of Mobile.
 
 As well as the integration of Mobile Services with each other, another key aspect of building a solution is the integration with the platform, which is OpenShift. MC takes ownership of this aspect of the solution design also.
 
@@ -41,11 +48,11 @@ For mobile developers to be able to consume Mobile Services, they must be availa
 
 ** *Step 1.1*: Install / Configure an OpenShift Ansible Broker (OAB)
 +
-The Mobile Services are represented as APBs (Ansible Playbooks). For these playbooks to be read in, and represented through the Service Catalog, an https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/ansible_service_broker.html#service-catalog-spec-file[Ansible Service Broker] must be created.
+The Mobile Services are represented as Ansible Playbooks, https://github.com/ansibleplaybookbundle/ansible-playbook-bundle[APB]. For these playbooks to be read in, and represented through the Service Catalog, an https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/ansible_service_broker.html#service-catalog-spec-file[Ansible Service Broker] must be created.
 +
 image:images/5.x-Architecture-MC-ASB.png["My screenshot",width=1280, caption="Figure 1: Mobile Core Installation - Integrating Mobile Services into Service Catalog", title="Mobile Core Installation - Integrating Mobile Services into Service Catalog", link="images/5.x-Architecture-MC-ASB.png"]
 +
-When the MC is installed, it will register a Broker with the Service Catalog. In some cases an OAB may already exist. A service broker is a server that conforms to the https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md[OSB API] specification and manages a set of one or more services. The software could be hosted within your own OpenShift Container Platform cluster or elsewhere. The MC will create a specific type of Broker, an Ansible Service Broker. Once the ASB is created, it will try and invoke a GET on the its configured endpoint, to retrieve the catalog of services it has access to. The set of services are defined through Ansible playbooks, which for Mobile are located in https://github.com/aerogearcatalog[AeroGear Docker Hub]. These services are returned to the Serice Catalog and Service Class resources are created to represent each returned service type. At that point a user can see a representation of the services inside the Service Catalog.
+When the MC is installed, it will register a Broker with the Service Catalog. In some cases an OAB may already exist. A service broker is a server that conforms to the https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md[OSB API] specification and manages a set of one or more services. The software could be hosted within your own OpenShift Container Platform cluster or elsewhere. The MC will create a specific type of Broker, an Ansible Service Broker. Once the ASB is created, it will try and invoke a GET on the its configured endpoint, to retrieve the catalog of services it has access to. The set of services are defined through Ansible playbooks, which for Mobile are located in https://github.com/aerogearcatalog[AeroGear Docker Hub]. These services are returned to the Service Catalog and  https://github.com/kubernetes-incubator/service-catalog/blob/master/docs/resources.md[Cluster Service Class] resources are created to represent each returned service type. At that point a user can see a representation of the services inside the Service Catalog.
 
 * *Step 2*: Extend the OpenShift UI, to offer a Mobile perspective
 
@@ -55,55 +62,7 @@ The installation of MC also incorporates, extending the OpenShift UI. It does th
 
 Kubernetes offers the capability to define your own object kinds, using the https://kubernetes.io/docs/concepts/api-extension/custom-resources/[Customer Resource Definition] (CRD) concept. Rather than letting the Kubernetes core continiously expand and potentially get too unwieldly, CRDs provide a simple, yet flexible way to define your own object kinds and extend the Kubernetes core.
 
-The MC as part of its startup procedure creates a CRD for representing Mobile Clients. At a later stage when a Mobile App representation is created, this CRD is instantiated.
-
-.Example of CRD for a Mobile App Representation
-====
- $ kubectl describe crd mobileclients.mobile.k8s.io
- Name:         mobileclients.mobile.k8s.io
- Namespace:
- Labels:       <none>
- Annotations:  <none>
- API Version:  apiextensions.k8s.io/v1beta1
- Kind:         CustomResourceDefinition
- Metadata:
-   Creation Timestamp:  2018-01-04T09:56:32Z
-   Resource Version:    3248
-   Self Link:           /apis/apiextensions.k8s.io/v1beta1/customresourcedefinitions/mobileclients.mobile.k8s.io
-   UID:                 8aced5d8-f135-11e7-95e5-b242a86257d4
- Spec:
-   Group:  mobile.k8s.io
-   Names:
-     Kind:       MobileClient
-     List Kind:  MobileClientList
-     Plural:     mobileclients
-     Short Names:
-       mc
-     Singular:  mobileclient
-   Scope:       Namespaced
-   Version:     v1alpha1
- Status:
-   Accepted Names:
-     Kind:       MobileClient
-     List Kind:  MobileClientList
-     Plural:     mobileclients
-     Short Names:
-       mc
-     Singular:  mobileclient
-   Conditions:
-     Last Transition Time:  <nil>
-     Message:               no conflicts found
-     Reason:                NoConflicts
-     Status:                True
-     Type:                  NamesAccepted
-     Last Transition Time:  2018-01-04T09:56:32Z
-     Message:               the initial names have been accepted
-     Reason:                InitialNamesAccepted
-     Status:                True
-     Type:                  Established
- Events:                    <none>
- $
-====
+The MC as part of its startup procedure creates a CRD for representing Mobile Clients, defined https://github.com/aerogear/mobile-cli/blob/master/artifacts/mobileclient_crd.yaml[here]. At a later stage when a Mobile App representation is created, this CRD is instantiated.
 
 * *Step 4*: Install the Mobile CLI
 
@@ -111,7 +70,7 @@ The functionality provided through the OpenShift UI is also available on the com
 
 All of the functionality available via the UI will be available from the CLI. The mobile CLI runs standalone as well as through the _kubectl_ and _oc_ commands. E.g.
 
- MacBook-Pro:images joeBloggs$ mobile --help
+ $ mobile --help
  A brief description of your application
  Usage:
   mobile [command]
@@ -127,7 +86,7 @@ All of the functionality available via the UI will be available from the CLI. Th
       --namespace string   --namespace=myproject
   -o, --output string      -o=json -o=template (default "table")
  Use "mobile [command] --help" for more information about a command.
- MacBook-Pro:images joeBloggs$
+ $
 
 There is a separate repo for the Mobile CLI. Setup and usage guides are available https://github.com/aerogear/mobile-cli[here].
 
@@ -186,7 +145,7 @@ See below for an example of a Mobile App representation that uses the CRD.
 Further details on creating a custom resource object (instantiation of the CRD) is detailed https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions/[here].
 
 === Provision a Mobile Service
-Another important stage in the Mobile App Dev process is to provision a Mobile value add Service to your project. This provisioning of a Mobile Service into your project is done via the Service Catalog, its not done through the MC. The MC UI extension has provided the Mobile category for the user to find the services which can be used as part of a Mobile solution.
+Another important stage in the Mobile App Dev process is to provision a Mobile Service to your project. This provisioning of a Mobile Service into your project is done via the Service Catalog, its not done through the MC. The MC UI extension has provided the Mobile category for the user to find the services which can be used as part of a Mobile solution.
 
 image::images/5.x-ServiceCatalog-MobileServices.png[width=1280, title="Service Catalog - Mobile Service Perspective", link="images/5.x-ServiceCatalog-MobileServices.png"]
 
@@ -196,7 +155,7 @@ As part of this provisioning two objects are also created, a configMap and a sec
 
 image::images/5.x-Architecture-MC-ServiceInstantiation.png[width=1280, title="Instantiated/Provisioned Mobile Service", link="images/5.x-Architecture-MC-ServiceInstantiation.png"]
 
-The ConfigMap which is created contains public info about the Mobile Service. The info conatined in this ConfigMap is necessary for a remote/real Mobile Client/App to be able to interact with and consume the Mobile Service. It will be most likely be the Core Client SDK which will provide the Mobile Client with this configuration (https://github.com/aerogear/proposals/pull/9/files[SDK Proposal]). The Secret that is created holds private info about the service, e.g. uname and pwd.
+The ConfigMap which is created contains public info about the Mobile Service. The info contained in this ConfigMap is necessary for a remote/real Mobile Client/App to be able to interact with and consume the Mobile Service. The CLI will retrieve the configuration and the developer makes it available to the SDK via their project configuration. The Secret that is created holds private info about the service, e.g. uname and pwd.
 
 === Integrate two Mobile Services
 The MC provides an initiation point where Mobile Services can be integrated with each other. Once there are Mobile Services provisioned, potential bindings (integrations with other Mobile Services) available for each Mobile Service is read by the MC and is presented as potential integration options for each service. The 'integrations' field in the metadata, identifies what integrations/bindings can be created for the service in question.
