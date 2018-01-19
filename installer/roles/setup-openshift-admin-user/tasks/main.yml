@@ -15,4 +15,7 @@
   when: admin_user.rc == 1
 
 - name: Give admin user permissions
-  shell: "oc adm policy add-cluster-role-to-user edit {{ user_name }}"
+  shell: | 
+    oc adm policy add-cluster-role-to-user edit {{ user_name }}
+    oc adm policy add-cluster-role-to-user cluster-admin {{ user_name }}
+    oc adm policy add-cluster-role-to-user access-asb-role {{ user_name }}
