@@ -214,7 +214,7 @@ function run_installer() {
   read -p "DockerHub Tag (Defaults to latest): " dockerhub_tag
   dockerhub_tag=${dockerhub_tag:-"latest"}
 
-  read -p "DockerHub Orgnisation (Defaults to aerogearcatalog): " dockerhub_org
+  read -p "DockerHub Organisation (Defaults to aerogearcatalog): " dockerhub_org
   dockerhub_org=${dockerhub_org:-"aerogearcatalog"}
 
   read -p "Wildcard DNS Host (Defaults to nip.io): " wildcard_dns_host
