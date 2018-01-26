@@ -4,6 +4,13 @@
 This document outlines best practices for Aerogear APB development.
 General information about the OpenShift Ansible Broker (OAB) and Ansible Playbook Bundles (APB) is included in the link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[OpenShift docs].
 
+== Learn Opensift Ansible Broker
+
+Below are two great and short videos for an excellent overview of the Openshift Ansible Broker:
+
+* link:https://www.youtube.com/watch?v=iBVFq0X4ELw[Understanding Service Brokers on OpenShift, Part 1]
+* link:https://www.youtube.com/watch?v=jFtPGhhEQoU[Understanding Service Brokers on OpenShift, Part 2]
+
 == Prerequisites
 
 Before doing local development of Aerogear APBs, you should have used the installer in this repo to setup a local OpenShift cluster. 
