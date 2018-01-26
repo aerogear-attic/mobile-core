@@ -9,6 +9,6 @@ host_config_dir: "{{playbook_dir}}/../ui"
 
 cluster_image: openshift/origin
 
-cluster_version: "v3.7.0"
+cluster_version: "v3.7.1"
 
 cluster_public_hostname: "192.168.37.1"
