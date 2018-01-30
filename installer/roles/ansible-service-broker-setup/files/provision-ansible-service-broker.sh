@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-readonly DOCKERHUB_USER="${1}"
-readonly DOCKERHUB_PASS="${2}"
-readonly DOCKERHUB_ORG="${3}"
-readonly LAUNCH_APB_ON_BIND="${4}"
-readonly TAG="${5}"
-readonly PUBLIC_IP="${6}"
-readonly WILDCARD_DNS="${7}"
-readonly ANSIBLE_SERVICE_BROKER_NAMESPACE="${8}"
+readonly DOCKERHUB_USER=${1:?"[ERROR]You must provide a dockerhub username."}
+readonly DOCKERHUB_PASS=${2:?"[ERROR]You must provide a dockerhub password."}
+readonly DOCKERHUB_ORG=${3:?"[ERROR]You must provide a dockerhub organization."}
+readonly LAUNCH_APB_ON_BIND=${4:?"[ERROR]You must provide if lunch apb on bind."}
+readonly TAG=${5:?"[ERROR]You must provide a tag of service brocker to be used."}
+readonly PUBLIC_IP=${6:?"[ERROR]You must provide public ip address where service should be binded."}
+readonly WILDCARD_DNS=${7:?"[ERROR]You must provide wildcard dns to route requests."}
+readonly ANSIBLE_SERVICE_BROKER_NAMESPACE=${8:?"[ERROR]You must provide namespace where service brocket will run."}
 
 echo "starting install of OpenShift Ansible Broker (OAB)"
 
