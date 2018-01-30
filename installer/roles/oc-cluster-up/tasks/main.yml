@@ -6,14 +6,8 @@
   changed_when: false
   when: ansible_os_family == "Darwin"
 
-- name: Create alias for lo0 (linux)
-  shell: ifconfig lo:0 {{ cluster_public_hostname }} netmask 255.255.255.0 up
-  become: yes
-  changed_when: false
-  when: ansible_os_family in ["RedHat", "Debian"]
-
 - set_fact:
-    routing_suffix: "{{ cluster_public_hostname }}.{{ wildcard_dns_host }}"
+    routing_suffix: "{{ cluster_public_ip }}.{{ wildcard_dns_host }}"
     public_hostname: "{{ cluster_public_hostname }}"
 
 - name: Obtain status of oc cluster
@@ -36,7 +30,7 @@
   - set_fact:
       cluster_up_command: "{{ cluster_up_command }} --service-catalog={{ service_catalog }}"
     when:
-    - service_catalog is defined
+    - service_catalog|bool
 
   - name: Obtain host config directory with allowed format
     shell: "cd {{ host_config_dir }} && pwd"
@@ -65,7 +59,7 @@
   - set_fact:
       cluster_up_command: "{{ cluster_up_command }} --use-existing-config={{ use_existing_config }}"
     when:
-    - use_existing_config is defined
+    - use_existing_config|bool
 
   - set_fact:
       cluster_up_command: "{{ cluster_up_command }} --routing-suffix={{ routing_suffix }}"

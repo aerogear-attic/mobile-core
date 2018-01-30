@@ -7,9 +7,6 @@
     tags: install-socat
   - role: openshift-origin-client-tools
     tags: install-oc
-  # Uses OpenShift Ansible Broker (OAB) S3 binaries
-  # - role: oc-tool-setup
-  #   tags: install-oc
 
   - role: oc-cluster-up
     tags: [oc-cluster-up, local, local-dev]
