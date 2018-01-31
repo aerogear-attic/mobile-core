@@ -58,7 +58,7 @@
       mode: u+x
 
   - name: Execute OpenShift Ansible Broker (OAB) provision script
-    shell: "bash -e /tmp/provision-ansible-service-broker.sh {{ dockerhub_username }} {{ dockerhub_password }} {{ dockerhub_org }} {{ launch_apb_on_bind }} {{dockerhub_tag}} {{ cluster_public_ip }} {{ wildcard_dns_host }} {{ ansible_service_broker_namespace }}"
+    shell: bash -e /tmp/provision-ansible-service-broker.sh "{{ dockerhub_username }}" "{{ dockerhub_password }}" "{{ dockerhub_org }}" "{{ launch_apb_on_bind }}" "{{dockerhub_tag}}" "{{ cluster_public_ip }}" "{{ wildcard_dns_host }}" "{{ ansible_service_broker_namespace }}"
   when:
   - dockerhub_tag is defined
   - dockerhub_tag != ''
