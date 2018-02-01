@@ -17,7 +17,10 @@ node("mobile-core-install-slave") {
         withEnv(["PUBLIC_HOSTNAME=${publicHostName}", "PUBLIC_IP=${publicIp}"]) {
             withCredentials([usernamePassword(credentialsId: 'dockerhubjenkins', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                 sh "ansible-galaxy install -r ./installer/requirements.yml"
-                sh "ansible-playbook installer/playbook.yml -e dockerhub_username=${DOCKER_USERNAME} -e dockerhub_password=${DOCKER_PASSWORD} -e cluster_public_hostname=${PUBLIC_HOSTNAME}' -e  'cluster_public_ip=${PUBLIC_IP} --skip-tags install-oc"
+                def args = "-e dockerhub_username=${DOCKER_USERNAME} -e dockerhub_password=${DOCKER_PASSWORD}"
+                args += " -e cluster_public_hostname=${PUBLIC_HOSTNAME} -e cluster_public_ip=${PUBLIC_IP}"
+                args += " -e '{cluster_local_instance: no}'"
+                sh "ansible-playbook installer/playbook.yml ${args} --skip-tags install-oc"
             }
         }
     }
