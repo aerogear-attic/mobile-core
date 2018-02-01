@@ -8,3 +8,4 @@ cluster_image: openshift/origin
 cluster_version: "v3.7.1"
 cluster_public_ip: "192.168.37.1"
 cluster_public_hostname: "{{ cluster_public_ip }}"
+cluster_local_instance: yes
