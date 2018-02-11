@@ -1,6 +1,24 @@
+@NonCPS
+String sanitizeObjectName(String s) {
+    s.replace('_', '-')
+        .replace('.', '-')
+        .toLowerCase()
+        .reverse()
+        .take(23)
+        .replaceAll("^-+", "")
+        .reverse()
+        .replaceAll("^-+", "")
+}
+
 node("mobile-core-install-slave") {
+    step([$class: 'WsCleanup'])
+
     stage("Checkout") {
       checkout scm
+    }
+
+    stage("Cleanup") {
+       sh "make clean"
     }
 
     stage("Run Ansible scripts") {
@@ -24,4 +42,20 @@ node("mobile-core-install-slave") {
             }
         }
     }
+    
+    stage ("Integration test") {
+        sh "wget https://jenkins-wendy.ci.feedhenry.org/job/aerogear/job/mobile-cli/job/master/lastSuccessfulBuild/artifact/*zip*/archive.zip"
+        sh "unzip archive.zip"
+        dir("archive/out"){
+            sh "oc whoami"
+            sh "chmod +x *"
+            def wait = 10
+            retry(3) {
+               sleep wait
+               wait = wait * 3
+               sh "./integration.test -test.v -goldenFiles=`pwd`/integration -prefix=test-${sanitizeObjectName(env.BRANCH_NAME)}-build-$BUILD_NUMBER -namespace=`oc project -q` -executable=`pwd`/mobile"
+            }
+        }
+    }
+   
 }
