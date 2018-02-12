@@ -53,7 +53,7 @@ node("mobile-core-install-slave") {
             retry(3) {
                sleep wait
                wait = wait * 3
-               sh "./integration.test -test.v -goldenFiles=`pwd`/integration -prefix=test-${sanitizeObjectName(env.BRANCH_NAME)}-build-$BUILD_NUMBER -namespace=`oc project -q` -executable=`pwd`/mobile"
+               sh "./integration.test -test.short -test.v -goldenFiles=`pwd`/integration -prefix=test-${sanitizeObjectName(env.BRANCH_NAME)}-build-$BUILD_NUMBER -namespace=`oc project -q` -executable=`pwd`/mobile"
             }
         }
     }
