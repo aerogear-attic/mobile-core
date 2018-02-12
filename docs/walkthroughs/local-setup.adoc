@@ -10,6 +10,10 @@ This walkthrough sets up a locally running OpenShift cluster for:
 [[requirements]]
 == Requirements
 
+=== Hardware Requirements
+* Please make sure that you have at least *64GiB* of free space on your filesystem 
+* for smooth run have 16GiB of RAM
+
 [[tooling-requirements]]
 === Tooling Requirements (Required)
 
@@ -92,6 +96,8 @@ Bundles from a Docker Hub organisation (defaults to `aerogear`).
 
 NOTE: If the installer fails, run
 `make clean` in the repo home directory before running the installer again.
+
+NOTE: If the installer hangs for a really long time or crashes on `oc cluster up` step, check free-space on your filesystem.
 
 *Optional*
 
