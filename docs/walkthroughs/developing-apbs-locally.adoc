@@ -216,7 +216,10 @@ apb bootstrap
 
 == Testing an APB
 
-Any roles used in your APB should have a test playbook, provision, deprovision and bind.
+Good practice is to have a special playbook for testing, called test.yml. This playbook is used for quick verification of the 
+implemented roles within the APB repository. If you include some/all roles (provision, bind, deprovision, unbind) in your
+service, you can easily verify their functionality simply by running ``apb test`` command.
+
 There are examples of PR based testing set up using link:https://github.com/aerogearcatalog/metrics-apb/blob/master/Jenkinsfile[Jenkins] 
 and link:https://github.com/ansibleplaybookbundle/mediawiki-apb/blob/master/.travis.yml[Travis CI].
 
