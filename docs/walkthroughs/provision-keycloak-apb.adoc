@@ -1,0 +1,91 @@
+[[provision-keycloak-service]]
+= Provision KeyCloak service
+
+== Provision
+You should choose type of service you want to provision
+
+* KeyCloak service
+* Linked KeyCloak service
+
+Go to OpenShift web console, login with username/password. Then open Mobile->Services and choose KeyCloak service from catalog
+You should see KeyCloak wizard opened and press Next button then provide configuration for KeyCloak service
+
+=== KeyCloak service
+This service type is shared between different linked KeyCloak instances
+
+*Configuration would ask for following params*
+
+* Add to Project(required)
+- here you can create new project
+- or add service to existing project
+* Keycloak admin username(required)
+- username for admin as credential for KeyCloak web console
+* Keycloak admin password(required)
+- password for admin as credential for KeyCloak web console
+* Connect to an existing shared service
+- should be unchecked
+* URL of the shared service
+- should be empty
+* Name of the Keycloak realm (defaults to current namespace)
+- should be empty
+
+After service is provisioned then you are able to open its web console
+under address 'http://keycloak-<project-name>.<routing-suffix>/auth/admin/realms'
+you should see that <project-name> realm was created
+
+=== Linked KeyCloak service
+This service type is linked to shared KeyCloak instance.
+
+*Configuration would ask for following params:*
+
+* Add to Project(required)
+- here you can create new project
+- or add service to existing project
+* Keycloak admin username(required)
+- username for admin as credential for KeyCloak web console
+* Keycloak admin password(required)
+- password for admin as credential for KeyCloak web console
+* Connect to an existing shared service(required)
+- should be checked
+* URL of the shared service
+- 'https://keycloak-<project-name>.<routing-suffix>'
+* Name of the Keycloak realm (defaults to current namespace)
+- new realm for linked KeyCloak service
+
+After service is provisioned then you are able to open its web console
+under address 'http://keycloak-<project-name>.<routing-suffix>/auth/admin/realms'
+you should see that new realm was created
+
+[[bind-keycloak-service]]
+== Bind
+
+[[unbind-keycloak-service]]
+== Unbind
+
+[[deprovision-keycloak-service]]
+== Deprovision
+You should choose type of service you want to deprovision
+
+* KeyCloak service
+* Linked KeyCloak service
+
+=== KeyCloak service
+This should delete following resources
+
+* delete route
+* delete services
+* delete deployment configs
+* delete secrets
+* delete config maps
+* delete persistent volume claims
+
+NOTE: KeyCloak instance should be deprovisioned and web console not reachable
+
+=== Linked KeyCloak service
+This should delete following resources
+
+* delete client in realm
+* delete secrets
+* delete config maps
+
+NOTE: Realm created by provisioning linked KeyCloak service should still exist
