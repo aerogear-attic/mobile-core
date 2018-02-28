@@ -1,91 +1,96 @@
 [[provision-keycloak-service]]
-= Provision KeyCloak service
+= Provision KeyCloak Service
 
 == Provision
-You should choose type of service you want to provision
+Choose the type of service you would like to provision:
 
-* KeyCloak service
-* Linked KeyCloak service
+* Keycloak service
+* Linked Keycloak service
 
-Go to OpenShift web console, login with username/password. Then open Mobile->Services and choose KeyCloak service from catalog
-You should see KeyCloak wizard opened and press Next button then provide configuration for KeyCloak service
+Go to the OpenShift web console. Open the *Mobile* Tab > *Services* from the service catalog and select the Keycloak service.
+This should open the Keycloak service provision wizard. Press the *Next* button and provide the configuration for the KeyCloak service
 
 === KeyCloak service
-This service type is shared between different linked KeyCloak instances
+This service type can be shared between different Keycloak services.
 
-*Configuration would ask for following params*
+*The configuration would ask for the following parameters:*
 
-* Add to Project(required)
-- here you can create new project
-- or add service to existing project
-* Keycloak admin username(required)
-- username for admin as credential for KeyCloak web console
-* Keycloak admin password(required)
-- password for admin as credential for KeyCloak web console
-* Connect to an existing shared service
-- should be unchecked
-* URL of the shared service
-- should be empty
-* Name of the Keycloak realm (defaults to current namespace)
-- should be empty
+* *Add to Project(required)*: Create a new project or point to an existing project
+* *Keycloak admin username(required)*: The username of the admin user for the Keycloak web console
+* *Keycloak admin password(required)*: The password of the admin user for the Keycloak web console
+* *Connect to an existing shared service*: Remain unchecked
+* *URL of the shared service*: Remain empty
+* *Name of the Keycloak realm (defaults to current namespace)*: Remain empty
 
-After service is provisioned then you are able to open its web console
-under address 'http://keycloak-<project-name>.<routing-suffix>/auth/admin/realms'
-you should see that <project-name> realm was created
+After the service has been provisioned, you are then able to open the Keycloak web console
+with the address 'http://keycloak-<project-name>.<routing-suffix>' and the ```<project-name>``` realm should be available.
 
 === Linked KeyCloak service
-This service type is linked to shared KeyCloak instance.
+This service type is linked to an already existing KeyCloak instance.
 
-*Configuration would ask for following params:*
+*The configuration would ask for the following parameters:*
 
-* Add to Project(required)
-- here you can create new project
-- or add service to existing project
-* Keycloak admin username(required)
-- username for admin as credential for KeyCloak web console
-* Keycloak admin password(required)
-- password for admin as credential for KeyCloak web console
-* Connect to an existing shared service(required)
-- should be checked
-* URL of the shared service
-- 'https://keycloak-<project-name>.<routing-suffix>'
-* Name of the Keycloak realm (defaults to current namespace)
-- new realm for linked KeyCloak service
+* *Add to Project(required)*: Create a new project or point to an existing project
+* *Keycloak admin username(required)*: The username of the admin user for the Keycloak web console
+* *Keycloak admin password(required)*: The password of the admin user for the Keycloak web console
+* *Connect to an existing shared service*: Should be checked
+* *URL of the shared service*: This is the url of the existing Keycloak instance we want to link this service to
+* *Name of the Keycloak realm (defaults to current namespace)*: Specify a new realm for the linked Keycloak service
 
-After service is provisioned then you are able to open its web console
-under address 'http://keycloak-<project-name>.<routing-suffix>/auth/admin/realms'
-you should see that new realm was created
+After the service is provisioned, you are then able to open its web console with the address of the shared service that was specified.
+The realm specified in the configuration should also be available within this Keycloak instance.
 
 [[bind-keycloak-service]]
 == Bind
+Bindings can be created for a provisioned Keycloak service, whether it's a shared one or not.
+
+* Go to the project overview where your Keycloak service is provisioned.
+* Select the Keycloak service under the *Provisioned Services* section. This should open up the service's details.
+* Click *Create Binding* under the *Bindings* section. This should bring up the wizard for bind creation.
+* Fill in the parameters:
+- *Service Name (Required)*: This is the name of the service the client is for. This value will be used for creating the `client
+id` and `name` in the Keycloak realm.
+- *Name of Keycloak realm*: This is the name of the Keycloak realm where you want the client
+to be created in. This defaults to the current namespace if not specified.
+* Click Bind
+
+This will start the bind creation for the Keycloak service.
+It creates the realm specified within the Keycloak instance. Within that realm, a bearer client is created with a
+client id of ```<service-name>-bearer``` and with the name of ```<service-name>```.
+
+A secret is created with the details of the client created in the Keycloak instance. This can be viewed
+by clicking *View Secret* that is associated with the bind object. 
 
 [[unbind-keycloak-service]]
 == Unbind
+To unbind another service from the Keycloak service, click *Delete* that is associated with the bind object
+you wish to unbind. A *Mark for Deletion* message will appear beside it which denotes that the unbind process 
+has started.
+
+Once the unbind process has finished, the bind object will have been deleted as well as the secret associated with it.
 
 [[deprovision-keycloak-service]]
 == Deprovision
-You should choose type of service you want to deprovision
-
-* KeyCloak service
-* Linked KeyCloak service
+In order to delete a provisioned Keycloak service, select the service menu and click *Delete*. A notification should
+appear that the service has now been *Marked for Deletion*.
 
 === KeyCloak service
-This should delete following resources
+Deleting a Keycloak service will delete the following resources:
 
-* delete route
-* delete services
-* delete deployment configs
-* delete secrets
-* delete config maps
-* delete persistent volume claims
+* route
+* services
+* deployment configs
+* secrets
+* config maps
+* persistent volume claims
 
-NOTE: KeyCloak instance should be deprovisioned and web console not reachable
+NOTE: When the deprovision finishes, the Keycloak instance should be removed and it's web console should not be reachable.
 
 === Linked KeyCloak service
-This should delete following resources
+Deleting a linked Keycloak service will delete the following resources: 
 
-* delete client in realm
-* delete secrets
-* delete config maps
+* client created in the specified realm
+* secrets
+* config maps
 
-NOTE: Realm created by provisioning linked KeyCloak service should still exist
+NOTE: When the provision finishes, the realm created by provisioning the linked KeyCloak service should still exist
