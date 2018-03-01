@@ -46,6 +46,98 @@ apb init
 
 NOTE: Best practice is to name the APB ending with `-apb`.
 
+== Making your APB consumable as a mobile service
+
+When creating an APB for a mobile service, where possible use Kubernetes resources
+( rather than Openshift resources ) to ensure compatibility with Openshift and Kubernetes, eg. using 
+Kubernetes Deployment instead of openshift DeploymentConfig.
+
+
+Only one instance of a service is expected in a namespace. If your service is intended to have more
+than one service instance consideration must be given to the naming of objects.
+
+=== ConfigMaps Vs Secrets
+
+Separate the public and private configuration information in your APB.
+
+Use *configMaps* for public information that a mobile client will need to use the service. To allow the configMap
+to be read by the mobile-cli it must be labeled with *mobile: enabled* and the *serviceName*.
+
+It's possible that a mobile client will require some secret information such as an API key. This should be stored in the configMap.
+
+[source,yaml]
+----
+- k8s_v1_config_map:
+    name: "{{ myService_configmap_name }}"
+    namespace: "{{ namespace }}"
+    labels:
+      mobile: enabled
+      serviceName: myService
+    data:
+      type: myService
+      apiKey: "{{ api_key }}"
+      public_client_secret: "{{ public_client_secret }}"
+----
+
+Use *secrets* for private information such as passwords and usernames.
+
+[source,yaml]
+----
+- k8s_v1_secret:
+    name: '{{ myService_secret_name }}'
+    namespace: '{{ namespace }}'
+    labels:
+      name: myService
+      mobile: enabled
+      serviceName: myService
+    string_data:
+      admin_username: '{{ ADMIN_NAME }}'
+      admin_password: '{{ ADMIN_PASSWORD }}'
+----
+
+For more information about this requirement see the original proposal link:https://github.com/aerogear/proposals/blob/master/apbs/create-secret-and-configmap-during-provision.md[here].
+
+=== Specifics of Mobile Service APBs
+
+For Mobile service APBs, make sure there is a `mobile-service` tag inside the `apb.yml` file:
+
+....
+...
+tags: 
+  - mobile-service
+....
+
+This tag is used by the serviceCatalog to group the APB with other mobile services.
+
+Inside of the `apb.yml` file, make sure you use include `serviceName:` in the metadata section, like:
+
+....
+...
+metadata:
+  displayName: Aerogear Sync Server
+  console.openshift.io/iconClass: icon-nodejs
+  serviceName: fh-sync-server
+...
+....
+
+=== Integrating with the metrics service
+
+To allow Prometheus to auto discover your custom services' metrics endpoint you need to include an annotation when creating the 
+Kubernetes service in your provisioning task. More information about integration with the metrics service can be
+found link:https://github.com/aerogear/proposals/blob/master/metrics/prometheus-metrics-endpoints-and-auto-discovery.md[here].
+
+[source,yaml]
+----
+annotations:
+  org.aerogear.metrics/plain_endpoint: /my-metrics-endpoint
+----
+
+An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob/master/roles/provision-keycloak-apb/tasks/provision-keycloak.yml#L70[here].
+
+
+You can also link:https://github.com/aerogearcatalog/metrics-apb#how-to-add-a-new-dashboard-while-provisioning-a-service[include a  custom Grafana dashboard] 
+for your service.
+
 === Building an APB
 
 To build an APB:
@@ -134,35 +226,17 @@ you can force the broker to reload images from your org.
 apb bootstrap
 ----
 
-== Using the mobile-service tag
-
-For MCP enabled _APBs_, make sure we have a `mobile-service` tag inside the `apb.yml` file:
-
-....
-...
-tags: 
-  - mobile-service
-....
-
-== Using the servicename label
-
-Inside of the `apb.yml` file, make sure you use the `serviceName:` label, like:
-
-....
-...
-metadata:
-  displayName: Aerogear Sync Server
-  console.openshift.io/iconClass: icon-nodejs
-  serviceName: fh-sync-server
-...
-....
-
 == Testing an APB
 
-Currently, there are not many tools for testing. The APB team has a few open Github issues and proposals:
+Good practice is to have a special playbook for testing, called ``test.yml``. This playbook is used for quick verification of the 
+implemented roles within the APB repository. If you include some/all roles (provision, bind, deprovision, unbind) in your
+service, you should include a test task for that role so its functionality can be easily verified simply by 
+running the ``apb test`` command.
 
-* link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/issues/131[lint command for APB content]
-* link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/blob/master/docs/proposals/testing.md[CI and Image tests]
+There are examples of PR based testing set up using link:https://github.com/aerogearcatalog/metrics-apb/blob/master/Jenkinsfile[Jenkins] 
+and link:https://github.com/ansibleplaybookbundle/mediawiki-apb/blob/master/.travis.yml[Travis CI].
+
+More information about APB testing can be found link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/blob/master/docs/getting_started.md#test[here].
 
 == Automated Builds
 
