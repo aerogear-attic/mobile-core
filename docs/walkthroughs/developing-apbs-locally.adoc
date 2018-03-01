@@ -63,16 +63,21 @@ Separate the public and private configuration information in your APB.
 Use *configMaps* for public information that a mobile client will need to use the service. To allow the configMap
 to be read by the mobile-cli it must be labeled with *mobile: enabled* and the *serviceName*.
 
-An example of this can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob/master/roles/provision-keycloak-apb/templates/configmap.yml.j2[here].
+It's possible that a mobile client will require some secret information such as an API key. This should be stored in the configMap.
 
 [source,yaml]
 ----
-  labels:
-    mobile: enabled
-    serviceName: my-custom-service
+- k8s_v1_config_map:
+    name: "{{ myService_configmap_name }}"
+    namespace: "{{ namespace }}"
+    labels:
+      mobile: enabled
+      serviceName: myService
+    data:
+      type: myService
+      apiKey: "{{ api_key }}"
+      public_client_secret: "{{ public_client_secret }}"
 ----
-
-It's possible that a mobile client will require some secret information such as an API key. This should be stored in the configMap.
 
 Use *secrets* for private information such as passwords and usernames.
 
