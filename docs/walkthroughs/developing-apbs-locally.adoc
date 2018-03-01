@@ -92,9 +92,9 @@ Use *secrets* for private information such as passwords and usernames.
 
 For more information about this requirement see the original proposal link:https://github.com/aerogear/proposals/blob/master/apbs/create-secret-and-configmap-during-provision.md[here].
 
-=== Using the mobile-service tag
+=== Specifics of Mobile Service APBs
 
-For MCP enabled _APBs_, make sure there is a `mobile-service` tag inside the `apb.yml` file:
+For Mobile service APBs, make sure there is a `mobile-service` tag inside the `apb.yml` file:
 
 ....
 ...
@@ -104,9 +104,7 @@ tags:
 
 This tag is used by the serviceCatalog to group the APB with other mobile services.
 
-=== Using the servicename label
-
-Inside of the `apb.yml` file, make sure you use the `serviceName:` label, like:
+Inside of the `apb.yml` file, make sure you use include `serviceName:` in the metadata section, like:
 
 ....
 ...
@@ -227,12 +225,13 @@ apb bootstrap
 
 Good practice is to have a special playbook for testing, called ``test.yml``. This playbook is used for quick verification of the 
 implemented roles within the APB repository. If you include some/all roles (provision, bind, deprovision, unbind) in your
-service, you can easily verify their functionality simply by running ``apb test`` command.
+service, you should include a test task for that role so its functionality can be easily verified simply by 
+running the ``apb test`` command.
 
 There are examples of PR based testing set up using link:https://github.com/aerogearcatalog/metrics-apb/blob/master/Jenkinsfile[Jenkins] 
 and link:https://github.com/ansibleplaybookbundle/mediawiki-apb/blob/master/.travis.yml[Travis CI].
 
-More information about APB testing can be found link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/blob/master/docs/getting_started.md#test[here]
+More information about APB testing can be found link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/blob/master/docs/getting_started.md#test[here].
 
 == Automated Builds
 
