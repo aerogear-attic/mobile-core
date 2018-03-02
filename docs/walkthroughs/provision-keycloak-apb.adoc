@@ -1,22 +1,22 @@
 [[provision-keycloak-service]]
-= Provision KeyCloak Service
+= Provision http://www.keycloak.org/documentation.html[KeyCloak] Service
 
 == Provision
 Choose the type of service you would like to provision:
 
 * Keycloak service
-* Linked Keycloak service
+* Shared Keycloak service
 
 Go to the OpenShift web console. Open the *Mobile* Tab > *Services* from the service catalog and select the Keycloak service.
 This should open the Keycloak service provision wizard. Press the *Next* button and provide the configuration for the KeyCloak service
 
 === KeyCloak service
-This service type can be shared between different Keycloak services.
+This service type can be shared between shared between different projects
 
-*The configuration would ask for the following parameters:*
+*The configuration will ask for the following parameters:*
 
 * *Add to Project(required)*: Create a new project or point to an existing project
-* *Keycloak admin username(required)*: The username of the admin user for the Keycloak web console
+* *Keycloak admin username(required)*: This user should be able to administer the realm or create new realms
 * *Keycloak admin password(required)*: The password of the admin user for the Keycloak web console
 * *Connect to an existing shared service*: Remain unchecked
 * *URL of the shared service*: Remain empty
@@ -25,17 +25,17 @@ This service type can be shared between different Keycloak services.
 After the service has been provisioned, you are then able to open the Keycloak web console
 with the address 'http://keycloak-<project-name>.<routing-suffix>' and the ```<project-name>``` realm should be available.
 
-=== Linked KeyCloak service
-This service type is linked to an already existing KeyCloak instance.
+=== Shared KeyCloak service
+This service type is linked to an already existing original KeyCloak instance
 
-*The configuration would ask for the following parameters:*
+*The configuration of a shared service needs the following parameters:*
 
 * *Add to Project(required)*: Create a new project or point to an existing project
-* *Keycloak admin username(required)*: The username of the admin user for the Keycloak web console
+* *Keycloak admin username(required)*: This user should be able to administer the realm or create new realms
 * *Keycloak admin password(required)*: The password of the admin user for the Keycloak web console
 * *Connect to an existing shared service*: Should be checked
 * *URL of the shared service*: This is the url of the existing Keycloak instance we want to link this service to
-* *Name of the Keycloak realm (defaults to current namespace)*: Specify a new realm for the linked Keycloak service
+* *Name of the Keycloak realm (defaults to current namespace)*: Specify a new realm for the Shared Keycloak service
 
 After the service is provisioned, you are then able to open its web console with the address of the shared service that was specified.
 The realm specified in the configuration should also be available within this Keycloak instance.
@@ -86,11 +86,11 @@ Deleting a Keycloak service will delete the following resources:
 
 NOTE: When the deprovision finishes, the Keycloak instance should be removed and it's web console should not be reachable.
 
-=== Linked KeyCloak service
-Deleting a linked Keycloak service will delete the following resources: 
+=== Shared KeyCloak service
+Deleting a Shared Keycloak service will delete the following resources:
 
 * client created in the specified realm
 * secrets
 * config maps
 
-NOTE: When the provision finishes, the realm created by provisioning the linked KeyCloak service should still exist
+NOTE: When the deprovision finishes, the realm created by provisioning the Shared KeyCloak service should still exist
