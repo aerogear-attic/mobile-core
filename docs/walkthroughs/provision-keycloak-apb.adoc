@@ -4,6 +4,8 @@
 http://www.keycloak.org[Keycloak] is a complete identity and access management solution that provides
 features such as single-sign on, user federation and authorization services.
 
+See https://youtu.be/p8xvBA6UFRY[this video] which demonstrates how to use a shared Keycloak service and how to link another Keycloak service to it.
+
 [[provision-keycloak-service]]
 == Provision
 Choose the type of service you would like to provision:
