@@ -1,14 +1,12 @@
 [[developing-apbs-locally]]
 = Developing APBs Locally
 
-
 This document outlines best practices for Aerogear APB development.
 General information about the OpenShift Ansible Broker (OAB) and Ansible Playbook Bundles (APB) is included in the link:https://docs.openshift.com/container-platform/3.6/architecture/service_catalog/ansible_service_broker.html[OpenShift docs].
 
 == Prerequisites
 
-Before doing local development of Aerogear APBs, you should have used the installer in this repo to set up a local OpenShift cluster. link:https://github.com/ansibleplaybookbundle/ansible-playbook-bundle/blob/master/walkthroughs/local-setup.adoc[Read the document here.]
-
+Before doing local development of Aerogear APBs, you should have used the installer in this repo to setup a local OpenShift cluster. 
 Additionally, we need to set up the appropriate permissions.
 
 ```bash
@@ -46,11 +44,48 @@ apb init
 
 NOTE: Best practice is to name the APB ending with `-apb`.
 
-== Making your APB consumable as a mobile service
+== General APB considerations
+
+=== Scaling
+
+Use a link:https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployment] with a link:https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/[ReplicaSet] for containers that can scale horizontally. This will allow users of the APB to scale the service if needed.
+
+For services with horizontally scalable containers that also require some configuration changes or API calls, consider using a link:https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/[StatefulSet] e.g. a MongoDB replica set.
+
+=== Passwords
+
+Passwords should *not* be hardcoded with default values.
+Instead, passwords should be empty by default, and generated if left blank by the APB user.
+This allows the user to still specify a password if they want, but defaults to a more secure setup.
+
+An example of password generation can be found in the link:https://github.com/aerogearcatalog/metrics-apb/blob/6ece42302fea2dd2add4e0d60913e68f2d42820d/roles/provision-metrics-apb/defaults/main.yml#L24[Metrics APB].
+
+
+[source,yaml]
+----
+postgres_password: "{{ POSTGRES_PASSWORD | default(lookup('password', '/tmp/pass chars=ascii_letters,digits'), true) }}"
+----
+
+=== Labelling
+
+Consider adding the same `app` label to *all* resources created in the APB.
+e.g.
+
+[source,yaml]
+----
+  labels:
+    app: my-amazing-service
+----
+
+This will:
+
+* allow all resources created by the APB to be easily identified with a label query (which can help with mass updating or deleting)
+* group all the resources together on the OpenShift Project Overview screen into a single 'Application'
+
+== Mobile APB considerations
 
 When creating an APB for a mobile service, where possible use Kubernetes resources
-( rather than Openshift resources ) to ensure compatibility with Openshift and Kubernetes, eg. using 
-Kubernetes Deployment instead of openshift DeploymentConfig.
+( rather than Openshift resources ) to ensure compatibility with Openshift and Kubernetes, eg. use a Kubernetes Deployment instead of openshift DeploymentConfig.
 
 
 Only one instance of a service is expected in a namespace. If your service is intended to have more
@@ -97,7 +132,7 @@ Use *secrets* for private information such as passwords and usernames.
 
 For more information about this requirement see the original proposal link:https://github.com/aerogear/proposals/blob/master/apbs/create-secret-and-configmap-during-provision.md[here].
 
-=== Specifics of Mobile Service APBs
+=== Tagging & Naming
 
 For Mobile service APBs, make sure there is a `mobile-service` tag inside the `apb.yml` file:
 
@@ -120,7 +155,7 @@ metadata:
 ...
 ....
 
-=== Integrating with the metrics service
+=== Mobile Metrics Service Integration
 
 To allow Prometheus to auto discover your custom services' metrics endpoint you need to include an annotation when creating the 
 Kubernetes service in your provisioning task. More information about integration with the metrics service can be
@@ -138,7 +173,7 @@ An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob
 You can also link:https://github.com/aerogearcatalog/metrics-apb#how-to-add-a-new-dashboard-while-provisioning-a-service[include a  custom Grafana dashboard] 
 for your service.
 
-=== Building an APB
+== Building an APB
 
 To build an APB:
 
@@ -148,7 +183,7 @@ make apb_build
 
 Alternatively, if you have set up the alias described above you can directly use `apb build`.
 
-=== Push an APB to a Local Openshift Cluster
+== Push an APB to a Local Openshift Cluster
 
 Assuming your OpenShift cluster is up and running, you can push the APB image to the local OpenShift Docker Registry with:
 
@@ -165,7 +200,7 @@ Afterwards your APB is ready to be used from the _Service Catalog_.
 * Using `make build_and_push` executes all phases at once.
 ====
 
-=== Configure OpenShift Ansible Broker to use Dockerhub Regsitry
+== Configure OpenShift Ansible Broker to use Dockerhub Regsitry
 
 By default, the installer in this repo configures the OpenShift Ansible Broker to list images in the Service Catalog from OpenShift's local docker registry **and** from the `aerogear` organisation in Dockerhub.
 
@@ -192,7 +227,7 @@ This will allow you to edit the OAB config in your terminal. Under the `registri
 
 You can also edit the `broker-config` Config Map in the OpenShift web console under the `ansible-service-broker` project. Check the link:https://github.com/openshift/ansible-service-broker/blob/master/docs/config.md[Ansible Service Broker configuration docs] for more examples.
 
-=== Push to Dockerhub Account
+== Push to Dockerhub Account
 Build and push the _APB_ to Dockerhub with the following:
 
 ....
