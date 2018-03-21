@@ -48,7 +48,7 @@ NOTE: Best practice is to name the APB ending with `-apb`.
 
 === Scaling
 
-Use a link:https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployment] with a link:https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/[ReplicaSet] for containers that can scale horizontally. This will allow users of the APB to scale the service if needed.
+Use a link:https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployment], specifying the `replicas` property for containers that can scale horizontally. This will allow users of the APB to scale the service if needed.
 
 For services with horizontally scalable containers that also require some configuration changes or API calls, consider using a link:https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/[StatefulSet] e.g. a MongoDB replica set.
 
