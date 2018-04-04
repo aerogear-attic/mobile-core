@@ -1,0 +1,10 @@
+[[demo-videos]]
+= Demo Videos 
+
+* https://www.youtube.com/watch?v=jSCdw5Lpy6Y[Minishift Mobile Core Addon]
+* https://www.youtube.com/watch?v=oKckEsSYqzc&feature=youtu.be[Mobile Integrations via the OpenShift UI]
+* https://www.youtube.com/watch?v=p8xvBA6UFRY[Provisioning Shared Keycloak Services via the OpenShift UI]
+* https://youtu.be/7Y2B6zZzTzc[Provisioning Shared Keycloak Services via the Mobile CLI]
+* https://www.youtube.com/watch?v=SZkjON02wxc[Creating a Mobile Client Representation]
+* https://drive.google.com/file/d/1GOTk8f_7H1rCU3fsjN6E0ZpG2VUIQyfe/view[Mobile Clients Associated with Services]
+* https://www.youtube.com/watch?v=GN_ob6Ra9Tw[Client-Service Associations in the OpenShift UI]

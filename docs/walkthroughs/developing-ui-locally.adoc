@@ -1,0 +1,39 @@
+[[developing-ui-locally]]
+= Developing the OpenShift UI Locally
+
+This document outlines best practices for Aerogear OpenShift UI development.
+
+Development is mainly done against the link:https://github.com/aerogear/origin-web-console[`origin-web-console`], the management console for OpenShift Origin. 
+link:https://github.com/openshift/origin-web-common[`origin-web-common`] and link:https://github.com/openshift/origin-web-catalog[`origin-web-catalog`] are both dependencies of the web console.
+The former contains the common services used for the console and the latter contains components for the service catalog in the console. 
+
+=== Getting started
+
+. Ensure that a mobile-enabled OpenShift instance is running
+. Install grunt and bower by running `npm install -g grunt-cli bower`
+. Install dev dependencies by running `make install`
+. Change the default configuration file to point to your OpenShift instance. Copy `app/config.js` to `app/config.local.js` and change `masterPublicHostname` to the IP address of your OpenShift instance
+. Configure your editor to use `.editorconfig`
+. Launch the console and start watching for asset changes by running `grunt serve`. This should open <https://localhost:9000/> in your default browser.
+
+For more information, see the link:https://github.com/aerogear/origin-web-console[`origin-web-console`] repo. 
+
+=== Making PRs 
+
+When creating PRs, use the following process as a guideline: 
+
+. Create a feature branch on link:https://github.com/aerogear/origin-web-console[our Aerogear fork] named after the epic
+. Make all pull requests for Jiras in that epic to the feature branch
+. Once all of the PRs for that feature are closed, the branch will be used to create a single upstream PR. 
+Rebase on master, squash to a single commit and run `./hack/verify-dist.sh` to verify that the built dist files are the same as the committed version. If this fails, run the following commands:
+* `make clean && make install` to make sure all dev dependencies are up to date
+* `grunt build` to rebuild the dist files
+
+. Commit these changes and create a new PR against link:https://github.com/origin/origin-web-console[origin].
+
+*PR checklist*
+
+* Add a link to the Jira in the description
+* Add a list of verifications steps
+* Add screenshots 
+* Assign reviewers from the team
