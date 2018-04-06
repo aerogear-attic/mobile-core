@@ -24,6 +24,14 @@ It can be used standalone or as a kubectl/oc plugin.
 
 Follow this link:https://github.com/aerogear/mobile-cli/blob/master/README.md[documentation] to setup the CLI locally.
 
+[[ui-setup]]
+== UI Setup & Development
+
+Development for the OpenShift UI is mainly done against link:https://github.com/openshift/origin-web-console[origin-web-console], the management console for OpenShift Origin.
+
+Follow this link:https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/developing-ui-locally.adoc[guide] for getting started with local development and our process for making upstream PRs.
+
+
 [[communication]]
 == Communication
 Daily communication happens on the `##aerogear` and `#asbroker` channels on link:https://webchat.freenode.net/[freenode IRC]. The link:https://groups.google.com/forum/#!forum/aerogear[Aerogear Mailing List] is also used for team-wide & community comms.
