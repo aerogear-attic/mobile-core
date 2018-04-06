@@ -1,0 +1,68 @@
+[[mobile-core-onboarding]]
+= Mobile Core Onboarding
+
+This documentation contains walkthroughs and resources that will help you setup your local development
+environment which enables local UI, CLI and mobile services development.
+
+[[dev-env-setup]]
+== Development Environment Setup
+
+An OpenShift environment needs to be setup with the mobile applications and services available, 
+which enables local UI, CLI and mobile services (via APBs) development.
+There are two options on how to do this:
+
+. Using the *installer*.
+  * Follow this link:../walkthroughs/local-setup.adoc[documentation] to setup your development environment using the installer.
+. Using *minishift*.
+  * Follow this link:https://github.com/aerogear/minishift-mobilecore-addon/blob/master/README.md[documentation] to setup your development environment using minishift.
+
+[[cli-setup]]
+== CLI Setup & Development
+
+The Mobile CLI contains a list of commands that allows you to interact with your local Openshift environment.
+It can be used standalone or as a kubectl/oc plugin. 
+
+Follow this link:https://github.com/aerogear/mobile-cli/blob/master/README.md[documentation] to setup the CLI locally.
+
+[[communication]]
+== Communication
+Daily communication happens on the `##aerogear` and `#asbroker` channels on link:https://webchat.freenode.net/[freenode IRC]. The link:https://groups.google.com/forum/#!forum/aerogear[Aerogear Mailing List] is also used for team-wide & community comms.
+
+[[onboarding-resources]]
+== Onboarding Resources
+
+* Mobile SDKs
+** https://github.com/feedhenry/fh-sync-android[Android Sync SDK]
+** https://github.com/feedhenry/fh-sync-js[Cordova/Browser Sync SDK]
+** https://www.aerogear.org/docs/specs/#push[Push SDKs]
+** https://www.npmjs.com/package/keycloak-js[Keycloak JS Adapter]
+* Mobile CLI Resources
+** https://github.com/aerogear/mobile-cli[Mobile CLI]
+** https://tour.golang.org/welcome/1[Tour of Go]
+** https://godoc.org/github.com/spf13/cobra[Cobra Docs]
+* Frontend Resources
+** https://docs.google.com/document/d/1eyOMz6gBNXoTBKjdDGaa-f8gRLB4Rf19f7caLIbBTqw/edit?usp=sharing[UI Investigation Google Doc]
+** https://redhat.invisionapp.com/share/3METBQE2D#/screens[Mobile UI mockups]
+** https://github.com/openshift/origin-web-console[OpenShift Web Console]
+** https://github.com/openshift/origin-web-common[OpenShift Web Common]
+** https://github.com/openshift/origin-web-catalog[OpenShift Web Catalog]
+** https://docs.angularjs.org/api[AngularJS API Docs]
+** https://docs.angularjs.org/tutorial[AngularJS PhoneCat Tutorial]
+** http://www.patternfly.org/[Patternfly]
+* Catalog & Brokers
+** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/index.html[Service Catalog]
+** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/ansible_service_broker.html[OpenShift Ansible Broker (OAB) & Ansible Playbook Bundles (APB)]
+** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/template_service_broker.html[Template Service Broker]
+* Services & Clients
+** https://github.com/aerogearcatalog/[Aerogear Catalog]
+** https://hub.docker.com/u/aerogearcatalog/[Aerogear Catalog Dockerhub]
+* APBs
+** https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/developing-apbs-locally.adoc[Developing APBs Locally]
+* Kubernetes
+** https://blog.openshift.com/kubernetes-deep-dive-api-server-part-1/[Kubernetes API Server]
+** https://www.redhat.com/en/about/videos/open-service-broker-api-enabling-microservices-enterprise#description[Open Service Broker API]
+** https://www.youtube.com/watch?v=0aLqc-o256w[Service Catalog Basics]
+** https://blog.openshift.com/kubernetes-deep-dive-api-server-part-3a/[Custom Resource Definitions]
+* https://github.com/aerogear/mobile-core/tree/master/docs/onboarding/demo-videos.adoc[Demo videos]
+* https://github.com/aerogear/proposals[Aerogear Proposals]
+* https://docs.google.com/document/d/13ErUqR4XZcHMntKvrpOZiP_CZFtDhlGB8L2r47TNDyo/edit?ts=5a2e6c89#heading=h.9ka301chlo11[Mobile.next skills]

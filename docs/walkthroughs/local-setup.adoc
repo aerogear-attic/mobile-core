@@ -107,18 +107,7 @@ as part of your `ansible-playbook` command.
 [[local-ui-development]]
 == Local UI Development
 
-....
-cd ui
-npm run grunt local
-....
-
-If you see an `ENOSPC` error, you may need to increase the number of
-files your user can watch by running this command:
-
-[source,sh]
-----
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-----
+For developing the OpenShift UI locally, see link:https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/developing-ui-locally.adoc[this guide].
 
 [[creating-mobile-apps]]
 == Creating Mobile Apps

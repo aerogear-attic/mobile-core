@@ -34,10 +34,10 @@ passing CI build.
 Communication
 ~~~~~~~~~~~~~
 
-Daily communication happens on #aerogear on
-https://webchat.freenode.net/[freenode IRC]. The
-http://lists.jboss.org/pipermail/aerogear-dev/[aerogear-dev@lists.jboss.org
-mailing list] is also used for team-wide & community comms.
+Daily communication happens on the `##aerogear` and `#asbroker` channels on
+link:https://webchat.freenode.net/[freenode IRC]. The
+link:https://groups.google.com/forum/#!forum/aerogear[Aerogear
+Mailing List] is also used for team-wide & community comms.
 
 [[onboarding-resources]]
 Onboarding Resources
