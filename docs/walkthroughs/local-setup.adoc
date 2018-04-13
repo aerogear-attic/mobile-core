@@ -120,32 +120,48 @@ For developing the OpenShift UI locally, see link:https://github.com/aerogear/mo
 
 == Creating Mobile Apps
 
+[[openshift-ui]]
+=== Openshift UI
+
 Once the installer is complete you should be able to access OpenShift at
 https://192.168.37.1:8443/console/. You will need to accept the
 self-signed certificate.
-
-[[openshift-ui]]
-=== Openshift UI
 
 ==== Create a new client
 
 Under the `mobile` tab select `apps` then choose a desired platform for your client app:
 
+image::images/new-client.png[new client]
+
 Fill the client app form with the proper information:
 
+image::images/new-client-1.png[new client form]
+
 You can check your recently client app status in your project now (provisioning might take a while):
+
+image::images/new-client-2.png[new client status]
 
 ===== Retrieve an existing client
 
 You can check your client app info by going to `Applications > Provisioned Services` and selecting your client app:
 
+image::images/client-info.png[client info]
+
+image::images/client-info-1.png[client info defails]
+
 ===== Delete an existing client
 
 You can delete your client app by clicking on `Actions > Delete` under the client app details:
 
+image::images/client-delete.png[delete client]
+
 You will also need to manually delete the client app secret (`Resources > Secrets`):
 
+image::images/client-delete-1.png[delete client secret]
+
 Then delete it by clicking on `Edit > Delete` in the client app secret detail page:
+
+image::images/client-delete-2.png[delete client secret]
 
 
 [[mobile-cli]]
