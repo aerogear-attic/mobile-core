@@ -110,21 +110,116 @@ as part of your `ansible-playbook` command.
 For developing the OpenShift UI locally, see link:https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/developing-ui-locally.adoc[this guide].
 
 [[creating-mobile-apps]]
+
+*Supported platforms/types*
+
+* Android
+* iOS
+* Cordova
+* Xamarin
+
 == Creating Mobile Apps
 
 Once the installer is complete you should be able to access OpenShift at
 https://192.168.37.1:8443/console/. You will need to accept the
 self-signed certificate.
 
-You can login using `developer` and any password.
+[[openshift-ui]]
+=== Openshift UI
 
-Once logged in you should be presented with a `catalog` of services.
-To create your first Mobile App:
+==== Create a new client
 
-. Choose the `Mobile` category & `Apps` sub-category.
-. Choose `Android App`
-. Fill in the required information and continue through the wizard.
-. The App should appear in the 'Mobile Applications' section of the Project Overview screen
+Under the `mobile` tab select `apps` then choose a desired platform for your client app:
+
+Fill the client app form with the proper information:
+
+You can check your recently client app status in your project now (provisioning might take a while):
+
+===== Retrieve an existing client
+
+You can check your client app info by going to `Applications > Provisioned Services` and selecting your client app:
+
+===== Delete an existing client
+
+You can delete your client app by clicking on `Actions > Delete` under the client app details:
+
+You will also need to manually delete the client app secret (`Resources > Secrets`):
+
+Then delete it by clicking on `Edit > Delete` in the client app secret detail page:
+
+
+[[mobile-cli]]
+=== Mobile CLI
+
+==== Usage
+
+===== Create a new client
+
+Command:
+
+```
+mobile create client $type $unique_id $package_name [flags]
+```
+
+Example:
+
+```
+mobile create client android helloworld-android org.aerogear.helloworld-android [flags]
+```
+
+Output:
+
+* id: unique client id in openshift
+* name: user defined client app name
+* clienttype: client app type
+* appidentifier: user defined client app package name/bundle identifier
+
+===== Retrieve an existing client
+
+Command:
+
+```
+mobile get client $client_id [flags]
+```
+
+Example:
+
+```
+mobile get client helloworld-android [flags]
+```
+
+Output:
+
+* id: unique client id in openshift
+* name: user defined client app name
+* clienttype: client app type
+* appidentifier: user defined client app package name/bundle identifier
+* apikey: client app api key to be used with other openshift mobile services
+
+===== Delete an existing client
+
+Command:
+
+```
+mobile delete client $client_id [flags]
+```
+
+Example:
+
+```
+mobile delete client helloworld-android [flags]
+```
+
+Output:
+
+None - returns 0 exit code if successful.
+
+===== Available flags:
+
+* --namespace: openshift namespace to be used (required if using standalone mobile cli)
+* --output: cli output format to be used (json, yml, template or table)
+* --quiet: will not print unnecessary output to stdout such as warnings
+
 
 [[next-steps]]
 == Next Steps
