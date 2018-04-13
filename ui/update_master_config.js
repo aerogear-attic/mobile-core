@@ -12,6 +12,10 @@ var mcpCSSFiles = [
 var configFile = process.argv.slice(-1)[0];
 var yamlFile = yaml.safeLoad(fs.readFileSync(configFile));
 
+if (!yamlFile.assetConfig){
+  yamlFile.assetConfig = {};
+}
+
 // Enable extension development
 yamlFile.assetConfig.extensionDevelopment = true;
 
