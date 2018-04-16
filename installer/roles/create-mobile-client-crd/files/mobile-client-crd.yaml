@@ -29,7 +29,3 @@ spec:
               pattern: '(\w-)'
             appIdentifier:
               type: string
-            excludedServices:
-              type: array
-              items:
-                type: string
