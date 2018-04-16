@@ -26,6 +26,6 @@ spec:
               pattern: '(\w{8}-\w{4}-\w{4}-\w{4}-\w{11})'
             name:
               type: string
-              pattern: '(\w-)'
+              pattern: '([\w-])'
             appIdentifier:
               type: string
