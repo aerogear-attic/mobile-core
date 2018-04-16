@@ -80,7 +80,7 @@ This will:
 == Mobile APB considerations
 
 When creating an APB for a mobile service, where possible use Kubernetes resources
-( rather than Openshift resources ) to ensure compatibility with Openshift and Kubernetes, eg. use a Kubernetes Deployment instead of openshift DeploymentConfig.
+(rather than Openshift resources) to ensure compatibility with Openshift and Kubernetes, eg. use a Kubernetes `Deployment` instead of an Openshift `DeploymentConfig`.
 
 
 Only one instance of a service is expected in a namespace. If your service is intended to have more
@@ -90,10 +90,10 @@ than one service instance consideration must be given to the naming of objects.
 
 Separate the public and private configuration information in your APB.
 
-Use *configMaps* for public information that a mobile client will need to use the service. To allow the configMap
-to be read by the mobile-cli it must be labeled with *mobile: enabled* and the *serviceName*.
-
+Use `configMaps` for public information that a mobile client will need to use the service. 
 It's possible that a mobile client will require some secret information such as an API key. This should be stored in the configMap.
+
+To allow configMaps and secrets to be read by the Mobile CLI they should be labeled with `mobile: enabled`, `serviceName` and `serviceInstanceID`.
 
 [source,yaml]
 ----
@@ -103,13 +103,14 @@ It's possible that a mobile client will require some secret information such as 
     labels:
       mobile: enabled
       serviceName: myService
+      serviceInstanceID: "{{ _apb_service_instance_id }}"
     data:
       type: myService
       apiKey: "{{ api_key }}"
       public_client_secret: "{{ public_client_secret }}"
 ----
 
-Use *secrets* for private information such as passwords and usernames.
+Use `secrets` for private information such as passwords and usernames.
 
 [source,yaml]
 ----
@@ -120,6 +121,7 @@ Use *secrets* for private information such as passwords and usernames.
       name: myService
       mobile: enabled
       serviceName: myService
+      serviceInstanceID: '{{ _apb_service_instance_id }}'
     string_data:
       admin_username: '{{ ADMIN_NAME }}'
       admin_password: '{{ ADMIN_PASSWORD }}'
@@ -131,24 +133,26 @@ For more information about this requirement see the original proposal link:https
 
 For Mobile service APBs, make sure there is a `mobile-service` tag inside the `apb.yml` file:
 
-....
+[source,yaml]
+----
 ...
 tags: 
   - mobile-service
-....
+----
 
 This tag is used by the serviceCatalog to group the APB with other mobile services.
 
 Inside of the `apb.yml` file, make sure you use include `serviceName:` in the metadata section, like:
 
-....
+[source,yaml]
+----
 ...
 metadata:
   displayName: Aerogear Sync Server
   console.openshift.io/iconClass: icon-nodejs
   serviceName: fh-sync-server
 ...
-....
+----
 
 === Mobile Metrics Service Integration
 
@@ -162,7 +166,7 @@ annotations:
   org.aerogear.metrics/plain_endpoint: /my-metrics-endpoint
 ----
 
-An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob/master/roles/provision-keycloak-apb/tasks/provision-keycloak.yml#L70[here].
+An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob/master/roles/provision-keycloak-apb/tasks/provision-keycloak.yml#L67[here].
 
 
 You can also link:https://github.com/aerogearcatalog/metrics-apb#how-to-add-a-new-dashboard-while-provisioning-a-service[include a  custom Grafana dashboard] 
