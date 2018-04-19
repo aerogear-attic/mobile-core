@@ -16,6 +16,20 @@
 
   when: "'mobileclients.mobile.k8s.io' not in current_crds.stdout"
 
+- name: Get list of clusterroles
+  shell: "oc get clusterroles"
+  register: clusterroles
+
+- block:
+  
+  - name: Create mobileclient-admin clusterrole
+    shell: "oc create clusterrole mobileclient-admin --verb=create,delete,get,list,update,watch --resource=mobileclients"
+
+  - name: Add mobileclient-admin role to system:authenticated group
+    shell: "oc adm policy add-cluster-role-to-group mobileclient-admin system:authenticated"
+
+  when: "'mobileclient-admin' not in clusterroles.stdout"
+
 - name: Get admin clusterrole
   shell: "oc get clusterrole admin -o yaml"
   register: admin_original_content
