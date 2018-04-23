@@ -16,7 +16,7 @@ In other guides we will show you how to make use of this installation by represe
 = Installation Options
 
 
-- Minisift: https://github.com/aerogear/minishift-mobilecore-addon/blob/master/docs/minishift_install.adoc
+- Minishift: https://github.com/aerogear/minishift-mobilecore-addon/blob/master/docs/minishift_install.adoc
 
 
 
