@@ -29,7 +29,7 @@ This service type can be shared between different projects
 * *Name of the Keycloak realm (defaults to current namespace)*: Remain empty
 
 After the service has been provisioned, you are then able to open the Keycloak web console
-with the address *'http://keycloak-<project-name>.<routing-suffix>'* and the ```<project-name>``` realm should be available.
+with the address `http://keycloak-<project-name>.<routing-suffix>` and the `<project-name>` realm should be available.
 
 === Shared Keycloak service
 This service type is linked to an already existing original KeyCloak instance
@@ -54,16 +54,15 @@ Bindings can be created for a provisioned Keycloak service, whether it's a share
 * Select the Keycloak service under the *Provisioned Services* section. This should open up the service's details.
 * Click *Create Binding* under the *Bindings* section. This should bring up the wizard for bind creation.
 * Fill in the parameters:
-- *Service Name (required)*: This is the name of the service the client is for. This value will be used for creating the `client
-id` and `name` in the Keycloak realm.
+- *Service Name or Client ID (required)*: This is the name of the service or of the client the binding is for. This value will be used to create a public client and a bearer-only client for this service in the Keycloak realm.
 * Click Bind
 
 This will start the bind creation for the Keycloak service.
-It creates the realm specified within the Keycloak instance. Within that realm, a bearer client is created with a
-client id of ```<service-name>-bearer``` and with the name of ```<service-name>```.
+It creates the realm specified within the Keycloak instance. Within that realm, a bearer client and a public client are created with a
+client id of `<service-name>-bearer` and `<service-name>-public` respectively. 
 
 A secret is created with the details of the client created in the Keycloak instance. This can be viewed
-by clicking *View Secret* that is associated with the bind object. 
+by clicking *View Secret* that is associated with the bind object. A configmap containing details about both clients is also created with the name `keycloak-<service-name>`.
 
 [[unbind-keycloak-service]]
 == Unbind
@@ -71,7 +70,7 @@ To unbind another service from the Keycloak service, click *Delete* that is asso
 you wish to unbind. A *Mark for Deletion* message will appear beside it which denotes that the unbind process 
 has started.
 
-Once the unbind process has finished, the bind object will have been deleted as well as the secret associated with it.
+Once the unbind process has finished, the bind object will have been deleted as well as any other resources and clients associated with it.
 
 [[deprovision-keycloak-service]]
 == Deprovision
@@ -83,7 +82,7 @@ Deleting a Keycloak service will delete the following resources:
 
 * route
 * services
-* deployment configs
+* deployments
 * secrets
 * config maps
 * persistent volume claims
@@ -93,7 +92,7 @@ NOTE: When the deprovision finishes, the Keycloak instance should be removed and
 === Shared Keycloak service
 Deleting a Shared Keycloak service will delete the following resources:
 
-* client created in the specified realm
+* clients created in the specified realm
 * secrets
 * config maps
 
