@@ -48,6 +48,8 @@ asb-etcd-1-gwcbj   1/1       Running   0          22m
 
 You can open openshift web ui by running the following command (you will need to accept the self signed certificate):
 
+- Minishift:
+
 ```
 minishift console
 ```
