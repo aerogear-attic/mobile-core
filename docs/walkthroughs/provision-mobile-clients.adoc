@@ -1,7 +1,16 @@
 [[provisioning-mobile-apps]]
 = Mobile Client provisioning
 
-*Supported platforms/types*
+== Overview
+
+This document will outline how we represent your mobile client within your OpenShift project, how to create a representation and what that representation is used for.
+
+== The Mobile client representation
+
+This is a custom resource definition in OpenShift that allows us to give you a visual representation of your mobile client and the services it is making use of.
+From within the UI as part of the mobile client, you can see which services you can bind your mobile client to, and which services your client is already bound to. You can also view the specific configuration for that client, that will allow your mobile application to communicate and integrate with these services.
+
+== Supported platforms/types
 
 * Android
 * iOS
