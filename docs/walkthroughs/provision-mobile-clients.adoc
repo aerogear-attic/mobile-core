@@ -132,4 +132,4 @@ None - returns 0 exit code if successful.
 [[next-steps]]
 == Next Steps
 
-* Provision a service:./provision-keycloak-apb.adoc[Provision Sercurity Service].
+* Provision a service link:./provision-keycloak-apb.adoc#Provision[Provision Sercurity Service].
