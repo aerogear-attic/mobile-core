@@ -132,4 +132,4 @@ None - returns 0 exit code if successful.
 [[next-steps]]
 == Next Steps
 
-* To contribute , check out the link:../../README.adoc#contributing[Contributing] section of the README.
+* Provision a service:./provision-keycloak-apb.adoc[Provision Sercurity Service].
