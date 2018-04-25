@@ -20,7 +20,7 @@ spec:
           properties:
             clientType:
               type: string
-              pattern: 'cordova|iOS|android'
+              pattern: 'cordova|iOS|android|xamarin'
             apiKey:
               type: string
               pattern: '(\w{8}-\w{4}-\w{4}-\w{4}-\w{11})'
