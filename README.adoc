@@ -37,6 +37,16 @@ Official list of supported SDK's:
 - JavaScript and Cordova SDK https://github.com/aerogear/aerogear-js-sdk
 - Xamarin https://github.com/aerogear/aerogear-xamarin-sdk
 
+=== Mobile end user templates
+
+Templates that contain the most recent versions of the SDK's
+
+- Android https://github.com/feedhenry/mobile-security-android-template
+- IOS https://github.com/feedhenry/mobile-security-ios-template
+- Ionic (Cordova) https://github.com/aerogear/cordova-showcase-template
+- Xamarin https://github.com/aerogear/xamarin-showcase-template
+
+
 === Mobile Services
 
 Mobile services will be installed automatically into ansible broker when running mobile-core installer.
