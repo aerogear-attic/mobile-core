@@ -4,14 +4,18 @@ Mobile Core
 
 image:https://img.shields.io/:license-Apache2-blue.svg[License, link=http://www.apache.org/licenses/LICENSE-2.0]
 
-AeroGear on OpenShift is an project that enables set of the mobile enabled services that run natively on Open Shift platform.
-This repository is central element of the AeroGear on OpenShift ecosystem that installs Open Shift platforms and all AeroGear related templates (Ansible APB) to local machine. Developers then can use mobile-cli that is designed to work with running Open Shift instance and perform various tasks and one of the available mobile SDK's. For complete list of the repositories see bellow.
+AeroGear on OpenShift is a project that enables set of the mobile enabled services that run natively on Open Shift platform.
+This repository is central element of the AeroGear on OpenShift ecosystem that installs the OpenShift platform and the AeroGear components to your local machine. You can then use the OpenShift UI or mobile-cli to work with running OpenShift instance in order to deploy mobile enabled services and configure your mobile client to be able to use those services.
 
 This repository contains:
 
-* Installator for OpenShift and AeroGear OpenShift templates
+* Installer for OpenShift and AeroGear OpenShift templates
 * Mobile specific UI extensions fo the OpenShift Web Console
 * Local Development environment
+
+== Getting Started
+
+link:https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/local-setup.adoc[Mobile installation guide]
 
 == Related components
 
@@ -19,38 +23,37 @@ The following components are maintained in their respective repos:
 
 === Mobile CLI
 
-Command line client required to perform various operations for OpenShift AeroGear extensions
-Link: https://github.com/aerogear/mobile-cli
+Command line client required to perform various operations for OpenShift AeroGear extensions.
+link:https://github.com/aerogear/mobile-cli[Mobile CLI] github repository
 
 === Minishift addon 
 
-Alternative way to `mobile-core` installer that will run AeroGear on OpenShift as part of minishift vm. 
+Self contained installer that will run AeroGear on OpenShift as part of minishift vm.
 
-https://github.com/aerogear/minishift-mobilecore-addon
+link:https://github.com/aerogear/minishift-mobilecore-addon[Minishift Mobilecore addon] github repository
 
 === Mobile SDKs
 
 Official list of supported SDK's:
 
-- Android (Java) https://github.com/aerogear/aerogear-android-sdk
-- iOS (Swift) https://github.com/aerogear/aerogear-ios-sdk
-- JavaScript and Cordova SDK https://github.com/aerogear/aerogear-js-sdk
-- Xamarin https://github.com/aerogear/aerogear-xamarin-sdk
+- link:https://github.com/aerogear/aerogear-android-sdk[Android (Java)]
+- link:https://github.com/aerogear/aerogear-ios-sdk[iOS (Swift)]
+- link:https://github.com/aerogear/aerogear-js-sdk[JavaScript and Cordova SDK]
+- link:https://github.com/aerogear/aerogear-xamarin-sdk[Xamarin]
 
 === Mobile end user templates
 
 Templates that contain the most recent versions of the SDK's
 
-- Android https://github.com/feedhenry/mobile-security-android-template
-- IOS https://github.com/feedhenry/mobile-security-ios-template
-- Ionic (Cordova) https://github.com/aerogear/cordova-showcase-template
-- Xamarin https://github.com/aerogear/xamarin-showcase-template
-
+- link:https://github.com/feedhenry/mobile-security-android-template[Android]
+- link:https://github.com/feedhenry/mobile-security-ios-template[IOS]
+- link:https://github.com/aerogear/cordova-showcase-template[Ionic (Cordova)]
+- link:https://github.com/aerogear/xamarin-showcase-template[Xamarin]
 
 === Mobile Services
 
 Mobile services will be installed automatically into ansible broker when running mobile-core installer.
-All Ansible Playbook Bundles (APBs) for Apps & Services are hosted on separate organization:
+All Ansible Playbook Bundles (APBs) for Apps & Services are hosted on separate github organization:
 
 https://github.com/aerogearcatalog
 
