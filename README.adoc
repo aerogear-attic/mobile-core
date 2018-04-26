@@ -52,10 +52,7 @@ Templates that contain the most recent versions of the SDK's
 
 === Mobile Services
 
-Mobile services will be installed automatically into ansible broker when running mobile-core installer.
-All Ansible Playbook Bundles (APBs) for Apps & Services are hosted on separate github organization:
-
-https://github.com/aerogearcatalog
+Mobile Services will automatically be added to the Service Catalog after running the Mobile Core installer. These services can all be found in the form of Ansible Playbook Bundles (APBs) hosted on the link:https://github.com/aerogearcatalog[aerogearcatalog] organisation on Github.
 
 The Mobile Core brings all APB componments together to create a unified
 Mobile developer experience on top of OpenShift.
