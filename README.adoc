@@ -22,6 +22,12 @@ The following components are maintained in their respective repos:
 Command line client required to perform various operations for OpenShift AeroGear extensions
 Link: https://github.com/aerogear/mobile-cli
 
+=== Minishift addon 
+
+Alternative way to `mobile-core` installer that will run AeroGear on OpenShift as part of minishift vm. 
+
+https://github.com/aerogear/minishift-mobilecore-addon
+
 === Mobile SDKs
 
 Official list of supported SDK's:
