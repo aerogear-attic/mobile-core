@@ -17,10 +17,10 @@ This repository contains:
 
 The following components are maintained in their respective repos:
 
-=== Mobile Cli 
+=== Mobile CLI
 
-[Mobile CLI](https://github.com/aerogear/mobile-cli)
 Command line client required to perform various operations for OpenShift AeroGear extensions
+Link: https://github.com/aerogear/mobile-cli
 
 === Mobile SDKs
 
