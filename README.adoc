@@ -4,21 +4,41 @@ Mobile Core
 
 image:https://img.shields.io/:license-Apache2-blue.svg[License, link=http://www.apache.org/licenses/LICENSE-2.0]
 
+AeroGear on OpenShift is an project that enables set of the mobile enabled services that run natively on Open Shift platform.
+This repository is central element of the AeroGear on OpenShift ecosystem that installs Open Shift platforms and all AeroGear related templates (Ansible APB) to local machine. Developers then can use mobile-cli that is designed to work with running Open Shift instance and perform various tasks and one of the available mobile SDK's. For complete list of the repositories see bellow.
 
-The Mobile Core is a central repo for all things related to Mobile on OpenShift.
-This repo has the source for:
+This repository contains:
 
+* Installator for OpenShift and AeroGear OpenShift templates
 * Mobile specific UI extensions fo the OpenShift Web Console
 * Local Development environment
 
+== Related components
+
 The following components are maintained in their respective repos:
 
-* Mobile CLI
-* Mobile SDKs
-* Mobile Services
-* All Ansible Playbook Bundles (APBs) for Apps & Services
+=== Mobile Cli 
 
-The Mobile Core brings all of these componments together to create a unified
+[Mobile CLI](https://github.com/aerogear/mobile-cli)
+Command line client required to perform various operations for OpenShift AeroGear extensions
+
+=== Mobile SDKs
+
+Official list of supported SDK's:
+
+- Android (Java) https://github.com/aerogear/aerogear-android-sdk
+- iOS (Swift) https://github.com/aerogear/aerogear-ios-sdk
+- JavaScript and Cordova SDK https://github.com/aerogear/aerogear-js-sdk
+- Xamarin https://github.com/aerogear/aerogear-xamarin-sdk
+
+=== Mobile Services
+
+Mobile services will be installed automatically into ansible broker when running mobile-core installer.
+All Ansible Playbook Bundles (APBs) for Apps & Services are hosted on separate organization:
+
+https://github.com/aerogearcatalog
+
+The Mobile Core brings all APB componments together to create a unified
 Mobile developer experience on top of OpenShift.
 
 [[contributing]]
@@ -38,38 +58,6 @@ Daily communication happens on the `##aerogear` and `#asbroker` channels on
 link:https://webchat.freenode.net/[freenode IRC]. The
 link:https://groups.google.com/forum/#!forum/aerogear[Aerogear
 Mailing List] is also used for team-wide & community comms.
-
-[[onboarding-resources]]
-Onboarding Resources
-~~~~~~~~~~~~~~~~~~~~
-
-* Mobile SDKs
-** https://github.com/feedhenry/fh-sync-android[Android Sync SDK]
-** https://github.com/feedhenry/fh-sync-js[Cordova/Browser Sync SDK]
-** https://www.aerogear.org/docs/specs/#push[Push SDKs]
-** https://www.npmjs.com/package/keycloak-js[Keycloak JS Adapter]
-* Mobile CLI Resources
-** https://tour.golang.org/welcome/1[Tour of Go]
-* Frontend Resources
-** https://github.com/aerogear/mobile-core/tree/master/ui[UI src]
-** https://docs.angularjs.org/tutorial[AngularJS PhoneCat Tutorial]
-** https://docs.angularjs.org/api[AngularJS API Docs]
-** http://www.patternfly.org/[Patternfly]
-** https://github.com/openshift/origin-web-console[OpenShift Web Console]
-** https://docs.openshift.com/container-platform/3.7/install_config/web_console_customization.html[Customising
-the OpenShift Web Console (Extensions]
-** https://github.com/openshift/origin-web-catalog[Service
-Catalog/OpenShift Mall UI]
-* Catalog/Mall, Brokers & Services
-** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/index.html[Service
-Catalog]
-** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/ansible_service_broker.html[OpenShift Ansible Broker (OAB) & Ansible Playbook Bundles (APB)]
-** https://docs.openshift.com/container-platform/3.7/architecture/service_catalog/template_service_broker.html[Template Service Broker]
-** https://github.com/feedhenry/fh-sync-server[fh-sync-server]
-** https://github.com/feedhenry/fh-sync-server/blob/master/fh-sync-server-DEVELOPMENT.yaml[fh-sync-server
-Template]
-** https://github.com/keycloak/keycloak[Keycloak]
-** https://github.com/aerogearcatalog/keycloak-apb[Keycloak APB]
 
 [[doing-a-development-release]]
 Development Release
