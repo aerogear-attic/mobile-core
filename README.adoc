@@ -14,8 +14,11 @@ This repository contains:
 * Local Development environment
 
 == Getting Started
+=== Installation
 
-link:https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/local-setup.adoc[Mobile installation guide]
+link:https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/local-setup.adoc[Ansible based installer] Sets up mobile on your host machine.
+
+link:https://github.com/aerogear/minishift-mobilecore-addon[Minishift mobile addon] Sets up a minishift vm and installs mobile
 
 == Related components
 
@@ -26,11 +29,6 @@ The following components are maintained in their respective repos:
 Command line client required to perform various operations for OpenShift AeroGear extensions.
 link:https://github.com/aerogear/mobile-cli[Mobile CLI] github repository
 
-=== Minishift addon 
-
-Self contained installer that will run AeroGear on OpenShift as part of minishift vm.
-
-link:https://github.com/aerogear/minishift-mobilecore-addon[Minishift Mobilecore addon] github repository
 
 === Mobile SDKs
 
