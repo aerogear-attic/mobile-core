@@ -199,7 +199,7 @@ Afterwards your APB is ready to be used from the _Service Catalog_.
 
 == Configure OpenShift Ansible Broker to use Dockerhub Regsitry
 
-By default, the installer in this repo configures the OpenShift Ansible Broker to list images in the Service Catalog from OpenShift's local docker registry **and** from the `aerogear` organisation in Dockerhub.
+By default, the installer in this repo configures the OpenShift Ansible Broker to list images in the Service Catalog from OpenShift's local docker registry **and** from the `aerogearcatalog` organisation in Dockerhub.
 
 You can also configure the OpenShift Ansible Broker to list images from your Dockerhub account.
 
