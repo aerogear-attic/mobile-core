@@ -179,6 +179,9 @@ An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob
 You can also link:https://github.com/aerogearcatalog/metrics-apb#how-to-add-a-new-dashboard-while-provisioning-a-service[include a  custom Grafana dashboard] 
 for your service.
 
+=== Issues with Bindable APBs
+There is currently an link:https://github.com/openshift/ansible-service-broker/issues/847[issue] when setting an APB to be bindable without encoding binding fields for ansible service broker during provision. Ensure the provision successfully completes by encoding binding fields during provision when your APB is set to be bindable.
+
 == Building an APB
 
 To build an APB:
