@@ -45,8 +45,8 @@ Official list of supported SDK's:
 
 Templates that contain the most recent versions of the SDK's
 
-- link:https://github.com/feedhenry/mobile-security-android-template[Android]
-- link:https://github.com/feedhenry/mobile-security-ios-template[IOS]
+- link:https://github.com/aerogear/android-showcase-template[Android]
+- link:https://github.com/aerogear/ios-showcase-template[IOS]
 - link:https://github.com/aerogear/cordova-showcase-template[Ionic (Cordova)]
 - link:https://github.com/aerogear/xamarin-showcase-template[Xamarin]
 
