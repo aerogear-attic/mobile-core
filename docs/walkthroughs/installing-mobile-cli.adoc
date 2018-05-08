@@ -1,0 +1,40 @@
+[[install-cli]]
+= Setting up the Mobile CLI
+
+The Mobile CLI allows developers to easily consume the RedHat suite of mobile services on top of OpenShift or Kubernetes from the command line.
+It may be used standalone or as a kubectl or oc plugin.
+
+== Installing the CLI 
+
+A list of releases available for download can be found link:https://github.com/aerogear/mobile-cli/releases[here].
+Download the correct binary for your operating system, untar it and add the `mobile` executable to your path. 
+Type `mobile -h` at the command line to verify that the CLI has been installed correctly.
+
+Alternatively, for a more convenient way to install the Mobile CLI on Mac and Linux, use the `install.sh` script in the link:https://github.com/aerogear/mobile-cli/tree/master/scripts[scripts directory] of the mobile-cli repo:
+```bash
+./install [version]
+```
+If a version is not specified, the script will default to the latest release. 
+
+== Setting up as a kubectl or oc plugin
+* Make sure the link:https://kubernetes.io/docs/tasks/tools/install-kubectl/[kubectl] or link:https://docs.openshift.org/latest/cli_reference/get_started_cli.html#installing-the-cli[oc command line tool] is installed
+* Make sure the Mobile CLI binary has been added to your path
+* Create a new directory for the plugin: 
+```
+mkdir -p ~/.kube/plugins/mobile
+```
+
+* Copy the `cli_plugin.yaml` file from the link:https://github.com/aerogear/mobile-cli/tree/master/scripts[artifacts] folder of the mobile-cli repo into the plugin folder as `plugin.yaml`:
+```bash
+cp ./artifacts/cli_plugin.yaml ~/.kube/plugins/mobile/plugin.yaml
+```
+
+You should now be able to use the mobile CLI as a plugin with `kubectl` or `oc`:
+
+```bash
+kubectl plugin mobile <command>
+oc plugin mobile <command>
+```
+
+== Developing the CLI
+See the link:https://github.com/aerogear/mobile-cli/blob/master/README.md[README] for instructions on how to develop the CLI locally.
