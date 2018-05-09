@@ -54,21 +54,42 @@ Bindings can be created for a provisioned Keycloak service, whether it's a share
 * Select the Keycloak service under the *Provisioned Services* section. This should open up the service's details.
 * Click *Create Binding* under the *Bindings* section. This should bring up the wizard for bind creation.
 * Fill in the parameters:
-- *Service Name or Client ID (required)*: This is the name of the service or of the client the binding is for. This value will be used to create a public client and a bearer-only client for this service in the Keycloak realm.
+- *Mobile client ID or Service Name (required)*: This is the name of the service or of the client the binding is for. This value will be used to create a public client or a bearer-only client for this service in the Keycloak realm.
+- *Keycloak client type (required)*: The type of Keycloak client (xref:client-types[bearer-only or public]) that will be created for the mobile application in the Keycloak realm. 
 * Click Bind
 
 This will start the bind creation for the Keycloak service.
-It creates the realm specified within the Keycloak instance. Within that realm, a bearer client and a public client are created with a
-client id of `<service-name>-bearer` and `<service-name>-public` respectively. 
+It creates the realm specified within the Keycloak instance. Within that realm, a bearer client or a public client is created with a
+client id of `<service-name>-bearer` or `<service-name>-public`, depending on the client type chosen during bind. 
 
 A secret is created with the details of the client created in the Keycloak instance. This can be viewed
-by clicking *View Secret* that is associated with the bind object. A configmap containing details about both clients is also created with the name `keycloak-<service-name>`.
+by clicking *View Secret* that is associated with the bind object.
+
+image:./images/keycloak-binding.png[View secret]
+
+---
+
+[[client-types]]
+=== Keycloak client types
+
+There are two client types that may be created in the Keycloak realm during bind: _public_ or _bearer-only_.
+
+*public*
+
+Public access type is for client-side clients that need to perform a browser login. With a client-side application there is no way to keep a secret safe. Instead it is very important to restrict access by configuring correct redirect URIs for the client.
+
+*bearer-only*
+
+Bearer-only access type means that the application only allows bearer token requests. If this is turned on, this application cannot participate in browser logins.
+
+
 
 [[unbind-keycloak-service]]
 == Unbind
-To unbind another service from the Keycloak service, click *Delete* that is associated with the bind object
-you wish to unbind. A *Mark for Deletion* message will appear beside it which denotes that the unbind process 
+To unbind a service or client from the Keycloak service, click *Delete* next to the binding that represents the association between the service/client. A *Mark for Deletion* message will appear beside it which denotes that the unbind process 
 has started.
+
+image:./images/keycloak-delete-binding.png[Delete binding]
 
 Once the unbind process has finished, the bind object will have been deleted as well as any other resources and clients associated with it.
 
