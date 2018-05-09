@@ -1,0 +1,35 @@
+[[setting-an-external-dmz-url]]
+= Setting an external DMZ URL
+
+== Overview
+
+Often in an enterprise setup, our infrastructure and services sit on internal networks that can not be accessed directly from the outside world. This means that the mobile client we create can only access services we provision by being on the internal network or by using some form of proxy. Most often these proxies live in something known as the DMZ or demilitarized zone. Genrally the DMZ is where all incoming traffic is handled and our services exposed. When talking to a proxy the URLs you use to configure your mobile client application, will be different than those of the services on the internal network. Setting the DMZ url on your mobile client within the OpenShift UI or via the mobile CLI will allow you to get an updated mobile client configuration that uses the external DMZ url instead of the internal service routes.
+
+
+=== Setting the DMZ URL
+
+You can set the DMZ URL on your mobile client definition in the OpenShift UI or directly via the CLI
+
+==== Using the mobile CLI 
+
+`mobile set client <clientID> --patch='{"spec": {"dmzUrl": "www.dmz.com"}}' --namespace=myproject`
+You can also use the mobile CLI as a kubernetes plugin
+
+`oc plugin mobile set client <clientID> -- --patch='{"spec": {"dmzUrl": "www.dmz.com"}}'`
+
+=== Using the UI to set the DMZ URL 
+
+You can set the DMZ URL on an existing mobile client via the OpenShift UI by locating the mobile client you want to set the DMZ URL for in the project overview screen. Then: 
+
+- Clicking the name of this client to open the mobile client details view. 
+
+- At the top right is a drop down button with a set of actions. One of these actions will be `edit`. 
+
+- Click on this option and it will open a YAML editor that will allow you to set the DMZ URL property to a value of your choice and save the mobile client.
+
+
+=== The mobile client config
+
+Once you have set a DMZ URL you will notice the mobile client configuration will change to use this URL for all of your services. It will show in a format of ```https://myexternal.com/mobile/SERVICE_NAME``` this assumes you have set the DMZ URL to ```https://myexternal.com/mobile```
+
+You can now set a rule in your DMZ or proxy to look for ```/mobile/SERVICE_NAME``` and redirect to the internal service.
