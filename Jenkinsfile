@@ -1,3 +1,6 @@
+// https://github.com/feedhenry/fh-pipeline-library
+@Library('fh-pipeline-library') _
+
 @NonCPS
 String sanitizeObjectName(String s) {
     s.replace('_', '-')
@@ -42,23 +45,11 @@ node("mobile-core-install-slave") {
                 }
             }
         }
-        
-        stage ("Integration test") {
-            sh "wget https://jenkins-wendy.ci.feedhenry.org/job/aerogear/job/mobile-cli/job/master/lastSuccessfulBuild/artifact/*zip*/archive.zip"
-            sh "unzip archive.zip"
-            dir("archive/out"){
-                sh "oc whoami"
-                sh "chmod +x *"
-                def wait = 10
-                retry(3) {
-                   sleep wait
-                   wait = wait * 3
-                   sh "./integration.test -test.short -test.v -goldenFiles=`pwd`/integration -prefix=test-${sanitizeObjectName(env.BRANCH_NAME)}-build-$BUILD_NUMBER -namespace=`oc project -q` -executable=`pwd`/mobile"
-                }
-            }
-        }
-    }
-    if(currentBuild.result == 'FAILURE') {
+    }  
+    
+
+    def labels = getPullRequestLabels {}  
+    if(currentBuild.result == 'FAILURE' && labels.contain("leave slave on failure")) {
         stage ("Failure Investigation") {
             timeout(time: 12, unit: 'HOURS') {
                     input "Confirm to end the job and dispose of the slave node."
