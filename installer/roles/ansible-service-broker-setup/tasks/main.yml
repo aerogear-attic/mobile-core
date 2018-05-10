@@ -47,6 +47,11 @@
   no_log: True
 
 - block:
+  - name: Ensure OpenShift Ansible Broker (OAB) template is on host
+    copy:
+      src: ../files/deploy-ansible-service-broker.template.yaml
+      dest: /tmp/
+
   - name: Ensure OpenShift Ansible Broker (OAB) install script is on host
     copy:
       src: ../files/provision-ansible-service-broker.sh

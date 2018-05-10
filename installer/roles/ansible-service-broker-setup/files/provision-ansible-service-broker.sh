@@ -18,8 +18,6 @@ function finish {
 
 trap 'finish' EXIT
 
-readonly TEMPLATE_VERSION="release-1.1"
-readonly TEMPLATE_URL="https://raw.githubusercontent.com/openshift/ansible-service-broker/${TEMPLATE_VERSION}/templates/deploy-ansible-service-broker.template.yaml"
 readonly TEMPLATE_LOCAL="/tmp/deploy-ansible-service-broker.template.yaml"
 readonly TEMPLATE_VARS="-p BROKER_CA_CERT=$(oc get secret -n kube-service-catalog -o go-template='{{ range .items }}{{ if eq .type "kubernetes.io/service-account-token" }}{{ index .data "service-ca.crt" }}{{end}}{{"\n"}}{{end}}' | tail -n 1)"
 
@@ -37,7 +35,8 @@ ETCD_CA_CERT=$(cat /tmp/etcd-cert/cert.pem | base64)
 BROKER_CLIENT_CERT=$(cat /tmp/etcd-cert/MyClient1.pem | base64)
 BROKER_CLIENT_KEY=$(cat /tmp/etcd-cert/MyClient1.key | base64)
 
-curl -s ${TEMPLATE_URL} > "${TEMPLATE_LOCAL}"
+# We are using the template stored in the roles files instead
+# curl -s ${TEMPLATE_URL} > "${TEMPLATE_LOCAL}"
 
 oc process -f "${TEMPLATE_LOCAL}" \
 -n ${ANSIBLE_SERVICE_BROKER_NAMESPACE} \
