@@ -49,7 +49,7 @@ node("mobile-core-install-slave") {
     
 
     def labels = getPullRequestLabels {}  
-    if(currentBuild.result == 'FAILURE' && labels.contain("leave slave on failure")) {
+    if(currentBuild.result == 'FAILURE' && labels.contains("leave slave on failure")) {
         stage ("Failure Investigation") {
             timeout(time: 12, unit: 'HOURS') {
                     input "Confirm to end the job and dispose of the slave node."
