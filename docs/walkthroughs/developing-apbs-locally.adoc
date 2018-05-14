@@ -194,7 +194,7 @@ The value is a JSON string with the structure:
 {"label": "<display-name>", "type": "[string|href]", "value": "<value>"}
 ----
 
-An example of this can be seen in the Keycloak APB, link:https://github.com/aerogearcatalog/keycloak-apb/blob/master/roles/bind-keycloak-apb/tasks/main.yml#L107-L119[here]. These annotations should be link:https://github.com/aerogearcatalog/keycloak-apb/blob/master/roles/unbind-keycloak-apb/tasks/main.yml#L48-L60[removed on unbind]. 
+An example of this can be seen in the Keycloak APB, link:https://github.com/aerogearcatalog/keycloak-apb/blob/4d160fd4724b68994ec0fe2ed7952930b2ef3d9e/roles/bind-keycloak-apb/tasks/main.yml#L107-L119[here]. These annotations should be link:https://github.com/aerogearcatalog/keycloak-apb/blob/4d160fd4724b68994ec0fe2ed7952930b2ef3d9e/roles/unbind-keycloak-apb/tasks/main.yml#L48-L60[removed on unbind]. 
 
 
 === Mobile Metrics Service Integration
@@ -209,7 +209,7 @@ annotations:
   org.aerogear.metrics/plain_endpoint: /my-metrics-endpoint
 ----
 
-An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob/master/roles/provision-keycloak-apb/tasks/provision-keycloak.yml#L67[here].
+An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob/4d160fd4724b68994ec0fe2ed7952930b2ef3d9e/roles/provision-keycloak-apb/tasks/provision-keycloak.yml#L67[here].
 
 
 You can also link:https://github.com/aerogearcatalog/metrics-apb#how-to-add-a-new-dashboard-while-provisioning-a-service[include a  custom Grafana dashboard] 
