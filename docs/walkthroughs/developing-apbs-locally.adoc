@@ -89,7 +89,6 @@ This will:
 When creating an APB for a mobile service, where possible use Kubernetes resources
 (rather than Openshift resources) to ensure compatibility with Openshift and Kubernetes, eg. use a Kubernetes `Deployment` instead of an Openshift `DeploymentConfig`.
 
-
 Only one instance of a service is expected in a namespace. If your service is intended to have more
 than one service instance consideration must be given to the naming of objects.
 
@@ -149,7 +148,21 @@ tags:
 
 This tag is used by the serviceCatalog to group the APB with other mobile services.
 
-Inside of the `apb.yml` file, make sure you use include `serviceName:` in the metadata section, like:
+If your Mobile Service can be bound to a Mobile Client, also include the `mobile-client-enabled` tag inside of the `apb.yml`:
+
+[source,yaml]
+----
+...
+tags: 
+  - mobile-service
+  - mobile-client-enabled
+----
+
+This will make your Mobile Service discoverable for Mobile Client bindings in the OpenShift UI:
+
+image:./images/client-bindings.png[Mobile Client Bindings]
+
+To name the Service, make sure you include `serviceName:` inside of the `apb.yml` file in the metadata section, like:
 
 [source,yaml]
 ----
@@ -160,6 +173,29 @@ metadata:
   serviceName: fh-sync-server
 ...
 ----
+
+=== Bind Annotations
+If your Mobile Service can be bound to a Mobile Client, it is possible to annotate the Mobile Client during the bind step of the APB.
+This allows specific information about the Mobile Service (for example, links to the Service) to be displayed in the UI within the context of the Mobile Client.
+
+image:./images/service-details.png[Mobile Service Details]
+
+The annotation should stick to the following format: 
+
+[source,yaml]
+----
+org.aerogear.binding.<service-instance-name>/<key>: <value>
+----
+
+The value is a JSON string with the structure:
+
+[source,json]
+----
+{"label": "<display-name>", "type": "[string|href]", "value": "<value>"}
+----
+
+An example of this can be seen in the Keycloak APB, link:https://github.com/aerogearcatalog/keycloak-apb/blob/4d160fd4724b68994ec0fe2ed7952930b2ef3d9e/roles/bind-keycloak-apb/tasks/main.yml#L107-L119[here]. These annotations should be link:https://github.com/aerogearcatalog/keycloak-apb/blob/4d160fd4724b68994ec0fe2ed7952930b2ef3d9e/roles/unbind-keycloak-apb/tasks/main.yml#L48-L60[removed on unbind]. 
+
 
 === Mobile Metrics Service Integration
 
@@ -173,7 +209,7 @@ annotations:
   org.aerogear.metrics/plain_endpoint: /my-metrics-endpoint
 ----
 
-An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob/master/roles/provision-keycloak-apb/tasks/provision-keycloak.yml#L67[here].
+An example can be seen link:https://github.com/aerogearcatalog/keycloak-apb/blob/4d160fd4724b68994ec0fe2ed7952930b2ef3d9e/roles/provision-keycloak-apb/tasks/provision-keycloak.yml#L67[here].
 
 
 You can also link:https://github.com/aerogearcatalog/metrics-apb#how-to-add-a-new-dashboard-while-provisioning-a-service[include a  custom Grafana dashboard] 
