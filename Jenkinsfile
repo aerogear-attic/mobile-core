@@ -13,6 +13,10 @@ String sanitizeObjectName(String s) {
         .replaceAll("^-+", "")
 }
 
+stage('Trust') {
+    enforceTrustedApproval('aerogear')
+}
+
 node("mobile-core-install-slave") {
     step([$class: 'WsCleanup'])
 
