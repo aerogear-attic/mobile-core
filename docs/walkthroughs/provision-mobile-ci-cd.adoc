@@ -81,3 +81,5 @@ country=IRL
 storepass=android
 keypass=android
 ```
+
+Please refer to the official documentation for in-depth information about android keystore configuration: https://developer.android.com/studio/publish/app-signing#signing-manually
