@@ -11,8 +11,6 @@ The Mobile CI/CD service depends on the following container images:
 * aerogear/digger-android-slave-image
 * aerogear/digger-android-sdk-image
 
-Aerogear Digger documentation can be found at: https://aerogear.org/digger.
-
 == Provisioning
 
 Select the "Mobile" tab in openshift service catalog and click on "Mobile CI|CD":
