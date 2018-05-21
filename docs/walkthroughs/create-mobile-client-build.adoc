@@ -1,0 +1,67 @@
+[[create-mobile-client-build]]
+= Create a Mobile Client Build
+
+== Overview
+
+This document outlines how to create mobile client builds that utilise the Mobile CI/CD service to create binary artifacts of your mobile applications.
+
+== Supported client types
+
+* Android
+
+== Prerequisites
+
+* Mobile client representation for the appropriate client type.
+* Mobile CI/CD service provisioned and ready within the same namespace.
+
+== Creating a build
+
+You can create a new client build for an existing mobile client via the OpenShift UI by locating the mobile client you want to create a build for in the project overview screen. Then:
+
+* Clicking the name of this client to open the mobile client details view.
+* At the top right is a drop down button with a set of actions. One of these actions will be `Create Build`, this will open a new client build form.
+* Give the new build a unique name
+
+=== Source Configuration
+
+In order to build your application, source configuration needs to be supplied to provide information about where the application source is and how it can be accessed.
+
+* Add Git Repository URL. To provide additional advanced information such as a different git ref (default is master), or Jenkinsfile path (default is the root of the repo), use the advanced options.
+* Add Authentication Type:
+** Public - Use this for public repos that require no authentication.
+** Basic Authentication - Username/password credentials, use this for https/http repo urls that require authentication.
+** SSH Key - SSH Private Key Authentication, use this for ssh repo urls (git@).
+
+When adding credentials to access private repositories (Basic Authentication and SSH Key), a unique name should be supplied.
+
+=== Build Configuration
+
+Add configuration relating to the type of build being created e.g debug or release. The type of information required here will depend on the type of application being built.
+
+==== Android
+
+* Add Build Type:
+** Debug - An Android debug build, no additional information required
+** Release - An Android release build, requires an upload of a password protected PKCS12 file containing a key protected by the same password.
+
+===== Release Build Type
+
+The following additional information is required for an Android Release build:
+
+* Name - a unique name for the android credentials you are adding e.g. my-android-release-cert
+* Android KeyStore - password protected PKCS12 file containing a key protected by the same password
+
+The PKSC12 archive of your android keystore certificate can be generated using the following command:
+
+```
+keytool -importkeystore -srckeystore <your-android-cert.keystore> -destkeystore <your-android-cert>.p12 -deststoretype PKCS12 -srcalias <your-android-cert-alias>
+```
+
+** KeyStore Password - the password for the android keystore and the PKCS12 archive (The password for the archive and the keystore must be the same)
+** KeyStore Alias - The entry name of the private key/certificate chain you want to use to sign your APK(s). This entry must exist in the key store uploaded. If your key store contains only one key entry, which is the most common case, you can leave this field blank.
+
+
+
+
+
+
