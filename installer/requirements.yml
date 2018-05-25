@@ -1,5 +1,5 @@
 - src: andrewrothstein.openshift-origin-client-tools
-  version: v1.0.6
+  version: v1.0.7
   name: openshift-origin-client-tools
 - src: aidenkeating.install-socat
   name: install-socat

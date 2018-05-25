@@ -14,48 +14,11 @@
   - name: Create mobileClient CRD
     shell: "oc create -f /tmp/mobile-client-crd.yaml"
 
+  - name: Create mobile-admin clusterrole
+    shell: "oc create clusterrole mobileclient-admin --verb=create,delete,get,list,patch,update,watch --resource=mobileclients"
+
+  - name: Add mobileclient-admin role to authenticated users
+    shell: "oc adm policy add-cluster-role-to-group mobileclient-admin system:authenticated"
+
   when: "'mobileclients.mobile.k8s.io' not in current_crds.stdout"
 
-- name: Get admin clusterrole
-  shell: "oc get clusterrole admin -o yaml"
-  register: admin_original_content
-
-- block:
-  - name: Create new admin clusterrole file
-    template:
-      src: clusterrole.j2
-      dest: /tmp/clusterrole.yaml
-    vars:
-      original_content: "{{ admin_original_content.stdout | from_yaml | to_nice_yaml (indent=2) }}"
-
-  - name: Remove timestamp from admin
-    lineinfile:
-      path: /tmp/clusterrole.yaml
-      regexp: "creationTimestamp:"
-      state: absent
-
-  - name: Replace admin clusterrole
-    shell: "oc replace -f /tmp/clusterrole.yaml"
-  when: "'mobile.k8s.io' not in admin_original_content.stdout"
-  
-- name: Get edit clusterrole
-  shell: "oc get clusterrole edit -o yaml"
-  register: edit_original_content
-
-- block:
-  - name: Create new edit clusterrole file
-    template:
-      src: clusterrole.j2
-      dest: /tmp/clusterrole.yaml
-    vars:
-      original_content: "{{ edit_original_content.stdout | from_yaml | to_nice_yaml (indent=2) }}"
-
-  - name: Remove timestamp from edit
-    lineinfile:
-      path: /tmp/clusterrole.yaml
-      regexp: "creationTimestamp:"
-      state: absent
-
-  - name: Replace edit clusterrole
-    shell: "oc replace -f /tmp/clusterrole.yaml"
-  when: "'mobile.k8s.io' not in edit_original_content.stdout"
