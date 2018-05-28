@@ -20,7 +20,7 @@
     - name: "Wait for the pod to be ready"
       shell: "oc get pods -n openshift-web-console | grep 'webconsole' | grep -v 'deploy' | grep 'Running'"
       register: result
-      retries: 10
+      retries: 60
       delay: 2
       until: result.rc == 0
 
