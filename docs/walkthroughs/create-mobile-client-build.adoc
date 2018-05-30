@@ -34,6 +34,14 @@ In order to build your application, source configuration needs to be supplied to
 
 When adding credentials to access private repositories (Basic Authentication and SSH Key), a unique name should be supplied.
 
+==== Advanced Options
+
+Selecting the "advanced options" in the source configuration section displays a number of additional options:
+
+* *Git Reference*: Optional branch, tag, or commit to checkout, default is master. This option can be used to select different branches of you application repo for different builds e.g. release vs develop
+* *Jenkins file path*: Optional path to where the Jenkinsfile is located in your application repo, default is the root of the repo.
+
+
 === Build Configuration
 
 Add configuration relating to the type of build being created e.g debug or release. The type of information required here will depend on the type of application being built.
