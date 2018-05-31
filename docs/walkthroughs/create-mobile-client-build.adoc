@@ -25,6 +25,8 @@ You can create a new client build for an existing mobile client via the OpenShif
 * At the top right is a drop down button with a set of actions. One of these actions will be `Create Build`, this will open a new client build form.
 * Give the new build a unique name
 
+image::images/mobile-ci-cd-client-build-0.png[create-build]
+
 ==== Source Configuration
 
 In order to build your application, source configuration needs to be supplied to provide information about where the application source is and how it can be accessed.
@@ -97,6 +99,31 @@ image::images/mobile-ci-cd-client-build-4.png[android-release-build]
 * *Apple Developer Profile Password:* The developer profile password to be used by jenkins when importing the developer profiles private key.
 
 image::images/mobile-ci-cd-client-build-5.png[ios-build]
+
+=== Build Status
+
+==== Mobile Client Overview
+
+You can check your mobile build status by expading a mobile client box:
+
+image::images/mobile-ci-cd-client-build-5.png[ios-build]
+
+
+This box lists the last 5 builds for this client:
+
+image::images/mobile-ci-cd-client-build-6.png[ios-build]
+
+You can either click on one specific build or check all pipeline builds for this mobile client app.
+
+==== Openshift Pipeline
+
+Mobile client builds are just openshift pipeline builds which are listed in `Builds > Pipeline` from the left menu.
+
+Each build step will be displayed (along with the current step status: completed, error or running) based on the defined stages in your Jenkinsfile code:
+
+image::images/mobile-ci-cd-client-build-7.png[ios-build]
+
+You can check the full build log by clicking on "view log" which will redirect you to your Jenkins instance. 
 
 == CLI
 
