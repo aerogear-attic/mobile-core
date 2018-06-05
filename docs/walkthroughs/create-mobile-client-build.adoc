@@ -104,14 +104,14 @@ image::images/mobile-ci-cd-client-build-5.png[ios-build]
 
 ==== Mobile Client Overview
 
-You can check your mobile build status by expading a mobile client box:
+You can check your mobile build status by expanding a mobile client box:
 
-image::images/mobile-ci-cd-client-build-5.png[ios-build]
+image::images/mobile-ci-cd-client-build-5.png[mobile-client-project-overview]
 
 
 This box lists the last 5 builds for this client:
 
-image::images/mobile-ci-cd-client-build-6.png[ios-build]
+image::images/mobile-ci-cd-client-build-6.png[mobile-client-overview]
 
 You can either click on one specific build or check all pipeline builds for this mobile client app.
 
@@ -121,9 +121,25 @@ Mobile client builds are just openshift pipeline builds which are listed in `Bui
 
 Each build step will be displayed (along with the current step status: completed, error or running) based on the defined stages in your Jenkinsfile code:
 
-image::images/mobile-ci-cd-client-build-7.png[ios-build]
+image::images/mobile-ci-cd-client-build-7.png[openshift-pipeline]
 
 You can check the full build log by clicking on "view log" which will redirect you to your Jenkins instance. 
+
+=== Build History
+
+You can see your client's previous builds by going into the `Build` tab of your client's overview page.
+
+image::images/mobile-ci-cd-client-build-history-1.png[mobile-client-build-tab]
+
+The build history for each build can be seen by clicking on `Show build history` under the `Builds` section of the selected build.
+
+image::images/mobile-ci-cd-client-build-history-2.png[mobile-client-build-history-view]
+
+From here, you can view a build's logs, check it's status, duration and when it was created. Each build is linked to the openshift build view with further information. 
+
+The artefact for each successful builds can also be retrieved from here by clicking on the `Download` button associated with the build you wish to download.
+
+image::images/mobile-ci-cd-client-build-history-3.png[mobile-client-build-history-download]
 
 == CLI
 
