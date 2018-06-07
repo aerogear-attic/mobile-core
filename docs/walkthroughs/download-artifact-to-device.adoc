@@ -1,0 +1,63 @@
+[[mobile-client-builds]]
+= Mobile Client Builds
+
+== Open Mobile Client Builds
+To download artifact you need navigate to Overview -> Mobile Clients -> <your-mobile-client>
+
+image::images/mobile-client-overview.png[openshift-overview-tab]
+
+Then go to Builds tab to open mobile client builds
+
+image::images/mobile-client-builds-tab.png[openshift-mobile-client-builds-tab]
+
+== Start Mobile Client Build
+As you see, there are no builds currently available. To trigger a new build, press the [Start Build] button.
+After starting a build you can see a notification that build was started and also
+you can see that build was triggered under the BUILDS section
+
+image::images/mobile-client-builds-trigger-build.png[openshift-mobile-client-builds-trigger-build]
+
+== Download Mobile Client Artifact
+You need to wait until the build is completed and then press [Download] button
+
+image::images/mobile-clients-builds-build-completed.png[openshift-mobile-client-builds-build-completed]
+
+You should see a QR code and can use any QR code scanner applications in Google Play for Android or
+or App Store for iPhone. If you have a QR code scanner installed then you need to scan the code and it should open the download URL you see on screen above.
+
+[[mobile-client-manual-installation]]
+= Manual Artifact Installation
+If you dont have bar code scanner you can also download artifact from URL
+in openshift web console(copy/paste it into your browser)
+or directly download it from Jenkins when you click on [View Log] of build
+
+image::images/mobile-client-builds-jenkins-artifact.png[openshift-mobile-client-builds-jenkins-artifact]
+
+Connect device to your local machine then open XCode and navigate to Window > Devices and Simulators
+
+image::images/mobile-client-builds-xcode-connect.png[openshift-mobile-client-builds-xcode-connect]
+
+Then install your mobile application by pressing [+] button at the bottom, then choose your downloaded IPA file for installation
+
+image::images/mobile-client-builds-xcode-add-app.png[openshift-mobile-client-builds-xcode-add-app]
+
+== Testing Installed Application
+After installation was successful you can open the application on your device. In our case that is simple HelloWorld application
+
+image::images/mobile-client-builds-device-screen.png[openshift-mobile-client-builds-device-screen]
+
+=== Open your Application
+When HelloWorld application is opened you should see [Test] element
+
+image::images/mobile-client-builds-device-app-open.png[openshift-mobile-client-builds-device-app-open]
+
+=== Test Application Logic
+When you press on [Test] element then HelloWorld test should show up under the [Test] element
+
+image::images/mobile-client-builds-device-app-test.png[openshift-mobile-client-builds-device-app-test]
+
+[[mobile-client-builds-android]]
+For Android devices you need to follow exact same steps. For manual installation you might use Android Studio
+to install APK file on your device or AVD.
+
+image::images/mobile-client-builds-android-studio.png[openshift-mobile-client-builds-android-studio]
