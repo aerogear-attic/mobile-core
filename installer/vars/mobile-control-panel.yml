@@ -1,3 +1,13 @@
 ---
 force_oc_link: yes
 wildcard_dns_host: nip.io
+
+oc_ver: v3.9.0
+oc_sha: '191fece'
+
+oc_checksums:
+  v3.9.0:
+    '191fece':
+      linux-64bit: sha256:6ed2fb1579b14b4557e4450a807c97cd1b68a6c727cd1e12deedc5512907222e
+      mac: sha256:32bdd9464866c8e93d8cf4a3a7718b0bc9fa0f2881f045b97997fa014b52a40b
+

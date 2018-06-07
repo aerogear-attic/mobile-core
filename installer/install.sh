@@ -152,20 +152,20 @@ function check_oc() {
     echo "? OpenShift Client tools do not exist on host. They will be installed by the MCP installer."
   else
     check_passed_msg "OpenShift Client Tools"
-    check_version_msg "OpenShift client tools" ">= 3.7"
+    check_version_msg "OpenShift client tools" ">= 3.9"
 
     readonly oc_version=$(oc version | sed -n "1p" | cut -d " " -f2 | cut -d "-" -f1 | cut -d "v" -f2)
-    compare_version ${oc_version} 3.7
+    compare_version ${oc_version} 3.9
 
     oc_version_comparison=${?}; if [[ ${oc_version_comparison} -eq ${VER_LT} ]]; then
-      echo -e "\n? OpenShift Client tools are less than 3.7"
+      echo -e "\n? OpenShift Client tools are less than 3.9"
       read -p "Allow the installer to delete and reinstall the OpenShift client tools? (y/n): " uninstall_client_tools
       if [[ ${uninstall_client_tools} == "y" ]]; then
         echo "Removing oc tool"
         oc_install_dir=$(dirname $(command -v oc))
         rm $(command -v oc)
       else
-        echo -e "${RED}Mobile requires oc >= 3.7${RESET}"
+        echo -e "${RED}Mobile requires oc >= 3.9${RESET}"
         exit 1
       fi
     fi
