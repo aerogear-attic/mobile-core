@@ -1,0 +1,28 @@
+---
+# tasks file for patch-origin-web-console
+
+- name: Login as system admin
+  shell: "oc login -u system:admin"
+
+- name: Get current deployed origin webconsole image
+  shell: "oc get deployment webconsole -n openshift-web-console -o=jsonpath='{.spec.template.spec.containers[?(@.name==\"webconsole\")].image}'"
+  register: current_webconsole_image_output
+
+- set_fact:
+    current_webconsole_image: "{{current_webconsole_image_output.stdout}}"
+
+- name: Deploy origin web console image {{ origin_web_console_image }}
+  block:
+
+    - name: "Patch webconsole deployment"
+      shell: "oc patch deployment webconsole -n openshift-web-console -p '{\"spec\": {\"template\": {\"spec\": {\"containers\": [{\"name\": \"webconsole\", \"image\": \"{{origin_web_console_image}}\"}]}}}}'"
+
+    - name: "Wait for the pod to be ready"
+      shell: "oc get pods -n openshift-web-console | grep 'webconsole' | grep -v 'deploy' | grep 'Running'"
+      register: result
+      retries: 60
+      delay: 2
+      until: result.rc == 0
+
+  when: current_webconsole_image != origin_web_console_image
+

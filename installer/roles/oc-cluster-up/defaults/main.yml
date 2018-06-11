@@ -5,7 +5,7 @@ hawkular_metrics: "false"
 use_existing_config: "false"
 host_config_dir: "{{playbook_dir}}/../ui"
 cluster_image: openshift/origin
-cluster_version: "v3.7.2"
+cluster_version: "v3.9.0"
 cluster_public_ip: "192.168.37.1"
 cluster_public_hostname: "{{ cluster_public_ip }}"
 cluster_local_instance: yes

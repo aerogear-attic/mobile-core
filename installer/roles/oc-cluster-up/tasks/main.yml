@@ -1,10 +1,16 @@
 ---
 
+- set_fact:
+    is_private_ip: "{{ '192.168' in cluster_public_ip }}"
+
+- debug:
+    msg: "is_private_ip {{is_private_ip}}"
+
 - name: Create alias for lo0 (macos)
   shell: ifconfig lo0 alias {{ cluster_public_hostname }}
   become: yes
   changed_when: false
-  when: ansible_os_family == "Darwin"
+  when: ansible_os_family == "Darwin" and is_private_ip|bool
 
 - name: Create alias for lo0 (linux)
   shell: ifconfig lo:0 {{ cluster_public_hostname }} netmask 255.255.255.0 up
@@ -12,7 +18,7 @@
   changed_when: false
   when:
     - cluster_local_instance
-    - ansible_os_family in ["RedHat", "Debian"]
+    - ansible_os_family in ["RedHat", "Debian"] and is_private_ip|bool
 
 - set_fact:
     routing_suffix: "{{ cluster_public_ip }}.{{ wildcard_dns_host }}"
@@ -50,19 +56,7 @@
   - debug: msg="Host config dir is {{ host_config_abs_dir }}"
 
   - set_fact:
-      cluster_up_command: "{{ cluster_up_command }} --host-config-dir={{ host_config_abs_dir }}"
-    when:
-    - host_config_dir is defined
-    - host_config_dir != ''
-
-  - set_fact:
       cluster_up_command: "{{ cluster_up_command }} --host-data-dir={{ host_config_abs_dir }}/openshift-data"
-
-  - set_fact:
-      cluster_up_command: "{{ cluster_up_command }} --host-pv-dir={{ host_config_abs_dir }}/openshift-pvs"
-
-  - set_fact:
-      cluster_up_command: "{{ cluster_up_command }} --host-volumes-dir={{ host_config_abs_dir }}/openshift-volumes"
 
   - set_fact:
       cluster_up_command: "{{ cluster_up_command }} --use-existing-config={{ use_existing_config }}"
