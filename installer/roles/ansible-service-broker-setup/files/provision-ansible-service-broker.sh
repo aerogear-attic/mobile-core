@@ -27,7 +27,7 @@ oc login -u system:admin
 oc new-project ansible-service-broker
 
 # Creating openssl certs to use.
-CERT_DIR="~/.aerogear";
+CERT_DIR="${HOME}/.aerogear";
 if [[ ! -e $CERT_DIR ]]; then
     echo "Generating new self trusted certificate for cluster"
 	mkdir -p $CERT_DIR
