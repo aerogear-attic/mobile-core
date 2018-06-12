@@ -9,6 +9,7 @@ readonly TAG="${5:?"[ERROR]You must provide a tag of service broker to be used."
 readonly PUBLIC_IP="${6:?"[ERROR]You must provide public ip address where service should be binded."}"
 readonly WILDCARD_DNS="${7:?"[ERROR]You must provide wildcard dns to route requests."}"
 readonly ANSIBLE_SERVICE_BROKER_NAMESPACE="${8:?"[ERROR]You must provide namespace where service broker will run."}"
+readonly IMAGE_PULL_POLICY="${9:?"[ERROR]You must provide an image pull policy."}"
 
 echo "starting install of OpenShift Ansible Broker (OAB)"
 
@@ -21,7 +22,7 @@ trap 'finish' EXIT
 readonly TEMPLATE_VERSION="release-1.1"
 readonly TEMPLATE_URL="https://raw.githubusercontent.com/openshift/ansible-service-broker/${TEMPLATE_VERSION}/templates/deploy-ansible-service-broker.template.yaml"
 readonly TEMPLATE_LOCAL="/tmp/deploy-ansible-service-broker.template.yaml"
-readonly TEMPLATE_VARS="-p BROKER_CA_CERT=$(oc get secret -n kube-service-catalog -o go-template='{{ range .items }}{{ if eq .type "kubernetes.io/service-account-token" }}{{ index .data "service-ca.crt" }}{{end}}{{"\n"}}{{end}}' | tail -n 1)"
+readonly TEMPLATE_VARS="-p IMAGE_PULL_POLICY=${IMAGE_PULL_POLICY} -p BROKER_CA_CERT=$(oc get secret -n kube-service-catalog -o go-template='{{ range .items }}{{ if eq .type "kubernetes.io/service-account-token" }}{{ index .data "service-ca.crt" }}{{end}}{{"\n"}}{{end}}' | tail -n 1)"
 
 oc login -u system:admin
 oc new-project ansible-service-broker

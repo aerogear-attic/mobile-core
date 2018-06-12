@@ -7,3 +7,4 @@ launch_apb_on_bind: true
 skip_apb: 
 apb_sync: false
 ansible_service_broker_namespace: ansible-service-broker
+image_pull_policy: Always
