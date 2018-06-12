@@ -27,15 +27,18 @@ oc login -u system:admin
 oc new-project ansible-service-broker
 
 # Creating openssl certs to use.
-mkdir -p /tmp/etcd-cert
-openssl req -nodes -x509 -newkey rsa:4096 -keyout /tmp/etcd-cert/key.pem -out /tmp/etcd-cert/cert.pem -days 365 -subj "/CN=asb-etcd.ansible-service-broker.svc"
-openssl genrsa -out /tmp/etcd-cert/MyClient1.key 2048 \
-&& openssl req -new -key /tmp/etcd-cert/MyClient1.key -out /tmp/etcd-cert/MyClient1.csr -subj "/CN=client" \
-&& openssl x509 -req -in /tmp/etcd-cert/MyClient1.csr -CA /tmp/etcd-cert/cert.pem -CAkey /tmp/etcd-cert/key.pem -CAcreateserial -out /tmp/etcd-cert/MyClient1.pem -days 1024
+CERT_DIR="~/.aerogear";
+if [[ ! -e $CERT_DIR ]]; then
+	mkdir -p $CERT_DIR
+    openssl req -nodes -x509 -newkey rsa:4096 -keyout $CERT_DIR/key.pem -out $CERT_DIR/cert.pem -days 365 -subj "/CN=asb-etcd.ansible-service-broker.svc"
+    openssl genrsa -out $CERT_DIR/MyClient1.key 2048 
+	openssl req -new -key $CERT_DIR/MyClient1.key -out $CERT_DIR/MyClient1.csr -subj "/CN=client" 
+	openssl x509 -req -in $CERT_DIR/MyClient1.csr -CA $CERT_DIR/cert.pem -CAkey $CERT_DIR/key.pem -CAcreateserial -out $CERT_DIR/MyClient1.pem -days 1024
+fi
 
-ETCD_CA_CERT=$(cat /tmp/etcd-cert/cert.pem | base64)
-BROKER_CLIENT_CERT=$(cat /tmp/etcd-cert/MyClient1.pem | base64)
-BROKER_CLIENT_KEY=$(cat /tmp/etcd-cert/MyClient1.key | base64)
+ETCD_CA_CERT=$(cat $CERT_DIR/cert.pem | base64)
+BROKER_CLIENT_CERT=$(cat $CERT_DIR/MyClient1.pem | base64)
+BROKER_CLIENT_KEY=$(cat $CERT_DIR/MyClient1.key | base64)
 
 curl -s ${TEMPLATE_URL} > "${TEMPLATE_LOCAL}"
 
