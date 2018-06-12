@@ -29,6 +29,7 @@ oc new-project ansible-service-broker
 # Creating openssl certs to use.
 CERT_DIR="~/.aerogear";
 if [[ ! -e $CERT_DIR ]]; then
+    echo "Generating new self trusted certificate for cluster"
 	mkdir -p $CERT_DIR
     openssl req -nodes -x509 -newkey rsa:4096 -keyout $CERT_DIR/key.pem -out $CERT_DIR/cert.pem -days 365 -subj "/CN=asb-etcd.ansible-service-broker.svc"
     openssl genrsa -out $CERT_DIR/MyClient1.key 2048 
