@@ -3,57 +3,46 @@
 
 == Overview
 
-This document outlines how to review a build log of a client builds that utilise the Mobile CI/CD service.
+This document outlines how to review a build log of a mobile client build that utilizes the Mobile CI/CD service.
 
 == Prerequisites
 
 * Mobile client representation for the appropriate client type.
 * Mobile CI/CD service provisioned and ready within the same namespace.
-* Mobile CI/CD at least one client build configuration set-up in the namespace
+* At least one client build configuration set-up in the namespace
 
 == Openshift Console
 
 === Accessing a pipeline build 
 
-All of the Mobile Client Builds can be found as pipeline builds in the Openshift Console.
-If you just started a build, you can click the green notification to navigate to the relevant page.
+All of the builds related to your mobile client can be seen in the **Builds** tab of your mobile client. Each build can be expanded to show further information about the build configuration, latest build and build history.
 
-image::images/mobile-ci-cd-access-logs-0.png[access-build-from-notification]
+The latest build, as well as previous builds, has a `View Log` link associated with them to access the logs of that build.
 
-Otherwise, navigate through the menu
-* Expand the side-bar menu through the hamburger icon
-* Hover over `Builds`
-* Click `Pipelines`
+image::images/mobile-ci-cd-access-logs-0.png[access-build-from-notification][align="center"]
 
-image::images/mobile-ci-cd-access-logs-1.png[access-build-from-menu]
-
-There you should be able to find a `View Log` link.
-
-image::images/mobile-ci-cd-access-logs-2.png[pipeline-build]
 
 ==== Logging into Jenkins to access the logs
 
-After you clicked the `View Log` link, you will be redirected to the Jenkins instance that has been running your build.
-You might be prompted to log-in through Openshift, redirected to Openshit login screen and, if this is the first time you are using this account to
-login to Jenkins, asked to authorize information transfer between Openshift and Jenkins to facilitate the login.
+When the `View Log` link is clicked, you will be redirected to the Jenkins instance that has been running your build.
 
-===== Openshift login
+===== Openshift Login
 
-image::images/mobile-ci-cd-access-logs-3.png[jenkins-openshift-login]
+You might be prompted to log-in through Openshift and be redirected to the Openshit login screen to authorize information transfer between Openshift and Jenkins.
 
-image::images/mobile-ci-cd-access-logs-4.png[openshift-login]
+[.text-center]
+image::images/mobile-ci-cd-access-logs-1.png[jenkins-openshift-login]
 
 ===== Authorize access
 
-If you are asked to authorize permissions, you should be asked to approve access for:
-* user:info permission
-* user:authorize-access
+If this is the first time you are using the account to login to Jenkins, you will be asked to approve access for the following permissions:
 
-image::images/mobile-ci-cd-access-logs-5.png[authorize-access]
+* user:info permission
+* user:check-access permission
+
+[.text-center]
+image::images/mobile-ci-cd-access-logs-2.png[authorize-access]
 
 ==== Reviewing the build-log
 
-Now you should have been redirected to Jenkins UI, and see the log of the build. Based on your permissions to the Openshift project,
-you might have access to other Jenkins capabilities, such as inspecting the build configuration or re-running the build with changes in the pipeline script.
-
-image::images/mobile-ci-cd-access-logs-6.png[review-log]
+Once you have been redirected to the Jenkins UI, you should see the log of the build. Based on your permissions to the Openshift project, you might have access to other Jenkins capabilities, such as inspecting the build configuration or re-running the build with changes in the pipeline script.
