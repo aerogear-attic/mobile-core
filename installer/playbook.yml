@@ -19,7 +19,7 @@
 
   - role: create-mobile-client-crd
     tags: [local, local-dev]
-    
+
   - role: ansible-service-broker-setup
     tags: [setup-asb, local, local-dev]
 
@@ -28,6 +28,13 @@
 
   - role: output-oc-cluster-status
     tags: [local, local-dev]
+
+  tasks:
+    - name: Link to documentation for using cluster certs on client
+      debug:
+        msg: >
+          For information on how to enable TLS communication on your device
+          to this cluster see {{ docs_root }}/self-signed-certs.adoc"
 
   vars_files:
   - "vars/mobile-control-panel.yml"
