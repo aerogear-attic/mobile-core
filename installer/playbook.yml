@@ -26,5 +26,8 @@
   - role: patch-origin-web-console
     tags: [setup-mcp, local, local-dev]
 
+  - role: output-oc-cluster-status
+    tags: [local, local-dev]
+
   vars_files:
   - "vars/mobile-control-panel.yml"

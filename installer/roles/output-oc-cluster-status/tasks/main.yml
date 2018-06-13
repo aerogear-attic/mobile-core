@@ -1,0 +1,5 @@
+- name: get status
+  command: oc cluster status
+  register: cluster_status
+
+- debug: msg="{{ cluster_status.stdout_lines }}"
