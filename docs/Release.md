@@ -2,44 +2,98 @@
 
 ## Release of independent apbs
 
-- keycloak https://github.com/aerogearcatalog/keycloak-apb
-- 3scale https://github.com/aerogearcatalog/3scale-apb
-- sync https://github.com/aerogearcatalog/fh-sync-server-apb
-- digger (mobile ci cd) https://github.com/aerogearcatalog/aerogear-digger-apb  
+The APBs use automatic builds in the aerogearcatalog org in Dockerhub.
 
-Run the following command in each of the above repos:
+To create a new build you can create a tag or a release on the repo such as 1.0.0-alpha and this will cause a build to be done of the image from that ref. 
 
-```bash
-make apb_release VERSION=<version> ORIGIN=<remote-origin>
+
+If you want to update a version but keep the same tag you must first delete the existing tag and then recreate it.
+
+To delete a tag use the git command line and run
+
 ```
-This creates a `VERSION` tag in github, and afterwards a build on Dockerhub is triggered to release the image from this `VERSION` tag.
+git push --delete origin <tag>
 
-## MCP Release
+```
+Then recreate the tag at a new ref and a new build will be done. Note this will replace the old image.
 
-For MCP tag as above and run the following commands
 
-```bash
-make image TAG=$(TAG)
-docker push docker.io/aerogear/mobile-core:$(TAG)
+# Release of the mobile core installer
+
+To mark a particular commit as a release. Create a release via the github UI and pick the commit you want to use, this will create a tag at that commit.
+
+# Release of the mobile custom console image.
+Currently we have a custom image for the web console. To create an new image you should do the following:
+
+
+## Creating Custom Console Container
+
+
+```sh
+go get github.com/openshift/origin-web-common
+go get github.com/openshift/origin-web-catalog
+go get github.com/openshift/origin-web-console
+```
+and add the aerogear upstream to each of these repos
+```
+cd $GOPATH/src/github.com/openshift/origin-web-console && git remote add aerogear git@github.com:aerogear/origin-web-console.git
+
+cd $GOPATH/src/github.com/openshift/origin-web-catalog && git remote add aerogear git@github.com:aerogear/origin-web-catalog.git
+
+cd $GOPATH/src/github.com/openshift/origin-web-common && git remote add aerogear git@github.com:aerogear/origin-web-common.git
+
 ```
 
-### MCP included APBs
+Next get the web console server
 
-Next update the main template in ```artifacts/openshift/template.json``` change the IMAGE_TAG parameter
-to match the the TAG you have just created.
-```bash
-# builds the 3 different apbs for mcp (android, cordova, iOS) copying over the main template
-make apbs TAG=$(TAG)
+```
+go get github.com/openshift/origin-web-console-server
 ```
 
-### Tag the sources in Github
+This should install the origin-web-console-server repo at:
 
-The above adds automated commits to your local branch, afterwards go and look for the latest commit, and create a tag and push it to github:
+```sh
+$GOPATH/src/github.com/origin/openshift-web-console-server
+```
 
-```bash
-git rev-parse HEAD
+## Steps
+Based on https://github.com/openshift/origin-web-console#contributing-to-the-primary-repositories
 
-## use that commit hash when creating the tag 
-git tag -a $(TAG) HASH -m "signing tag"
-git push origin $(TAG)
+in the origin-web-common repo run:
+```
+git fetch --all
+git checkout aerogear/aerogear-mcp
+./hack/install-deps.sh
+grunt build
+bower link
+```
+
+in the origin-web-catalog repo run:
+```
+git fetch --all
+git checkout aerogear/aerogear-mcp
+./hack/install-deps.sh
+npm run build
+bower link
+```
+
+in the origin-web-console repo run:
+```
+git fetch --all
+git checkout aerogear/aerogear-mcp
+./hack/clean-deps.sh
+./hack/install-deps.sh
+bower link origin-web-catalog
+bower link origin-web-common
+grunt build
+```
+
+In the origin-web-console-server repo, run:
+```sh
+CONSOLE_REPO_PATH=$GOPATH/src/github.com/openshift/origin-web-console make vendor-console
+#note I had to change constants.sh and set OS_REQUIRED_GO_VERSION=1.10.2
+make clean build
+OS_BUILD_ENV_PRESERVE=_output/local/bin hack/env make build-images
+docker tag openshift/origin-web-console:latest <YOUR_TAG_FOR_THIS_IMAGE>
+docker push <YOUR_TAG_FOR_THIS_IMAGE>
 ```
