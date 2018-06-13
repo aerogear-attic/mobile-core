@@ -25,14 +25,10 @@ To mark a particular commit as a release. Create a release via the github UI and
 # Release of the mobile custom console image.
 Currently we have a custom image for the web console. To create an new image you should do the following:
 
-:org: AeroGear
-//source: https://github.com/aerogear/minishift-mobilecore-addon/blob/master/README.md
+
+## Creating Custom Console Container
 
 
-[[creating-custom-console-container]]
-= Creating Custom Console Container
-
-== Requirements
 ```sh
 go get github.com/openshift/origin-web-common
 go get github.com/openshift/origin-web-catalog
@@ -60,7 +56,9 @@ This should install the origin-web-console-server repo at:
 $GOPATH/src/github.com/origin/openshift-web-console-server
 ```
 
-== Steps
+## Steps
+Based on https://github.com/openshift/origin-web-console#contributing-to-the-primary-repositories
+
 in the origin-web-common repo run:
 ```
 git fetch --all
