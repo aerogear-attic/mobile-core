@@ -1,4 +1,4 @@
 ---
 # defaults file for patch-rigin-web-console
 
-origin_web_console_image: aerogear/origin-web-console:latest
+origin_web_console_image: aerogear/origin-web-console:1.0.0-latest
