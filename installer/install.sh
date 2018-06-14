@@ -211,8 +211,8 @@ function run_installer() {
 
   echo -e "Credentials are valid. Continuing...\n"
 
-  read -p "DockerHub Tag (Defaults to latest): " dockerhub_tag
-  dockerhub_tag=${dockerhub_tag:-"latest"}
+  read -p "DockerHub Tag (Defaults to 1.0.0-alpha): " dockerhub_tag
+  dockerhub_tag=${dockerhub_tag:-"1.0.0-alpha"}
 
   read -p "DockerHub Organisation (Defaults to aerogearcatalog): " dockerhub_org
   dockerhub_org=${dockerhub_org:-"aerogearcatalog"}
