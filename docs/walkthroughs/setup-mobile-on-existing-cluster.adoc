@@ -1,0 +1,98 @@
+== Setup Mobile on your existing OpenShift cluster
+
+This document will outline the prerequisites and steps required to try out
+the OpenShift mobile services and mobile client integrations on an existing cluster.
+
+
+=== Pre Requisites 
+
+- Your cluster should be running OpenShift 3.9 or greater
+- The https://github.com/kubernetes-incubator/service-catalog[Service Catalog] should be installed on your cluster
+- The https://github.com/openshift/ansible-service-broker[Automation Broker] should be installed on your cluster
+- You should have cluster admin access to your cluster
+- Some familiarity with OpenShift
+
+
+
+=== Set Up
+
+Assuming you have met the prerequisites you can take the following steps
+to install and set up the mobile pieces in your OpenShift installation.
+
+All commands were done using the oc tool v3.9.0
+
+
+==== Install the mobile client CRD
+
+Login as the cluster admin. Run the following oc commands.
+
+```
+oc create -f https://raw.githubusercontent.com/aerogear/mobile-cli/master/artifacts/mobileclient_crd.yaml
+oc create clusterrole mobileclient-admin --verb=create,delete,get,list,patch,update,watch --resource=mobileclients
+oc adm policy add-cluster-role-to-group mobileclient-admin system:authenticated
+```
+
+
+==== Configure the Automation Broker
+
+We need to change the broker's config to point to the aerogearcatalog org, we need to set the tag and we also need to change the default sandbox role
+
+The easiest way to do this is via the oc edit command.
+
+You need to know the namespace the broker is installed to. Normally it will be either:
+
+- ansible-service-broker
+- automation-broker
+
+```
+oc edit configmap broker-config -n <broker-ns>
+
+```
+
+You can add a new registery under the registry list with the following details :
+
+```
+- type: dockerhub
+        name: dh
+        url: https://registry.hub.docker.com
+        org: aerogearcatalog
+        tag: 1.0.0
+        white_list:
+          - '.*-apb$'
+```          
+
+
+Or change the existing registry definition. This will remove the existing services and replace them with only the mobile ones.
+
+Change the ```org``` value under the dockerhub registry key to be ```aerogearcatalog```
+
+Change the ```tag``` value under the dockerhub registry to be the release you want to try (IE 1.0.0)
+
+Change the ```sandbox_role``` value under the openshift section to be ```admin```
+
+
+To pick up on these changes rollout the broker
+
+```
+oc rollout latest <broker-deployment-config> -n <broker-ns>
+
+```
+
+Cause the catalog to refresh:
+
+```
+oc get clusterservicebroker ansible-service-broker -o=json > broker.json
+oc delete clusterservicebroker ansible-service-broker
+oc create -f broker.json
+```
+
+==== Change the web console image
+
+To see the mobile UI views in the origin web console, you will need to update the web console image with the aerogear image using the tag you want to try out example :1.0.0. Replace ```THE_TAG``` in the below command with the release you want to try. 
+
+```
+oc patch deployment webconsole -n openshift-web-console -p '{"spec": {"template": {"spec": {"containers": [{"name": "webconsole", "image": "aerogear/origin-web-console:THE_TAG"}]}}}}'
+
+```
+
+Once the image is deployed. You should now be able to see the ```mobile``` category in the catalog. From here you can create a mobile client that will show up under your project. You can also see the existing mobile services that can be provisioned and bound to using your mobile client.
