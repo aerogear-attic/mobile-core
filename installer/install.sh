@@ -10,15 +10,6 @@ readonly VER_EQ=0
 readonly VER_GT=1
 readonly VER_LT=2
 
-function banner() {
-echo '  __  __  ____ ____'
-echo ' |  \/  |/ ___|  _ \'
-echo ' | |\/| | |   | |_) |'
-echo ' | |  | | |___|  __/'
-echo ' |_|  |_|\____|_|'
-echo ''
-}
-
 oc_install_dir="/usr/local/bin"
 oc_version_comparison=${VER_LT}
 
@@ -90,16 +81,6 @@ function check_docker() {
     exit 1
   fi
   check_passed_msg "Docker"
-}
-
-function check_npm() {
-  check_exists_msg "NPM"
-  command -v npm &>/dev/null
-  npm_exists=${?}; if [[ ${npm_exists} -ne 0 ]]; then
-    does_not_exist_msg "NPM" "https://nodejs.org/en/download/"
-    exit 1
-  fi
-  check_passed_msg "NPM"
 }
 
 function check_python() {
@@ -256,7 +237,6 @@ function run_installer() {
 
 banner
 check_docker
-check_npm
 check_python
 check_ansible
 check_oc
