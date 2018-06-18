@@ -77,7 +77,15 @@ Add configuration relating to the type of build being created e.g debug or relea
 
 ===== Release Build Type
 
-The following additional information is required for an Android Release build:
+As a release build will need to be signed, you need to specify the keystore and private key passwords.
+
+===== Keystore located in source code
+If your keystore is checked into your source code, you will need to take the password value in your build script as an environmental variable. This will allow
+you to set this environmental variable as part of your client build from within the OpenShift UI. This can be done directly when creating the mobile client build or afterwards by editing the build config.
+
+===== External keystore
+If you have an external keystore, you should ensure to select the checkbox to use an external keystore once this is done, you
+will be asked for the following additional information:
 
 * *Name:* A unique name for the android credentials you are adding e.g. my-android-release-cert
 * *Android KeyStore:* Password protected PKCS12 file containing a key protected by the same password
