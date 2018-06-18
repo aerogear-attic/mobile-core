@@ -198,9 +198,19 @@ function run_installer() {
   read -p "DockerHub Organisation (Defaults to aerogearcatalog): " dockerhub_org
   dockerhub_org=${dockerhub_org:-"aerogearcatalog"}
 
-  read -p "Cluster IP (Defaults to 192.168.37.1): " cluster_ip
+  read -r -p "Use public IP yes/no? (Defaults to no): " response
+  case "$response" in
+    [yY][eE][sS]|[yY])
+      use_public_ip="yes"
+    ;;
+    *)
+      use_public_ip="no"
+    ;;
+  esac
+
+  read -p "Cluster IP local/public (Defaults to local: 192.168.37.1): " cluster_ip
   cluster_ip=${cluster_ip:-"192.168.37.1"}
-  
+
   read -p "Wildcard DNS Host (Defaults to nip.io): " wildcard_dns_host
   wildcard_dns_host=${wildcard_dns_host:-"nip.io"}
 
@@ -221,6 +231,7 @@ function run_installer() {
     -e "dockerhub_password=${dockerhub_password}" \
     -e "dockerhub_tag=${dockerhub_tag}" \
     -e "dockerhub_org=${dockerhub_org}" \
+    -e "'{cluster_local_instance: ${use_public_ip}}'" \
     -e "cluster_public_ip=${cluster_ip}" \
     -e "wildcard_dns_host=${wildcard_dns_host}"
   else
@@ -229,6 +240,7 @@ function run_installer() {
     -e "dockerhub_password=${dockerhub_password}" \
     -e "dockerhub_tag=${dockerhub_tag}" \
     -e "dockerhub_org=${dockerhub_org}" \
+    -e "'{cluster_local_instance: ${use_public_ip}}'" \
     -e "cluster_public_ip=${cluster_ip}" \
     -e "wildcard_dns_host=${wildcard_dns_host}" \
     -e "oc_install_parent_dir=${oc_install_dir}"
