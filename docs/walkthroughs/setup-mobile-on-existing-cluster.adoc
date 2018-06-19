@@ -70,6 +70,7 @@ Change the ```tag``` value under the dockerhub registry to be the release you wa
 
 Change the ```sandbox_role``` value under the openshift section to be ```admin```
 
+Change the ```launch_apb_on_bind``` value under the broker section to ```true```
 
 To pick up on these changes rollout the broker
 
