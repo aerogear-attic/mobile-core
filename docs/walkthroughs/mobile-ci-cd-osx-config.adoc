@@ -26,6 +26,9 @@ Required jenkins plugins (already installed by mobile ci|cd service):
 
 * xcode-plugin
 * ssh-agent plugin
+* cocoapods
+
+NOTE: It is recommended to run `pod setup` before running any ios builds if running cocoapods for the first time otherwise your first ios build might take a while.
 
 == Jenkins OSX Node
 
@@ -53,3 +56,28 @@ You can now save your node config and click on "re-launch node" (this may take a
 You should now see your osx node in your node list:
 
 image::images/mobile-ci-cd-osx-config-5.png[jenkins node list]
+
+=== Environment Variables
+
+
+You will need to set some environment variables in your osx Jenkins node config to make sure that the ssh agent will be able to use all the available mac node tools (you can get the value of those env vars by runnning `env` into your external mac node):
+
+* BASH (usually `/bin/bash`)
+* PATH
+* LANG (usually `en_US.UTF-8)
+* LC_ALL (usually `en_US.UTF-8) 
+* CI (required by cordova, needs to be set to `Y`)
+
+If using NVM:
+
+* NVM_DIR
+* NVM_BIN
+
+If using RVM:
+
+* rvm_bin_path
+* GEM_HOME
+* MY_RUBY_HOME
+* rvm_path
+* rvm_prefix
+* GEM_PATH
