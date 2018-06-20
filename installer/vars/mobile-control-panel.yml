@@ -1,3 +1,4 @@
 ---
 force_oc_link: yes
 wildcard_dns_host: nip.io
+docs_root: https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs
