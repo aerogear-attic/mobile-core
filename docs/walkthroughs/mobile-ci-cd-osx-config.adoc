@@ -26,6 +26,9 @@ Required jenkins plugins (already installed by mobile ci|cd service):
 
 * xcode-plugin
 * ssh-agent plugin
+* cocoapods
+
+NOTE: It is recommended to run `pod setup` before running any ios builds if running cocoapods for the first time otherwise your first ios build might take a while.
 
 == Jenkins OSX Node
 
