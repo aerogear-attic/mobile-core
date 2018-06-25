@@ -13,12 +13,6 @@ readonly IMAGE_PULL_POLICY="${9:?"[ERROR]You must provide an image pull policy."
 
 echo "starting install of OpenShift Ansible Broker (OAB)"
 
-function finish {
-  echo "unexpected exit of OpenShift Ansible Broker (OAB) installation script"
-}
-
-trap 'finish' EXIT
-
 readonly TEMPLATE_VERSION="release-1.1"
 readonly TEMPLATE_URL="https://raw.githubusercontent.com/openshift/ansible-service-broker/${TEMPLATE_VERSION}/templates/deploy-ansible-service-broker.template.yaml"
 readonly TEMPLATE_LOCAL="/tmp/deploy-ansible-service-broker.template.yaml"
@@ -67,5 +61,5 @@ ${TEMPLATE_VARS} | oc create -f -
 
 if [ "${?}" -ne 0 ]; then
 	echo "Error processing template and creating deployment"
-	exit
+	exit 1
 fi
