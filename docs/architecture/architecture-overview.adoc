@@ -90,7 +90,7 @@ All of the functionality available via the UI will be available from the CLI. Th
 
 There is a separate repo for the Mobile CLI. Setup and usage guides are available https://github.com/aerogear/mobile-cli[here].
 
- Note; currently the Mobile CLI is not installed during MC startup, but the intention is to add it to the installation process in the future.
+NOTE: Currently the Mobile CLI is not installed during MC startup, but the intention is to add it to the installation process in the future.
 
 Once installed, there is no live/running MC process/server. There is no openshift pod for MC. Once MC is installed and configured its functionality is available throughout all Openshift projects/namespaces.
 
