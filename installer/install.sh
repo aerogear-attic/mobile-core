@@ -235,7 +235,6 @@ function run_installer() {
   fi
 }
 
-banner
 check_docker
 check_python
 check_ansible
