@@ -13,6 +13,8 @@
 
 - name: Deploy origin web console image {{ origin_web_console_image }}
   block:
+    - name: Set imagePullPolicy to Always
+      shell: "oc patch deployment webconsole -n openshift-web-console -p '{\"spec\": {\"template\": {\"spec\": {\"containers\": [{\"name\": \"webconsole\", \"imagePullPolicy\": \"Always\"}]}}}}'"
 
     - name: "Patch webconsole deployment"
       shell: "oc patch deployment webconsole -n openshift-web-console -p '{\"spec\": {\"template\": {\"spec\": {\"containers\": [{\"name\": \"webconsole\", \"image\": \"{{origin_web_console_image}}\"}]}}}}'"
