@@ -208,8 +208,10 @@ function run_installer() {
     ;;
   esac
 
-  read -p "Cluster IP local/public (Defaults to local: 192.168.37.1): " cluster_ip
-  cluster_ip=${cluster_ip:-"192.168.37.1"}
+  #pull the network interface from the default route, and get the IP of that interface for the default IP
+  ipDefault=$(ifconfig $(netstat -nr | awk '{if (($1 == "0.0.0.0" || $1 == "default") && $2 != "0.0.0.0" && $2 ~ /[0-9\.]+{4}/){print $NF;} }' | head -n1) | grep 'inet ' | awk '{print $2}')
+  read -p "Cluster IP local/public (Defaults to local:${ipDefault}): " cluster_ip
+  cluster_ip=${cluster_ip:-${ipDefault}}
 
   read -p "Wildcard DNS Host (Defaults to nip.io): " wildcard_dns_host
   wildcard_dns_host=${wildcard_dns_host:-"nip.io"}
