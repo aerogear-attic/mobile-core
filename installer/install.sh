@@ -198,16 +198,6 @@ function run_installer() {
   read -p "DockerHub Organisation (Defaults to aerogearcatalog): " dockerhub_org
   dockerhub_org=${dockerhub_org:-"aerogearcatalog"}
 
-  read -r -p "Use public IP yes/no? (Defaults to no): " response
-  case "$response" in
-    [yY][eE][sS]|[yY])
-      use_public_ip="yes"
-    ;;
-    *)
-      use_public_ip="no"
-    ;;
-  esac
-
   #pull the network interface from the default route, and get the IP of that interface for the default IP
   ipDefault=$(ifconfig $(netstat -nr | awk '{if (($1 == "0.0.0.0" || $1 == "default") && $2 != "0.0.0.0" && $2 ~ /[0-9\.]+{4}/){print $NF;} }' | head -n1) | grep 'inet ' | awk '{print $2}')
   read -p "Cluster IP local/public (Defaults to local:${ipDefault}): " cluster_ip
@@ -233,7 +223,6 @@ function run_installer() {
     -e "dockerhub_password=${dockerhub_password}" \
     -e "dockerhub_tag=${dockerhub_tag}" \
     -e "dockerhub_org=${dockerhub_org}" \
-    -e "'{cluster_local_instance: ${use_public_ip}}'" \
     -e "cluster_public_ip=${cluster_ip}" \
     -e "wildcard_dns_host=${wildcard_dns_host}"
   else
@@ -242,7 +231,6 @@ function run_installer() {
     -e "dockerhub_password=${dockerhub_password}" \
     -e "dockerhub_tag=${dockerhub_tag}" \
     -e "dockerhub_org=${dockerhub_org}" \
-    -e "'{cluster_local_instance: ${use_public_ip}}'" \
     -e "cluster_public_ip=${cluster_ip}" \
     -e "wildcard_dns_host=${wildcard_dns_host}" \
     -e "oc_install_parent_dir=${oc_install_dir}"
