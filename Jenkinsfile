@@ -17,7 +17,7 @@ stage('Trust') {
     enforceTrustedApproval('aerogear')
 }
 
-node("mobile-core-install-slave") {
+node("mobile-core-test") {
     step([$class: 'WsCleanup'])
 
     stage("Checkout") {
@@ -45,20 +45,10 @@ node("mobile-core-install-slave") {
                     def args = "-e dockerhub_username=${DOCKER_USERNAME} -e dockerhub_password=${DOCKER_PASSWORD}"
                     args += " -e cluster_public_hostname=${PUBLIC_HOSTNAME} -e cluster_public_ip=${PUBLIC_IP}"
                     args += " -e '{cluster_local_instance: no}'"
-                    sh "ansible-playbook installer/playbook.yml ${args} --skip-tags install-oc"
+                    sh "ansible-playbook installer/playbook.yml ${args} --skip-tags install-oc --verbose"
                 }
             }
         }
     }  
-    
-
-    def labels = getPullRequestLabels {}  
-    if(currentBuild.result == 'FAILURE' && labels.contains("leave slave on failure")) {
-        stage ("Failure Investigation") {
-            timeout(time: 12, unit: 'HOURS') {
-                    input "Confirm to end the job and dispose of the slave node."
-            }
-        }
-    }
 }
 
