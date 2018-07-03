@@ -1,5 +1,6 @@
-- src: aidenkeating.openshift_origin_client_tools
+- src: aerogear.ansible_openshift_origin_client_tools
   name: openshift-origin-client-tools
   version: v1.0.3
-- src: aidenkeating.install-socat
+- src: aerogear.install_socat
   name: install-socat
+  version: v1.0.0
