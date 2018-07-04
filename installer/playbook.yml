@@ -34,7 +34,7 @@
       debug:
         msg: >
           For information on how to enable TLS communication on your device
-          to this cluster see {{ docs_root }}/self-signed-certs.adoc"
+          to this cluster see {{ docs_root }}/latest/getting-started.html#using-self-signed-certificates-in-mobile-apps"
 
   vars_files:
   - "vars/mobile-control-panel.yml"
