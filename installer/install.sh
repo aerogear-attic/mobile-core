@@ -135,7 +135,7 @@ function check_oc() {
     check_passed_msg "OpenShift Client Tools"
     check_version_msg "OpenShift client tools" ">= 3.9"
 
-    readonly oc_version=$(oc version | sed -n "1p" | cut -d " " -f2 | cut -d "-" -f1 | cut -d "v" -f2)
+    readonly oc_version=$(oc version | sed -n "1p" | cut -d " " -f2 | cut -d "-" -f1 | cut -d "v" -f2 | cut -f1 -d'+')
     compare_version ${oc_version} 3.9
 
     oc_version_comparison=${?}; if [[ ${oc_version_comparison} -eq ${VER_LT} ]]; then
