@@ -1,0 +1,10 @@
+---
+
+- name: Setup OpenShift cluster with the Mobile Core
+  hosts: localhost
+  roles:
+  - role: provision-mobile-catalog
+    tags: provision
+
+  vars_files:
+  - "vars/mobile-control-panel.yml"

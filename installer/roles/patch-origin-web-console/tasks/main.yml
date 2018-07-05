@@ -1,8 +1,15 @@
 ---
 # tasks file for patch-origin-web-console
+- name: Get current user
+  shell: "oc whoami"
+  register: "oc_whoami_output"
+
+- set_fact:
+    current_user: "{{oc_whoami_output.stdout}}"
 
 - name: Login as system admin
   shell: "oc login -u system:admin"
+  when: current_user != "system:admin"
 
 - name: Get current deployed origin webconsole image
   shell: "oc get deployment webconsole -n openshift-web-console -o=jsonpath='{.spec.template.spec.containers[?(@.name==\"webconsole\")].image}'"

@@ -1,0 +1,44 @@
+---
+
+# tasks for provision mobile catalog on an existing openshift cluster
+# NOTE: Ansible Service Broker should be already provisoned in this cluster
+- name: Get current user
+  shell: "oc whoami"
+  register: "oc_whoami_output"
+
+- set_fact:
+    current_user: "{{oc_whoami_output.stdout}}"
+
+- name: Login as system admin
+  shell: "oc login -u system:admin"
+  when: current_user != "system:admin"
+
+- import_role:
+    name: create-mobile-client-crd
+
+- name: Copy broker config file
+  copy:
+      src: ../files/broker-config.yaml
+      dest: /tmp/broker-config.yaml
+
+# TODO: ideally we want to parse the broker config to add the new registry and update the config, but for now we keep it simple
+- name: Update ansible service broker config
+  shell: |
+    oc delete configmap broker-config -n {{ansible_service_broker_namespace}}
+    oc create configmap broker-config --from-file=broker-config=/tmp/broker-config.yaml -n {{ansible_service_broker_namespace}}
+
+- name: Rollout ansible service broker
+  shell: oc rollout latest asb -n  {{ansible_service_broker_namespace}}
+
+- name: Refresh Catalog
+  shell: |
+    oc get clusterservicebroker ansible-service-broker -o=json > /tmp/broker.json
+    oc delete clusterservicebroker ansible-service-broker
+    sleep 10
+    oc create -f /tmp/broker.json
+
+- import_role:
+    name: patch-origin-web-console
+  
+
+  
