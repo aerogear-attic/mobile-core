@@ -108,17 +108,17 @@ function check_ansible() {
 
   command -v ansible &>/dev/null
   ansible_exists=${?}; if [[ ${ansible_exists} -ne 0 ]]; then
-    does_not_exist_msg "Ansible" "pip install ansible>=2.3"
+    does_not_exist_msg "Ansible" "pip install ansible>=2.6"
     exit 1
   fi
   check_passed_msg "Ansible"
 
   readonly ansible_version=$(ansible --version | sed -n '1p' | cut -d " " -f2)
 
-  check_version_msg "Ansible" ">= 2.3"
-  compare_version ${ansible_version} 2.3
+  check_version_msg "Ansible" ">= 2.6"
+  compare_version ${ansible_version} 2.6
   ansible_version_comparison=${?}; if [[ ${ansible_version_comparison} -eq ${VER_LT} ]]; then
-    echo -e "${RED}Ansible version is < 2.3. Install ansible>=2.3 using pip install ansible>=2.3${RESET}"
+    echo -e "${RED}Ansible version is < 2.6. Install ansible>=2.6 using pip install ansible>=2.6${RESET}"
     exit 1
   fi
   check_passed_msg "Ansible"

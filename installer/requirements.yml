@@ -1,6 +1,6 @@
-- src: aerogear.ansible_openshift_origin_client_tools
+- src: andrewrothstein.openshift-origin-client-tools
+  version: v1.0.7
   name: openshift-origin-client-tools
-  version: v1.0.3
 - src: aerogear.install_socat
   name: install-socat
   version: v1.0.0
