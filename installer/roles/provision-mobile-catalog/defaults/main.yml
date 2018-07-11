@@ -1,3 +1,2 @@
 ---
-# ansible_service_broker_namespace: openshift-ansible-service-broker
 ansible_service_broker_namespace: ansible-service-broker
