@@ -16,26 +16,64 @@
 - import_role:
     name: create-mobile-client-crd
 
-- name: Copy broker config file
-  copy:
-      src: ../files/broker-config.yaml
-      dest: /tmp/broker-config.yaml
-
 # TODO: ideally we want to parse the broker config to add the new registry and update the config, but for now we keep it simple
-- name: Update ansible service broker config
-  shell: |
-    oc delete configmap broker-config -n {{ansible_service_broker_namespace}}
-    oc create configmap broker-config --from-file=broker-config=/tmp/broker-config.yaml -n {{ansible_service_broker_namespace}}
+- name: update config map
+  block:
+    - name: oc get configmap broker-config
+      shell: oc get configmap broker-config -n {{ansible_service_broker_namespace}} -o yaml > /tmp/broker-config.yaml
 
-- name: Rollout ansible service broker
-  shell: oc rollout latest asb -n  {{ansible_service_broker_namespace}}
+    - name: Add aerogear docker registry
+      blockinfile:
+        path: /tmp/broker-config.yaml
+        insertafter: 'registry:'
+        marker: "      # Aerogear registry added by ansible installer"
+        block: |2
+                - type: dockerhub
+                  name: dh
+                  url: https://registry.hub.docker.com
+                  org: aerogearcatalog
+                  tag: 1.0.0
+                  white_list: [.*-apb\$]
+    - name: Change openshift.sandbox_role
+      lineinfile:
+        path: /tmp/broker-config.yaml
+        regexp: "sandbox_role"
+        line: "\t\t\tsandbox_role: \"admin\""
+        backrefs: yes
+
+    - name: Change broker.launch_apb_on_bind
+      lineinfile:
+        path: /tmp/broker-config.yaml
+        regexp: "launch_apb_on_bind"
+        line: "\t\t\tlaunch_apb_on_bind: true"
+        backrefs: yes
+
+    - name: Update ansible service broker config 
+      shell: |
+        oc delete configmap broker-config -n {{ansible_service_broker_namespace}}
+        oc create configmap broker-config --from-file=broker-config=/tmp/broker-config.yaml -n {{ansible_service_broker_namespace}}
+
+
+- name: Rollout latest ansible service broker
+  shell: oc rollout latest asb -n {{ansible_service_broker_namespace}}
+  register: result
+  until: result.stdout.find("deploymentconfig \"asb\" rolled out") != -1
+  retries: 60
+  delay: 5
 
 - name: Refresh Catalog
-  shell: |
-    oc get clusterservicebroker ansible-service-broker -o=json > /tmp/broker.json
-    oc delete clusterservicebroker ansible-service-broker
-    sleep 10
-    oc create -f /tmp/broker.json
+  block: 
+    - name: save current ansible-service-broker to a file
+      shell: oc get clusterservicebroker ansible-service-broker -o=json > /tmp/broker.json
+    - name: delete current ansible-service-broker
+      shell: oc delete clusterservicebroker ansible-service-broker
+
+    - name: create new clusterservicebroker to cause refresh
+      shell: oc create -f /tmp/broker.json
+      register: result
+      until: result.stdout.find("clusterservicebroker \"ansible-service-broker\" created") != -1
+      retries: 60
+      delay: 5
 
 - import_role:
     name: patch-origin-web-console
