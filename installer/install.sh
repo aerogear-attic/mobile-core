@@ -58,7 +58,7 @@ function check_passed_msg() {
 }
 
 function check_docker() {
-  check_exists_msg "Docker" 
+  check_exists_msg "Docker"
   command -v docker &>/dev/null
   docker_exists=${?}; if [[ ${docker_exists} -ne 0 ]]; then
     does_not_exist_msg "Docker" "https://www.docker.com/get-docker"
@@ -88,7 +88,7 @@ function check_python() {
 
   command -v python &>/dev/null
   python_exists=${?}; if [[ ${python_exists} -ne 0 ]]; then
-    does_not_exist_msg "Python" "pip install ansible>=2.3"
+    does_not_exist_msg "Python" "https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python"
   fi
   check_passed_msg "Python"
 
