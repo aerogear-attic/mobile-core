@@ -3,6 +3,8 @@
 - name: Setup OpenShift cluster with the Mobile Core
   hosts: localhost
   roles:
+  - role: ansible-service-broker-setup
+    tags: update-broker 
   - role: provision-mobile-catalog
     tags: provision
 
