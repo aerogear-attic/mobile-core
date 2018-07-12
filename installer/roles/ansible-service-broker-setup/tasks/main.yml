@@ -80,14 +80,17 @@
   until: oc_cluster_status.rc == 0
   poll: 5
   retries: 30
+  when: check_oc_cluster_status
 
 - name: Get oc cluster status
   shell: oc cluster status
   register: oc_cluster_status
   changed_when: false
+  when: check_oc_cluster_status
 
 - debug:
     msg: "{{ oc_cluster_status.stdout_lines }}"
+  when: check_oc_cluster_status
 
 - block:
   - debug:
@@ -97,4 +100,4 @@
       - If it's not, run export PATH={{ oc_install_parent_dir }}:$PATH, to persist this PATH do
       - echo 'export PATH={{ oc_install_parent_dir }}:$PATH' >> ~/.bash_profile
   when:
-  - oc_install_parent_dir is defined
+  - check_oc_cluster_status and oc_install_parent_dir is defined
