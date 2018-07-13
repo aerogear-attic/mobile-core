@@ -58,7 +58,7 @@ function check_passed_msg() {
 }
 
 function check_docker() {
-  check_exists_msg "Docker" 
+  check_exists_msg "Docker"
   command -v docker &>/dev/null
   docker_exists=${?}; if [[ ${docker_exists} -ne 0 ]]; then
     does_not_exist_msg "Docker" "https://www.docker.com/get-docker"
@@ -161,6 +161,28 @@ function read_oc_install_dir() {
   export PATH="${oc_install_dir}:${PATH}"
 }
 
+###############################################################
+# Function to read Wildcard DNS Host Input                    #
+###############################################################
+function read_wildcard_dns_host() {
+  while :
+    do
+      read -p "Wildcard DNS Host (Defaults to nip.io): " wildcard_dns_host
+      wildcard_dns_host=${wildcard_dns_host:-"nip.io"}
+      if [[ $wildcard_dns_host == *.* ]]; then
+        echo "Your Wildcard DNS Host is: ${wildcard_dns_host}."
+        break
+      else
+        echo -e  "${RED}The value ${wildcard_dns_host} is an invalid Wildcard DNS Host.${RESET}"
+        echo -e  "${RED}Please try again.${RESET}"
+        continue
+      fi
+  done
+}
+
+###############################################################
+# Run all scripts to install after the checks                 #
+###############################################################
 function run_installer() {
   echo -e "\nThe Mobile installer requires valid DockerHub credentials
   to communicate with the DockerHub API. If you enter invalid credentials or then
@@ -203,8 +225,7 @@ function run_installer() {
   read -p "Cluster IP (Defaults to ${ipDefault}): " cluster_ip
   cluster_ip=${cluster_ip:-${ipDefault}}
 
-  read -p "Wildcard DNS Host (Defaults to nip.io): " wildcard_dns_host
-  wildcard_dns_host=${wildcard_dns_host:-"nip.io"}
+  read_wildcard_dns_host
 
   echo "Performing clean and running the installer. You will be asked for your password."
 
