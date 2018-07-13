@@ -1,17 +1,23 @@
 ---
-
 # tasks for provision mobile catalog on an existing openshift cluster
 # NOTE: Ansible Service Broker should be already provisoned in this cluster
-- name: Get current user
-  shell: "oc whoami"
-  register: "oc_whoami_output"
+- name: Log in as argumented user
+  shell: "oc login -u {{u}} -p {{p}}"
+  when: u is defined and p is defined
 
-- set_fact:
-    current_user: "{{oc_whoami_output.stdout}}"
+- name: login with current user is no argumented
+  when: u is not defined
+  block:
+    - name: Get current user
+      shell: "oc whoami"
+      register: "oc_whoami"
 
-- name: Login as system admin
-  shell: "oc login -u system:admin"
-  when: current_user != "system:admin"
+    - set_fact:
+        current_user: "{{oc_whoami.stdout}}"
+
+    - name: Login as system admin
+      shell: "oc login -u system:admin"
+      when: current_user != "system:admin"
 
 - import_role:
     name: create-mobile-client-crd

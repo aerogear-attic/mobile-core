@@ -18,6 +18,7 @@ This repository contains:
 Mobile on OpenShift can be installed using Ansible based installer or Minishift
 
 link:https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/local-setup.adoc[Ansible based installer] Sets up mobile on your host machine.
+link:https://github.com/aerogear/mobile-core/blob/master/docs/walkthroughs/existing-oc-setup.adoc[Ansible based installer for existing OpenShift machine] Sets up mobile on your existing OpenShift machine.
 
 link:https://github.com/aerogear/minishift-mobilecore-addon[Minishift mobile addon] Sets up a minishift vm and installs mobile
 
