@@ -123,8 +123,8 @@ function check_ansible() {
   check_version_msg "Ansible" ">= ${MIN_ANSIBLE_VERSION}"
   compare_version ${ansible_version} ${MIN_ANSIBLE_VERSION}
   ansible_version_comparison=${?}; if [[ ${ansible_version_comparison} -eq ${VER_LT} ]]; then
-    echo -e "${RED}Ansible version is < ${MIN_ANSIBLE_VERSION}. Install ansible >= ${MIN_ANSIBLE_VERSION} using pip install ansible>=${MIN_ANSIBLE_VERSION}${RESET}"
-    exit 1
+   echo -e "${RED}Ansible version installed is < ${MIN_ANSIBLE_VERSION}. To fix it install an ansible version >= ${MIN_ANSIBLE_VERSION} using 'pip install ansible --upgrade' or 'pip install ansible --upgrade --user' ${RESET}"
+   exit 1
   fi
   check_passed_msg "Ansible"
 }
