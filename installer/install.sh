@@ -13,6 +13,11 @@ readonly VER_LT=2
 oc_install_dir="/usr/local/bin"
 oc_version_comparison=${VER_LT}
 
+#Minimal version requirements
+readonly MIN_PYTHON_VERSION=2.7
+readonly MIN_ANSIBLE_VERSION=2.6
+readonly MIN_OCP_CLIENT_TOOL=3.9
+
 # Returns:
 # 0 - =
 # 1 - >
@@ -94,10 +99,10 @@ function check_python() {
 
   readonly python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
 
-  check_version_msg "Python" ">= 2.7"
-  compare_version ${python_version} 2.7
+  check_version_msg "Python" ">= ${MIN_PYTHON_VERSION}"
+  compare_version ${python_version} ${MIN_PYTHON_VERSION}
   python_version_comparison=${?}; if [[ ${python_version_comparison} -eq ${VER_LT} ]]; then
-    echo -e "${RED}Python is < 2.7. Update to >= 2.7.${RESET}"
+    echo -e "${RED}Python is < ${MIN_PYTHON_VERSION}. Update the python version to >= ${MIN_PYTHON_VERSION}.${RESET}"
     exit 1
   fi
   check_passed_msg "Python"
@@ -108,17 +113,17 @@ function check_ansible() {
 
   command -v ansible &>/dev/null
   ansible_exists=${?}; if [[ ${ansible_exists} -ne 0 ]]; then
-    does_not_exist_msg "Ansible" "pip install ansible>=2.6"
+    does_not_exist_msg "Ansible" "pip install ansible"
     exit 1
   fi
   check_passed_msg "Ansible"
 
   readonly ansible_version=$(ansible --version | sed -n '1p' | cut -d " " -f2)
 
-  check_version_msg "Ansible" ">= 2.6"
-  compare_version ${ansible_version} 2.6
+  check_version_msg "Ansible" ">= ${MIN_ANSIBLE_VERSION}"
+  compare_version ${ansible_version} ${MIN_ANSIBLE_VERSION}
   ansible_version_comparison=${?}; if [[ ${ansible_version_comparison} -eq ${VER_LT} ]]; then
-    echo -e "${RED}Ansible version is < 2.6. Install ansible>=2.6 using pip install ansible>=2.6${RESET}"
+    echo -e "${RED}Ansible version is < ${MIN_ANSIBLE_VERSION}. Install ansible >= ${MIN_ANSIBLE_VERSION} using pip install ansible>=${MIN_ANSIBLE_VERSION}${RESET}"
     exit 1
   fi
   check_passed_msg "Ansible"
@@ -133,20 +138,20 @@ function check_oc() {
     echo "? OpenShift Client tools do not exist on host. They will be installed by the MCP installer."
   else
     check_passed_msg "OpenShift Client Tools"
-    check_version_msg "OpenShift client tools" ">= 3.9"
+    check_version_msg "OpenShift client tools" ">= ${MIN_OCP_CLIENT_TOOL}"
 
     readonly oc_version=$(oc version | sed -n "1p" | cut -d " " -f2 | cut -d "-" -f1 | cut -d "v" -f2 | cut -f1 -d'+')
-    compare_version ${oc_version} 3.9
+    compare_version ${oc_version} ${MIN_OCP_CLIENT_TOOL}
 
     oc_version_comparison=${?}; if [[ ${oc_version_comparison} -eq ${VER_LT} ]]; then
-      echo -e "\n? OpenShift Client tools are less than 3.9"
+      echo -e "\n? OpenShift Client tools are less than ${MIN_OCP_CLIENT_TOOL}"
       read -p "Allow the installer to delete and reinstall the OpenShift client tools? (y/n): " uninstall_client_tools
       if [[ ${uninstall_client_tools} == "y" ]]; then
         echo "Removing oc tool"
         oc_install_dir=$(dirname $(command -v oc))
         rm $(command -v oc)
       else
-        echo -e "${RED}Mobile requires oc >= 3.9${RESET}"
+        echo -e "${RED}Mobile requires oc >= ${MIN_OCP_CLIENT_TOOL}${RESET}"
         exit 1
       fi
     fi
