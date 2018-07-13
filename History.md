@@ -1,3 +1,7 @@
+## Unreleased
+  * [installer] - Fix message when python is not installed  
+
+## Released
 
 0.0.6 / 2017-11-02
 ==================
