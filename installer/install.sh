@@ -1,5 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+#####################################################################
+# Global definitions                                                #
+#####################################################################
 readonly SCRIPT_PATH=$(dirname $0)
 readonly SCRIPT_ABSOLUTE_PATH=$(cd $SCRIPT_PATH && pwd)
 
@@ -13,11 +16,16 @@ readonly VER_LT=2
 oc_install_dir="/usr/local/bin"
 oc_version_comparison=${VER_LT}
 
-#Minimal version requirements
+#####################################################################
+# Minimal version requirements                                      #
+#####################################################################
 readonly MIN_PYTHON_VERSION=2.7
 readonly MIN_ANSIBLE_VERSION=2.6
 readonly MIN_OCP_CLIENT_TOOL=3.9
 
+#####################################################################
+# Utils functions                                                   #
+#####################################################################
 # Returns:
 # 0 - =
 # 1 - >
@@ -62,6 +70,11 @@ function check_passed_msg() {
   echo "✓ ${1} check passed."
 }
 
+#####################################################################
+# Functions called in the installation process                       #
+#####################################################################
+
+# To check if docker is installed and its min version
 function check_docker() {
   check_exists_msg "Docker"
   command -v docker &>/dev/null
@@ -88,6 +101,7 @@ function check_docker() {
   check_passed_msg "Docker"
 }
 
+# To check if python is installed and its min version
 function check_python() {
   check_exists_msg "Python"
 
@@ -108,6 +122,7 @@ function check_python() {
   check_passed_msg "Python"
 }
 
+# To check if ansible tool is installed and its min version
 function check_ansible() {
   check_exists_msg "Ansible"
 
@@ -129,6 +144,7 @@ function check_ansible() {
   check_passed_msg "Ansible"
 }
 
+# To check if OpenShift client tool (oc) is installed and its min version
 function check_oc() {
   # OPENSHIFT CLIENT TOOLS
   check_exists_msg "OpenShift client tools"
@@ -157,8 +173,17 @@ function check_oc() {
     fi
     check_passed_msg "OpenShift Client Tools"
   fi
+  check_to_install_oc
 }
 
+# To check if the current version requires another oc tool version
+function check_to_install_oc() {
+  if [[ ${oc_version_comparison} -eq ${VER_LT} ]]; then
+    read_oc_install_dir
+  fi
+}
+
+# To read the dir to install the correct version of OpenShift client tool
 function read_oc_install_dir() {
   read -p "Where do you want to install oc? (Defaults to ${oc_install_dir}): " user_oc_install_dir
   oc_install_dir=${user_oc_install_dir:-${oc_install_dir}}
@@ -166,9 +191,7 @@ function read_oc_install_dir() {
   export PATH="${oc_install_dir}:${PATH}"
 }
 
-###############################################################
-# Function to read Wildcard DNS Host Input                    #
-###############################################################
+# To read Wildcard DNS Host Input
 function read_wildcard_dns_host() {
   while :
     do
@@ -185,10 +208,8 @@ function read_wildcard_dns_host() {
   done
 }
 
-###############################################################
-# Run all scripts to install after the checks                 #
-###############################################################
-function run_installer() {
+# To read and check docker credentials
+function read_docker_hub_credentials() {
   echo -e "\nThe Mobile installer requires valid DockerHub credentials
   to communicate with the DockerHub API. If you enter invalid credentials or then
   Mobile Services will not be available in the Service Catalog.\n"
@@ -214,24 +235,37 @@ function run_installer() {
       echo -e "${RED}Invalid Docker credentials. Please re-enter${RESET}"
       docker_credentials=0
     fi
-
   done
+  check_passed_msg "Docker Credentials"
+}
 
-  echo -e "Credentials are valid. Continuing...\n"
-
+# Function to read docker hub tag
+function read_docker_hub_tag() {
   read -p "DockerHub Tag (Defaults to latest): " dockerhub_tag
   dockerhub_tag=${dockerhub_tag:-"latest"}
+}
 
+# To read docker hub tag
+function read_docker_hub_organization() {
   read -p "DockerHub Organisation (Defaults to aerogearcatalog): " dockerhub_org
   dockerhub_org=${dockerhub_org:-"aerogearcatalog"}
+}
 
-  #pull the network interface from the default route, and get the IP of that interface for the default IP
+# To get the default Cluster IP
+# Pull the network interface from the default route, and get the IP of that interface for the default IP
+function get_defult_cluster_ip() {
   ipDefault=$(ifconfig $(netstat -nr | awk '{if (($1 == "0.0.0.0" || $1 == "default") && $2 != "0.0.0.0" && $2 ~ /[0-9\.]+{4}/){print $NF;} }' | head -n1) | grep 'inet ' | awk '{print $2}')
+}
+
+# To read Cluster IP
+function read_cluster_ip() {
+  get_defult_cluster_ip
   read -p "Cluster IP (Defaults to ${ipDefault}): " cluster_ip
   cluster_ip=${cluster_ip:-${ipDefault}}
+}
 
-  read_wildcard_dns_host
-
+# To execute ansible task
+function run_ansible_tasks() {
   echo "Performing clean and running the installer. You will be asked for your password."
 
   cd ${SCRIPT_ABSOLUTE_PATH}
@@ -263,11 +297,22 @@ function run_installer() {
   fi
 }
 
+# Run all scripts to install after the checks
+function run_installer() {
+  read_docker_hub_credentials
+  read_docker_hub_tag
+  read_docker_hub_organization
+  read_cluster_ip
+  read_wildcard_dns_host
+  run_ansible_tasks
+}
+
+#####################################################################
+# Execution/Installation process                                    #
+#####################################################################
+
 check_docker
 check_python
 check_ansible
 check_oc
-if [[ ${oc_version_comparison} -eq ${VER_LT} ]]; then
-  read_oc_install_dir
-fi
 run_installer
