@@ -210,6 +210,10 @@ function read_wildcard_dns_host() {
 
 # To read and check docker credentials
 function read_docker_hub_credentials() {
+  echo -e "\nThe Mobile installer requires valid DockerHub credentials
+  to communicate with the DockerHub API. If you enter invalid credentials or then
+  Mobile Services will not be available in the Service Catalog.\n"
+
   docker_credentials=0
   while [ $docker_credentials -eq 0 ];
   do
@@ -295,10 +299,6 @@ function run_ansible_tasks() {
 
 # Run all scripts to install after the checks
 function run_installer() {
-  echo -e "\nThe Mobile installer requires valid DockerHub credentials
-  to communicate with the DockerHub API. If you enter invalid credentials or then
-  Mobile Services will not be available in the Service Catalog.\n"
-
   read_docker_hub_credentials
   read_docker_hub_tag
   read_docker_hub_organization
