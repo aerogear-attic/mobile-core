@@ -19,6 +19,26 @@ oc_install_dir="/usr/local/bin"
 oc_version_comparison=${VER_LT}
 
 #####################################################################
+# Default values definitions                                                #
+#####################################################################
+readonly DEFAULT_WILDCARD_DNS_HOST="nip.io"
+readonly DEFAULT_DOCKERHUB_TAG="latest"
+readonly DEFAULT_DOCKERHUB_ORG="aerogearcatalog"
+DEFAULT_CLUSTER_IP=""
+
+# Docker values came from env variables ( export ENV=VALUE )
+## Default hidden pwd
+## Show the last 2 digits only
+
+if [ $DOCKERHUB_PASSWORD ]; then
+  last_digits_pwd=$(echo $DOCKERHUB_PASSWORD | tail -c 3)
+  hidden_pwd="**************"$last_digits_pwd
+  readonly DEFAULT_DOCKERHUB_PASSWORD=$hidden_pwd
+fi
+readonly DEFAULT_DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
+
+
+#####################################################################
 # Minimal version requirements                                      #
 #####################################################################
 readonly MIN_PYTHON_VERSION=2.7
@@ -112,6 +132,13 @@ function check_passed_msg() {
 
 function info_msg() {
   echo -e "${CYAN} INFO: ${1} ${RESET}"
+}
+## Read inputs and show default values
+## ${1} : Desc input
+## ${2} : Default value
+## ${3} : read var
+function read_with_default_values() {
+  read -p "${1}: ${CYAN} (${2}) ${RESET}" ${3}
 }
 
 #####################################################################
@@ -229,7 +256,7 @@ function check_to_install_oc() {
 
 # To read the dir to install the correct version of OpenShift client tool
 function read_oc_install_dir() {
-  read -p "Where do you want to install oc? (Defaults to ${oc_install_dir}): " user_oc_install_dir
+  read_with_default_values "Where do you want to install oc?" ${oc_install_dir} user_oc_install_dir
   oc_install_dir=${user_oc_install_dir:-${oc_install_dir}}
   echo "Updating PATH to include specified directory"
   export PATH="${oc_install_dir}:${PATH}"
@@ -239,8 +266,8 @@ function read_oc_install_dir() {
 function read_wildcard_dns_host() {
   while :
     do
-      read -p "Wildcard DNS Host (Defaults to nip.io): " wildcard_dns_host
-      wildcard_dns_host=${wildcard_dns_host:-"nip.io"}
+      read_with_default_values "Wildcard DNS Host" ${DEFAULT_WILDCARD_DNS_HOST} wildcard_dns_host
+      wildcard_dns_host=${wildcard_dns_host:-${DEFAULT_WILDCARD_DNS_HOST}}
       if [[ $wildcard_dns_host == *.* ]]; then
         echo "Your Wildcard DNS Host is: ${wildcard_dns_host}."
         break
@@ -280,9 +307,9 @@ function read_docker_hub_credentials() {
   while [ $docker_credentials -eq 0 ];
   do
     docker_credentials=1
-    read -p "DockerHub Username (Defaults to DOCKERHUB_USERNAME env var): " dockerhub_username
+    read_with_default_values "DockerHub Username" ${DEFAULT_DOCKERHUB_USERNAME:-""} dockerhub_username
     stty -echo
-    read -p "DockerHub Password (Defaults to DOCKERHUB_PASSWORD env var): " dockerhub_password
+    read_with_default_values "DockerHub Password" ${DEFAULT_DOCKERHUB_PASSWORD:-""} dockerhub_password
     stty echo
 
     ## If empty use global system variables
@@ -303,27 +330,27 @@ function read_docker_hub_credentials() {
 
 # Function to read docker hub tag
 function read_docker_hub_tag() {
-  read -p "DockerHub Tag (Defaults to latest): " dockerhub_tag
-  dockerhub_tag=${dockerhub_tag:-"latest"}
+  read_with_default_values "DockerHub Tag" ${DEFAULT_DOCKERHUB_TAG} dockerhub_tag
+  dockerhub_tag=${dockerhub_tag:-${DEFAULT_DOCKERHUB_TAG}}
 }
 
 # To read docker hub tag
 function read_docker_hub_organization() {
-  read -p "DockerHub Organisation (Defaults to aerogearcatalog): " dockerhub_org
-  dockerhub_org=${dockerhub_org:-"aerogearcatalog"}
+  read_with_default_values "DockerHub Organisation" ${DEFAULT_DOCKERHUB_ORG} dockerhub_org
+  dockerhub_org=${dockerhub_org:-${DEFAULT_DOCKERHUB_ORG}}
 }
 
 # To get the default Cluster IP
 # Pull the network interface from the default route, and get the IP of that interface for the default IP
 function get_defult_cluster_ip() {
-  ipDefault=$(ifconfig $(netstat -nr | awk '{if (($1 == "0.0.0.0" || $1 == "default") && $2 != "0.0.0.0" && $2 ~ /[0-9\.]+{4}/){print $NF;} }' | head -n1) | grep 'inet ' | awk '{print $2}')
+  DEFAULT_CLUSTER_IP=$(ifconfig $(netstat -nr | awk '{if (($1 == "0.0.0.0" || $1 == "default") && $2 != "0.0.0.0" && $2 ~ /[0-9\.]+{4}/){print $NF;} }' | head -n1) | grep 'inet ' | awk '{print $2}')
 }
 
 # To read Cluster IP
 function read_cluster_ip() {
   get_defult_cluster_ip
-  read -p "Cluster IP (Defaults to ${ipDefault}): " cluster_ip
-  cluster_ip=${cluster_ip:-${ipDefault}}
+  read_with_default_values "Cluster IP" ${DEFAULT_CLUSTER_IP} cluster_ip
+  cluster_ip=${cluster_ip:-${DEFAULT_CLUSTER_IP}}
 }
 
 # To execute ansible task
