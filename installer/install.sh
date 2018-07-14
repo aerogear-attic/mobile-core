@@ -269,7 +269,7 @@ function read_wildcard_dns_host() {
       read_with_default_values "Wildcard DNS Host" ${DEFAULT_WILDCARD_DNS_HOST} wildcard_dns_host
       wildcard_dns_host=${wildcard_dns_host:-${DEFAULT_WILDCARD_DNS_HOST}}
       if [[ $wildcard_dns_host == *.* ]]; then
-        echo "Your Wildcard DNS Host is: ${wildcard_dns_host}."
+        check_passed_msg "Wildcard DNS Host"
         break
       else
         echo -e  "${RED} The value ${wildcard_dns_host} is an invalid Wildcard DNS Host. ${RESET}"
