@@ -236,7 +236,7 @@ function read_docker_hub_credentials() {
       docker_credentials=0
     fi
   done
-  echo -e "Credentials are valid. Continuing...\n"
+  check_passed_msg "Docker Credentials"
 }
 
 # Function to read docker hub tag
