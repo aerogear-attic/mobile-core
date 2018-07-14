@@ -8,6 +8,8 @@ readonly SCRIPT_ABSOLUTE_PATH=$(cd $SCRIPT_PATH && pwd)
 
 readonly RED=$(tput setaf 1)
 readonly RESET=$(tput sgr0)
+readonly GREEN=$(tput setaf 2)
+readonly CYAN=$(tput setaf 6)
 
 readonly VER_EQ=0
 readonly VER_GT=1
@@ -54,8 +56,8 @@ function compare_version () {
 }
 
 function does_not_exist_msg() {
-  echo -e "${RED}${1} does not exist on host machine."
-  echo -e "It can be installed using ${2}.${RESET}"
+  echo -e "${RED} ${1} does not exist on host machine. ${RESET}"
+  echo -e "${RED} It can be installed using ${2}. ${RESET}"
 }
 
 function check_exists_msg() {
@@ -67,7 +69,11 @@ function check_version_msg() {
 }
 
 function check_passed_msg() {
-  echo "✓ ${1} check passed."
+  echo "✓ ${GREEN} ${1} check passed. ${RESET}"
+}
+
+function info_msg() {
+  echo -e "${CYAN} INFO: ${1} ${RESET}"
 }
 
 #####################################################################
@@ -90,7 +96,7 @@ function check_docker() {
     echo -e "${RED}Docker is not running.${RESET}"
     exit 1
   fi
-  check_passed_msg "Docker"
+  check_passed_msg "Docker running"
 
   check_version_msg "Docker" "using Stable channel"
   docker_version=$(docker version --format '{{json .Client.Version}}')
@@ -98,7 +104,7 @@ function check_docker() {
     echo "${RED}Docker versions from the Edge channel are currently not supported. Switch to a release from the Stable channel${RESET}"
     exit 1
   fi
-  check_passed_msg "Docker"
+  check_passed_msg "Docker version"
 }
 
 # To check if python is installed and its min version
@@ -119,7 +125,7 @@ function check_python() {
     echo -e "${RED}Python is < ${MIN_PYTHON_VERSION}. Update the python version to >= ${MIN_PYTHON_VERSION}.${RESET}"
     exit 1
   fi
-  check_passed_msg "Python"
+  check_passed_msg "Python version"
 }
 
 # To check if ansible tool is installed and its min version
@@ -141,7 +147,7 @@ function check_ansible() {
    echo -e "${RED}Ansible version installed is < ${MIN_ANSIBLE_VERSION}. To fix it install an ansible version >= ${MIN_ANSIBLE_VERSION} using 'pip install ansible --upgrade' or 'pip install ansible --upgrade --user' ${RESET}"
    exit 1
   fi
-  check_passed_msg "Ansible"
+  check_passed_msg "Ansible version"
 }
 
 # To check if OpenShift client tool (oc) is installed and its min version
@@ -171,7 +177,7 @@ function check_oc() {
         exit 1
       fi
     fi
-    check_passed_msg "OpenShift Client Tools"
+    check_passed_msg "OpenShift Client Tools version"
   fi
   check_to_install_oc
 }
@@ -201,8 +207,8 @@ function read_wildcard_dns_host() {
         echo "Your Wildcard DNS Host is: ${wildcard_dns_host}."
         break
       else
-        echo -e  "${RED}The value ${wildcard_dns_host} is an invalid Wildcard DNS Host.${RESET}"
-        echo -e  "${RED}Please try again.${RESET}"
+        echo -e  "${RED} The value ${wildcard_dns_host} is an invalid Wildcard DNS Host. ${RESET}"
+        echo -e  "${RED} Please try again. ${RESET}"
         continue
       fi
   done
@@ -210,9 +216,8 @@ function read_wildcard_dns_host() {
 
 # To read and check docker credentials
 function read_docker_hub_credentials() {
-  echo -e "\nThe Mobile installer requires valid DockerHub credentials
-  to communicate with the DockerHub API. If you enter invalid credentials or then
-  Mobile Services will not be available in the Service Catalog.\n"
+  info_msg "The Mobile installer requires valid DockerHub credentials to communicate with the DockerHub API."
+  info_msg "If you enter with an invalid credentials then Mobile Services will not be available in the Service Catalog."
 
   docker_credentials=0
   while [ $docker_credentials -eq 0 ];
@@ -272,7 +277,7 @@ function run_ansible_tasks() {
   cd .. && make clean &>/dev/null
 
   set -e
-  echo "Installing roles to ${SCRIPT_ABSOLUTE_PATH}/roles"
+  echo "Installing roles from ${SCRIPT_ABSOLUTE_PATH}/roles"
   ansible-galaxy install -r ./installer/requirements.yml --roles-path="${SCRIPT_ABSOLUTE_PATH}/roles" --force
   set +e
 
