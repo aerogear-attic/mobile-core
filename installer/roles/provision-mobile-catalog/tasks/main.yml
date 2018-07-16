@@ -19,6 +19,22 @@
       shell: "oc login -u system:admin"
       when: current_user != "system:admin"
 
+- name: Check OpenShift version
+  shell: oc version | grep -E "{{ openshift_version_regex }}"
+  register: version_check
+  failed_when: version_check.rc == 2
+
+- name: Check OpenShift version
+  when: version_check.rc == 1
+  block:
+    - name: get current Openshift version
+      shell: oc version | grep "openshift"
+      register: curent_version
+    - name: End play if wrong OpenShift version
+      debug:
+        msg: "Wrong version of Openshift: {{curent_version.stdout}}"
+    - meta: end_play
+  
 - import_role:
     name: create-mobile-client-crd
 
