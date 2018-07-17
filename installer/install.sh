@@ -32,6 +32,40 @@ readonly MIN_OCP_CLIENT_TOOL=3.9
 # 0 - =
 # 1 - >
 # 2 - <
+
+function spinner() {
+  case $1 in
+    start)
+      let column=$(tput cols)-${#2}-8
+      echo -ne ${2}
+      printf "%${column}s"
+      local i sp n
+      sp='/-\|'
+      n=${#sp}
+      while sleep 0.1; do
+        printf "%s\b" "${sp:i++%n:1}"
+      done
+      ;;
+    stop)
+      if [[ -z ${3} ]]; then
+        exit 1
+      fi
+      echo -e "\n"
+      kill $3 > /dev/null 2>&1
+    esac
+}
+
+function spinnerStart {
+  spinner "start" "${1}" &
+  pid=$!
+  disown
+}
+
+function spinnerStop {
+  spinner "stop" $1 $pid
+  unset pid
+}
+
 function compare_version () {
   if [[ $1 == $2 ]]; then
     return 0
@@ -62,6 +96,10 @@ function does_not_exist_msg() {
 
 function check_exists_msg() {
   echo -e "\nChecking ${1} exists"
+}
+
+function check_msg() {
+  echo -e "\nChecking ${1}"
 }
 
 function check_version_msg() {
@@ -214,6 +252,25 @@ function read_wildcard_dns_host() {
   done
 }
 
+# To avoid known issues when the cluster need to started
+function check_oc_cluster_up() {
+  check_msg "Openshift cluster"
+  spinnerStart 'Running oc cluster up ...'
+  command oc cluster up &>/dev/null
+  cluster_running=${?};
+  spinnerStop $?
+  if [[ ${cluster_running} -ne 0 ]]; then
+    (command oc cluster up 2>&1 | grep 'Error: OpenShift is already running') &>/dev/null
+    if [[ ${?} -ne 0 ]];  then # if it is already running the check passed
+      command oc cluster up # to show output
+      echo -e "${RED}Error to run 'oc cluster up'. ${RESET}"
+      echo -e "${RED}See https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#getting-started. ${RESET}"
+      exit 1
+    fi
+  fi
+  check_passed_msg "Openshift cluster"
+}
+
 # To read and check docker credentials
 function read_docker_hub_credentials() {
   info_msg "The Mobile installer requires valid DockerHub credentials to communicate with the DockerHub API."
@@ -320,4 +377,5 @@ check_docker
 check_python
 check_ansible
 check_oc
+check_oc_cluster_up
 run_installer
