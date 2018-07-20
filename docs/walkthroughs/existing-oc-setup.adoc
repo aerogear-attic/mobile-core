@@ -1,0 +1,16 @@
+= Installing Mobile components onto OpenShift cluster
+SSH into your OpenShift cluster
+run:
+```bash
+git clone https://github.com/aerogear/mobile-core.git
+ansible-playbook installer/rhpds-playbook.yml
+```
+this will use default "openshift-ansible-service-broker" namespace and currently logged in user.
+You can pass in parameters:
+u - oc username
+p - password for the user
+ansible_service_broker_namespace - ansible service broker namespace
+
+```bash
+ansible-playbook installer/aerogear-catalog-install.yml -e "u=developer p=pwd ansible_service_broker_namespace=ansible-service-broker"
+```

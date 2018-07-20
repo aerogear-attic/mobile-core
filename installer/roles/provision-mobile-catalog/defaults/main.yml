@@ -1,0 +1,4 @@
+---
+ansible_service_broker_namespace: openshift-ansible-service-broker
+# this regex covers versions newer than 3.9.0
+openshift_version_regex: "openshift v3.(9|1[0-9]).[0-9]"

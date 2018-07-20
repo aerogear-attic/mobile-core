@@ -1,0 +1,119 @@
+---
+# tasks for provision mobile catalog on an existing openshift cluster
+# NOTE: Ansible Service Broker should be already provisoned in this cluster
+- name: Log in as argumented user
+  shell: "oc login -u {{u}} -p {{p}}"
+  when: u is defined and p is defined
+
+- name: login with current user is no argumented
+  when: u is not defined
+  block:
+    - name: Get current user
+      shell: "oc whoami"
+      register: "oc_whoami"
+
+    - set_fact:
+        current_user: "{{oc_whoami.stdout}}"
+
+    - name: Login as system admin
+      shell: "oc login -u system:admin"
+      when: current_user != "system:admin"
+
+- name: Check OpenShift version
+  shell: oc version | grep -E "{{ openshift_version_regex }}"
+  register: version_check
+  failed_when: version_check.rc == 2
+
+- name: Check OpenShift version
+  when: version_check.rc == 1
+  block:
+    - name: get current Openshift version
+      shell: oc version | grep "openshift"
+      register: curent_version
+    - name: End play if wrong OpenShift version
+      debug:
+        msg: "Wrong version of Openshift: {{curent_version.stdout}}"
+    - meta: end_play
+
+- name: Check for Ansible Service Broker
+  shell: oc get ns {{ ansible_service_broker_namespace }}
+  register: asb_check
+  failed_when: asb_check.stderr.find("NotFound") == -1 and asb_check.failed == true
+
+- debug: var=asb_check
+
+- name: Check for Ansible Service Broker
+  when: asb_check.stderr.find("Error from server (NotFound)") != -1 and asb_check.stderr.find(ansible_service_broker_namespace) != -1
+  block:
+    - name: cant find ansible service broker namespace, stopping play
+      debug:
+        msg: "Ansible Service Broker not installed or using wrong namespace {{ ansible_service_broker_namespace }}"
+    - meta: end_play
+
+- import_role:
+    name: create-mobile-client-crd
+
+- name: get broker-config configmap
+  command: oc get configmap broker-config -n {{ansible_service_broker_namespace}} -o jsonpath='{.data.broker-config}'
+  register: configmap_raw
+
+- name: update broker-config configmap
+  when: configmap_raw.stdout.find("aerogearcatalog") == -1
+  block:
+    - set_fact:
+        configmap: "{{ configmap_raw.stdout |from_yaml}}"  
+        ag_registry: {
+          type: "dockerhub",
+          name: "ag",
+          url: "https://registry.hub.docker.com",
+          org: "aerogearcatalog",
+          tag: 1.0.0,
+          white_list: [".*-apb$"]
+        }
+    
+    - set_fact:
+        registries: "{{configmap.registry + [ag_registry]}}"
+        openshift_sandbox_role: "{{ configmap.openshift |combine({'sandbox_role': 'admin'}) }}"
+        broker_launch_apb_on_bind: "{{ configmap.broker |combine({'launch_apb_on_bind': true}) }}"
+
+    - set_fact:
+        configmap: >
+          {{configmap |combine({
+              'registry': registries, 
+              'openshift': openshift_sandbox_role, 
+              'broker': broker_launch_apb_on_bind
+              })  
+            }}
+    - name: save configmap to file
+      copy:
+        content: "{{ configmap |to_nice_yaml }}"
+        dest: /tmp/broker-config.yaml
+    
+    - name: Update ansible service broker config 
+      shell: |
+        oc delete configmap broker-config -n {{ansible_service_broker_namespace}}
+        oc create configmap broker-config --from-file=broker-config=/tmp/broker-config.yaml -n {{ansible_service_broker_namespace}}
+  
+    - name: Rollout latest ansible service broker
+      shell: oc rollout latest asb -n {{ansible_service_broker_namespace}}
+      register: result
+      until: result.stdout.find("deploymentconfig \"asb\" rolled out") != -1
+      retries: 60
+      delay: 5
+
+    - name: Refresh Catalog
+      block: 
+        - name: save current ansible-service-broker to a file
+          shell: oc get clusterservicebroker ansible-service-broker -o=json > /tmp/broker.json
+        - name: delete current ansible-service-broker
+          shell: oc delete clusterservicebroker ansible-service-broker
+
+        - name: create new clusterservicebroker to cause refresh
+          shell: oc create -f /tmp/broker.json
+          register: result
+          until: result.stdout.find("clusterservicebroker \"ansible-service-broker\" created") != -1
+          retries: 60
+          delay: 5
+
+    - import_role:
+        name: patch-origin-web-console
