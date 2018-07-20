@@ -12,5 +12,5 @@ p - password for the user
 ansible_service_broker_namespace - ansible service broker namespace
 
 ```bash
-ansible-playbook installer/rhpds-playbook.yml -e "u=developer p=pwd ansible_service_broker_namespace=ansible-service-broker"
+ansible-playbook installer/aerogear-catalog-install.yml -e "u=developer p=pwd ansible_service_broker_namespace=ansible-service-broker"
 ```

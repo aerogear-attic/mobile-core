@@ -9,7 +9,7 @@
 
 - name: Login as system admin
   shell: "oc login -u system:admin"
-  when: current_user != "system:admin"
+  when: current_user != "system:admin" and u is not defined
 
 - name: Get current deployed origin webconsole image
   shell: "oc get deployment webconsole -n openshift-web-console -o=jsonpath='{.spec.template.spec.containers[?(@.name==\"webconsole\")].image}'"
