@@ -38,9 +38,7 @@
 - name: Check for Ansible Service Broker
   shell: oc get ns {{ ansible_service_broker_namespace }}
   register: asb_check
-  failed_when: asb_check.stderr.find("NotFound") == -1 and asb_check.failed == true
-
-- debug: var=asb_check
+  failed_when: asb_check.stderr.find("NotFound") == -1 and asb_check.failed is defined and asb_check.failed == true
 
 - name: Check for Ansible Service Broker
   when: asb_check.stderr.find("Error from server (NotFound)") != -1 and asb_check.stderr.find(ansible_service_broker_namespace) != -1
