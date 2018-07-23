@@ -10,6 +10,7 @@ readonly RED=$(tput setaf 1)
 readonly RESET=$(tput sgr0)
 readonly GREEN=$(tput setaf 2)
 readonly CYAN=$(tput setaf 6)
+readonly MAGENTA=$(tput setaf 5)
 
 readonly VER_EQ=0
 readonly VER_GT=1
@@ -133,6 +134,11 @@ function check_passed_msg() {
 function info_msg() {
   echo -e "${CYAN} INFO: ${1} ${RESET}"
 }
+
+function warn_msg() {
+  echo -e "${MAGENTA} WARNING: ${1} ${RESET}"
+}
+
 ## Read inputs and show default values
 ## ${1} : Desc input
 ## ${2} : Default value
@@ -282,20 +288,26 @@ function read_wildcard_dns_host() {
 # To avoid known issues when the cluster need to started
 function check_oc_cluster_up() {
   check_msg "Openshift cluster"
-  spinnerStart 'Running oc cluster up ...'
-  command oc cluster up &>/dev/null
-  cluster_running=${?};
-  spinnerStop $?
-  if [[ ${cluster_running} -ne 0 ]]; then
-    (command oc cluster up 2>&1 | grep 'Error: OpenShift is already running') &>/dev/null
-    if [[ ${?} -ne 0 ]];  then # if it is already running the check passed
-      command oc cluster up # to show output
-      echo -e "${RED}Error to run 'oc cluster up'. ${RESET}"
-      echo -e "${RED}See https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#getting-started. ${RESET}"
-      exit 1
+  command -v oc &>/dev/null
+  oc_exists=${?}; if [[ ${oc_exists} -ne 0 ]]; then
+    warn_msg "Unable to check the cluster since oc tool is not installed."
+    warn_msg "This tool will be installed in the next steps. Please, try again if an error be faced."
+  else
+    spinnerStart 'Running oc cluster up ...'
+    command oc cluster up &>/dev/null
+    cluster_running=${?};
+    spinnerStop $?
+    if [[ ${cluster_running} -ne 0 ]]; then
+      (command oc cluster up 2>&1 | grep 'Error: OpenShift is already running') &>/dev/null
+      if [[ ${?} -ne 0 ]];  then # if it is already running the check passed
+        command oc cluster up # to show output
+        echo -e "${RED}Error to run 'oc cluster up'. ${RESET}"
+        echo -e "${RED}See https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#getting-started. ${RESET}"
+        exit 1
+      fi
     fi
+    check_passed_msg "Openshift cluster"
   fi
-  check_passed_msg "Openshift cluster"
 }
 
 # To read and check docker credentials
