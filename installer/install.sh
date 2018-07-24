@@ -47,6 +47,13 @@ readonly MIN_ANSIBLE_VERSION=2.6
 readonly MIN_OCP_CLIENT_TOOL=3.9
 
 #####################################################################
+# Script arguments
+#####################################################################
+if [[ ${1} == "--debug" || ${1} == "--d" ]]; then
+  IS_DEBUG=1
+fi
+
+#####################################################################
 # Utils functions                                                   #
 #####################################################################
 # Returns:
@@ -137,6 +144,18 @@ function info_msg() {
 
 function warn_msg() {
   echo -e "${MAGENTA} WARNING: ${1} ${RESET}"
+}
+
+## Read inputs and show default values
+## ${1} : Desc input
+## ${2} : Default value
+## ${3} : read var
+function read_with_default_values() {
+  read -p "${1}: ${CYAN} (${2}) ${RESET}" ${3}
+}
+
+function install_with_success_msg() {
+  echo "✓ ${GREEN} ${1} installed with success. ${RESET}"
 }
 
 ## Read inputs and show default values
@@ -363,40 +382,81 @@ function read_cluster_ip() {
   get_defult_cluster_ip
   read_with_default_values "Cluster IP" ${DEFAULT_CLUSTER_IP} cluster_ip
   cluster_ip=${cluster_ip:-${DEFAULT_CLUSTER_IP}}
+  DEFAULT_CLUSTER_IP=${cluster_ip}
 }
 
 # To execute ansible task
 function run_ansible_tasks() {
   echo -e "Performing clean and running the installer ..."
-  echo -e "May you will be asked for your System Admin Password(root/sudo)."
+  info_msg "May you will be asked for your System Admin Password(root/sudo)."
 
   cd ${SCRIPT_ABSOLUTE_PATH}
   cd .. && make clean &>/dev/null
 
   set -e
-  echo "Installing roles to ${SCRIPT_ABSOLUTE_PATH}/roles"
-  ansible-galaxy install -r ./installer/requirements.yml --roles-path="${SCRIPT_ABSOLUTE_PATH}/roles" --force
-  set +e
 
-  if [[ ${oc_version_comparison} -ne ${VER_LT} ]]; then
-    echo "Skipping OpenShift client tools installation..."
-    ansible-playbook installer/playbook.yml --skip-tags "install-oc" \
-    -e "dockerhub_username=${dockerhub_username}" \
-    -e "dockerhub_password=${dockerhub_password}" \
-    -e "dockerhub_tag=${dockerhub_tag}" \
-    -e "dockerhub_org=${dockerhub_org}" \
-    -e "cluster_public_ip=${cluster_ip}" \
-    -e "wildcard_dns_host=${wildcard_dns_host}"
-  else
-    ansible-playbook installer/playbook.yml \
-    -e "dockerhub_username=${dockerhub_username}" \
-    -e "dockerhub_password=${dockerhub_password}" \
-    -e "dockerhub_tag=${dockerhub_tag}" \
-    -e "dockerhub_org=${dockerhub_org}" \
-    -e "cluster_public_ip=${cluster_ip}" \
-    -e "wildcard_dns_host=${wildcard_dns_host}" \
-    -e "oc_install_parent_dir=${oc_install_dir}"
+  roles_path=${SCRIPT_ABSOLUTE_PATH}/roles
+  echo -e "Installing roles from ${roles_path}"
+  ansible-galaxy install -r ./installer/requirements.yml --roles-path="${SCRIPT_ABSOLUTE_PATH}/roles" --force
+  roles_running=${?}; if [[ ${roles_running} -ne 0 ]]; then
+    echo -e  "${RED} ERROR: Unable to install the roles from ${roles_path}.${RESET}"
+    exit 1
   fi
+  install_with_success_msg "Roles"
+
+  set +e
+  echo -e "Installing Mobile Services ..."
+  if [[ $IS_DEBUG ]]; then
+    if [[ ${oc_version_comparison} -ne ${VER_LT} ]]; then
+      install_with_success_msg "OpenShift client tool"
+      ansible-playbook installer/playbook.yml --skip-tags "install-oc" \
+      -e "dockerhub_username=${dockerhub_username}" \
+      -e "dockerhub_password=${dockerhub_password}" \
+      -e "dockerhub_tag=${dockerhub_tag}" \
+      -e "dockerhub_org=${dockerhub_org}" \
+      -e "cluster_public_ip=${cluster_ip}" \
+      -e "wildcard_dns_host=${wildcard_dns_host}"
+    else
+      ansible-playbook installer/playbook.yml \
+      -e "dockerhub_username=${dockerhub_username}" \
+      -e "dockerhub_password=${dockerhub_password}" \
+      -e "dockerhub_tag=${dockerhub_tag}" \
+      -e "dockerhub_org=${dockerhub_org}" \
+      -e "cluster_public_ip=${cluster_ip}" \
+      -e "wildcard_dns_host=${wildcard_dns_host}" \
+      -e "oc_install_parent_dir=${oc_install_dir}"
+    fi
+  else
+    spinnerStart 'It may take few minutes ...'
+    if [[ ${oc_version_comparison} -ne ${VER_LT} ]]; then
+      install_with_success_msg "OpenShift client tool"
+      ansible-playbook installer/playbook.yml --skip-tags "install-oc" \
+      -e "dockerhub_username=${dockerhub_username}" \
+      -e "dockerhub_password=${dockerhub_password}" \
+      -e "dockerhub_tag=${dockerhub_tag}" \
+      -e "dockerhub_org=${dockerhub_org}" \
+      -e "cluster_public_ip=${cluster_ip}" \
+      -e "wildcard_dns_host=${wildcard_dns_host}" &>/dev/null
+    else
+      ansible-playbook installer/playbook.yml \'
+      -e "dockerhub_username=${dockerhub_username}" \
+      -e "dockerhub_password=${dockerhub_password}" \
+      -e "dockerhub_tag=${dockerhub_tag}" \
+      -e "dockerhub_org=${dockerhub_org}" \
+      -e "cluster_public_ip=${cluster_ip}" \
+      -e "wildcard_dns_host=${wildcard_dns_host}" \
+      -e "oc_install_parent_dir=${oc_install_dir}" &>/dev/null
+    fi
+    spinnerStop $?
+  fi
+  ansible_playbook_task=${?}; if [[ ${ansible_playbook_task} -ne 0 ]]; then
+    echo -e  "${RED} ERROR: Unable to install the Mobile Services. ${RESET}"
+    echo -e  "${RED} ERROR: For further information use the --debug option to execute this installation. ${RESET}"
+    exit 1
+  fi
+  install_with_success_msg "Mobile Services"
+  info_msg "See the Mobile Services in your OpenShift Console. URL: https://${DEFAULT_CLUSTER_IP}:8443/console/"
+  info_msg "For information on how to enable TLS communication on your device to this cluster see https://docs.aerogear.org/aerogear/latest/getting-started.html#using-self-signed-certificates-in-mobile-apps"
 }
 
 # Run all scripts to install after the checks
