@@ -367,19 +367,20 @@ function read_cluster_ip() {
 
 # To execute ansible task
 function run_ansible_tasks() {
-  echo "Performing clean and running the installer. You will be asked for your password."
+  echo -e "Performing clean and running the installer ..."
+  echo -e "May you will be asked for your System Admin Password(root/sudo)."
 
   cd ${SCRIPT_ABSOLUTE_PATH}
   cd .. && make clean &>/dev/null
 
   set -e
-  echo "Installing roles from ${SCRIPT_ABSOLUTE_PATH}/roles"
+  echo "Installing roles to ${SCRIPT_ABSOLUTE_PATH}/roles"
   ansible-galaxy install -r ./installer/requirements.yml --roles-path="${SCRIPT_ABSOLUTE_PATH}/roles" --force
   set +e
 
   if [[ ${oc_version_comparison} -ne ${VER_LT} ]]; then
     echo "Skipping OpenShift client tools installation..."
-    ansible-playbook installer/playbook.yml --ask-become-pass --skip-tags "install-oc" \
+    ansible-playbook installer/playbook.yml --skip-tags "install-oc" \
     -e "dockerhub_username=${dockerhub_username}" \
     -e "dockerhub_password=${dockerhub_password}" \
     -e "dockerhub_tag=${dockerhub_tag}" \
@@ -387,7 +388,7 @@ function run_ansible_tasks() {
     -e "cluster_public_ip=${cluster_ip}" \
     -e "wildcard_dns_host=${wildcard_dns_host}"
   else
-    ansible-playbook installer/playbook.yml --ask-become-pass \
+    ansible-playbook installer/playbook.yml \
     -e "dockerhub_username=${dockerhub_username}" \
     -e "dockerhub_password=${dockerhub_password}" \
     -e "dockerhub_tag=${dockerhub_tag}" \

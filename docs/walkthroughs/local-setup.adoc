@@ -11,7 +11,7 @@ This walkthrough sets up a locally running OpenShift cluster for:
 == Requirements
 
 === Hardware Requirements
-* Please make sure that you have at least *64GiB* of free space on your filesystem 
+* Please make sure that you have at least *64GiB* of free space on your filesystem
 * for smooth run have 16GiB of RAM
 
 [[tooling-requirements]]
@@ -80,7 +80,7 @@ To run the ansible installer directly and specify any property values:
 ----
 export DOCKERHUB_USERNAME=<my_dockerhub_username>
 export DOCKERHUB_PASSWORD=<my_dockerhub_password>
-ansible-playbook ./installer/playbook.yml -e "dockerhub_username=$DOCKERHUB_USERNAME" -e "dockerhub_password=$DOCKERHUB_PASSWORD" --ask-become-pass
+ansible-playbook ./installer/playbook.yml -e "dockerhub_username=$DOCKERHUB_USERNAME" -e "dockerhub_password=$DOCKERHUB_PASSWORD"
 ----
 
 Alternatively, to run a script that prompts for property values:
