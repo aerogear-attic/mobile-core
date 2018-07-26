@@ -33,8 +33,8 @@ if [[ ! -e $CERT_DIR ]]; then
     echo "Generating new self trusted certificate for cluster"
 	mkdir -p $CERT_DIR
     openssl req -nodes -x509 -newkey rsa:4096 -keyout $CERT_DIR/key.pem -out $CERT_DIR/cert.pem -days 365 -subj "/CN=asb-etcd.ansible-service-broker.svc"
-    openssl genrsa -out $CERT_DIR/MyClient1.key 2048 
-	openssl req -new -key $CERT_DIR/MyClient1.key -out $CERT_DIR/MyClient1.csr -subj "/CN=client" 
+    openssl genrsa -out $CERT_DIR/MyClient1.key 2048
+	openssl req -new -key $CERT_DIR/MyClient1.key -out $CERT_DIR/MyClient1.csr -subj "/CN=client"
 	openssl x509 -req -in $CERT_DIR/MyClient1.csr -CA $CERT_DIR/cert.pem -CAkey $CERT_DIR/key.pem -CAcreateserial -out $CERT_DIR/MyClient1.pem -days 1024
 fi
 
@@ -61,7 +61,6 @@ oc process -f "${TEMPLATE_LOCAL}" \
 -p BROKER_CLIENT_CERT="$BROKER_CLIENT_CERT" \
 -p BROKER_CLIENT_KEY="$BROKER_CLIENT_KEY" \
 -p NAMESPACE=${ANSIBLE_SERVICE_BROKER_NAMESPACE} \
--p AUTO_ESCALATE="true" \
 -p LAUNCH_APB_ON_BIND="${LAUNCH_APB_ON_BIND}" \
 ${TEMPLATE_VARS} | oc create -f -
 
