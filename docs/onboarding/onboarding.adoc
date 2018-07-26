@@ -8,13 +8,10 @@ environment which enables local UI, CLI and mobile services development.
 == Development Environment Setup
 
 An OpenShift environment needs to be setup with the mobile applications and services available, 
-which enables local UI, CLI and mobile services (via APBs) development.
-There are two options on how to do this:
+which enables local UI, CLI and mobile services (via APBs) development. Complete the steps that describe setting up Mobile Services at:
 
-. Using the *installer*.
-  * Follow this link:../walkthroughs/local-setup.adoc[documentation] to setup your development environment using the installer.
-. Using *minishift*.
-  * Follow this link:https://github.com/aerogear/minishift-mobilecore-addon/blob/master/README.md[documentation] to setup your development environment using minishift.
+* https://docs.aerogear.org
+
 
 [[cli-setup]]
 == CLI Setup & Development
