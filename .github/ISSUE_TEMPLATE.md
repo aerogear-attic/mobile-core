@@ -1,5 +1,9 @@
 ## Description
 
+## Expected Behavior
+
+## Actual Behavior
+
 ## Environment
 
 *Operating system*:
