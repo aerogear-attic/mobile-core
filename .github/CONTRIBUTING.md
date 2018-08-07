@@ -43,7 +43,7 @@ not already exist.
 ## Submitting changes
 
 * Push your changes to a topic branch in your fork of the repository.
-* Submit a pull request to the repository in the [Aerogear GitHub organization](https://github.com/aerogear) and choose branch you want to patch 
+* Submit a pull request to the repository in the [Aerogear](https://github.com/aerogear) or [AerogearCatalog](https://github.com/aerogearcatalog) Github Organisations and choose branch you want to patch 
   (usually master). 
   * Advanced users may want to install the [GitHub CLI](https://hub.github.com/) 
     and use the `hub pull-request` command.
