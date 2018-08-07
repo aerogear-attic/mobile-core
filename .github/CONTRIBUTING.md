@@ -18,7 +18,7 @@ You can reach us at #aerogear on [Freenode IRC](https://freenode.net/) or the
 * Make sure you have a [JIRA account](https://issues.jboss.org)
 * Make sure you have a [GitHub account](https://github.com/signup/free)
 * Submit a ticket for your issue to the 
-[Aerogear project](https://issues.jboss.org/projects/FH/), assuming one does 
+[Aerogear project](https://issues.jboss.org/projects/AEROGEAR/), assuming one does 
 not already exist.
   * Clearly describe the issue including steps to reproduce when it is a bug.
   * Make sure you fill in the earliest version that you know has the issue.
