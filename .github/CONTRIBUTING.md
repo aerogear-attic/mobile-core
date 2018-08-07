@@ -10,7 +10,7 @@ For more information about the Aerogear project, visit
 Whether you're contributing a new feature or bug fix, or simply submitting a
 ticket, the Aerogear team is available for technical advice or feedback. 
 You can reach us at #aerogear on [Freenode IRC](https://freenode.net/) or the 
-[aerogear-dev list](http://lists.jboss.org/pipermail/aerogear-dev/)
+[aerogear mailing list](https://groups.google.com/forum/#!forum/aerogear)
 -- both are actively monitored.
 
 ## Getting started
@@ -18,7 +18,7 @@ You can reach us at #aerogear on [Freenode IRC](https://freenode.net/) or the
 * Make sure you have a [JIRA account](https://issues.jboss.org)
 * Make sure you have a [GitHub account](https://github.com/signup/free)
 * Submit a ticket for your issue to the 
-[Aerogear project](https://issues.jboss.org/projects/FH/), assuming one does 
+[Aerogear project](https://issues.jboss.org/projects/AEROGEAR/), assuming one does 
 not already exist.
   * Clearly describe the issue including steps to reproduce when it is a bug.
   * Make sure you fill in the earliest version that you know has the issue.
@@ -43,8 +43,7 @@ not already exist.
 ## Submitting changes
 
 * Push your changes to a topic branch in your fork of the repository.
-* Submit a pull request to the repository in the [Aerogear GitHub organization]
-  (https://github.com/aerogear) and choose branch you want to patch 
+* Submit a pull request to the repository in the [Aerogear](https://github.com/aerogear) or [AerogearCatalog](https://github.com/aerogearcatalog) Github Organisations and choose branch you want to patch 
   (usually master). 
   * Advanced users may want to install the [GitHub CLI](https://hub.github.com/) 
     and use the `hub pull-request` command.
