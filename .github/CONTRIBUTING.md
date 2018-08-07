@@ -10,7 +10,7 @@ For more information about the Aerogear project, visit
 Whether you're contributing a new feature or bug fix, or simply submitting a
 ticket, the Aerogear team is available for technical advice or feedback. 
 You can reach us at #aerogear on [Freenode IRC](https://freenode.net/) or the 
-[aerogear-dev list](http://lists.jboss.org/pipermail/aerogear-dev/)
+[aerogear mailing list](https://groups.google.com/forum/#!forum/aerogear)
 -- both are actively monitored.
 
 ## Getting started
@@ -43,8 +43,7 @@ not already exist.
 ## Submitting changes
 
 * Push your changes to a topic branch in your fork of the repository.
-* Submit a pull request to the repository in the [Aerogear GitHub organization]
-  (https://github.com/aerogear) and choose branch you want to patch 
+* Submit a pull request to the repository in the [Aerogear GitHub organization](https://github.com/aerogear) and choose branch you want to patch 
   (usually master). 
   * Advanced users may want to install the [GitHub CLI](https://hub.github.com/) 
     and use the `hub pull-request` command.
