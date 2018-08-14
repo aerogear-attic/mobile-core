@@ -388,7 +388,7 @@ function read_cluster_ip() {
 # To execute ansible task
 function run_ansible_tasks() {
   echo -e "Performing clean and running the installer ..."
-  info_msg "May you will be asked for your System Admin Password(root/sudo)."
+  info_msg "You will be asked for root password."
 
   cd ${SCRIPT_ABSOLUTE_PATH}
   cd .. && make clean &>/dev/null
