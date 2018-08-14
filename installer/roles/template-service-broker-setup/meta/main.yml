@@ -17,8 +17,7 @@ galaxy_info:
     - all
   - name: Fedora
     versions:
-    - 26
-    - 25
+    - all
 
   galaxy_tags:
   - aerogear
