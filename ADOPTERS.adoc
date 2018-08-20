@@ -1,0 +1,4 @@
+Users of Red Hat Mobile Core:
+
+* link:https://www.redhat.com[Red Hat Mobile]
+
