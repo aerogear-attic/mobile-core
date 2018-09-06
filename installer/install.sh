@@ -430,33 +430,34 @@ function run_ansible_tasks() {
     spinnerStart 'It may take few minutes ...'
     if [[ ${oc_version_comparison} -ne ${VER_LT} ]]; then
       install_with_success_msg "OpenShift client tool"
-      ansible-playbook installer/playbook.yml --skip-tags "install-oc" \
+      (ansible-playbook installer/playbook.yml --skip-tags "install-oc" \
       -e "dockerhub_username=${dockerhub_username}" \
       -e "dockerhub_password=${dockerhub_password}" \
       -e "dockerhub_tag=${dockerhub_tag}" \
       -e "dockerhub_org=${dockerhub_org}" \
       -e "cluster_public_ip=${cluster_ip}" \
-      -e "wildcard_dns_host=${wildcard_dns_host}" &>/dev/null
+      -e "wildcard_dns_host=${wildcard_dns_host}" 2>&1 | grep 'failed=0') &>/dev/null
     else
-      ansible-playbook installer/playbook.yml \'
+      (ansible-playbook installer/playbook.yml \'
       -e "dockerhub_username=${dockerhub_username}" \
       -e "dockerhub_password=${dockerhub_password}" \
       -e "dockerhub_tag=${dockerhub_tag}" \
       -e "dockerhub_org=${dockerhub_org}" \
       -e "cluster_public_ip=${cluster_ip}" \
       -e "wildcard_dns_host=${wildcard_dns_host}" \
-      -e "oc_install_parent_dir=${oc_install_dir}" &>/dev/null
+      -e "oc_install_parent_dir=${oc_install_dir}"  2>&1 | grep 'failed=0') &>/dev/null
+    fi
+    if [[ ${?} -ne 0 ]]; then
+      spinnerStop $?
+      echo -e  "${RED} ERROR: Unable to install the Mobile Services. ${RESET}"
+      echo -e  "${RED} ERROR: For further information use the --debug option to execute this installation. ${RESET}"
+      exit 1
     fi
     spinnerStop $?
+    install_with_success_msg "Mobile Services"
+    info_msg "See the Mobile Services in your OpenShift Console. URL: https://${DEFAULT_CLUSTER_IP}:8443/console/"
+    info_msg "For information on how to enable TLS communication on your device to this cluster see https://docs.aerogear.org/external/installer/self-signed-cert.html"
   fi
-  ansible_playbook_task=${?}; if [[ ${ansible_playbook_task} -ne 0 ]]; then
-    echo -e  "${RED} ERROR: Unable to install the Mobile Services. ${RESET}"
-    echo -e  "${RED} ERROR: For further information use the --debug option to execute this installation. ${RESET}"
-    exit 1
-  fi
-  install_with_success_msg "Mobile Services"
-  info_msg "See the Mobile Services in your OpenShift Console. URL: https://${DEFAULT_CLUSTER_IP}:8443/console/"
-  info_msg "For information on how to enable TLS communication on your device to this cluster see https://docs.aerogear.org/aerogear/latest/getting-started.html#using-self-signed-certificates-in-mobile-apps"
 }
 
 # Run all scripts to install after the checks
