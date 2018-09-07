@@ -332,7 +332,7 @@ function check_oc_cluster_up() {
 # To read and check docker credentials
 function read_docker_hub_credentials() {
   info_msg "The Mobile installer requires valid DockerHub credentials to communicate with the DockerHub API."
-  info_msg "If you enter with an invalid credentials then Mobile Services will not be available in the Service Catalog."
+  info_msg "If you enter invalid credentials then Mobile Services will not be available in the Service Catalog."
 
   docker_credentials=0
   while [ $docker_credentials -eq 0 ];
@@ -388,7 +388,7 @@ function read_cluster_ip() {
 # To execute ansible task
 function run_ansible_tasks() {
   echo -e "Performing clean and running the installer ..."
-  info_msg "May you will be asked for your System Admin Password(root/sudo)."
+  info_msg "You might be prompted for your System Admin Password(root/sudo)."
 
   cd ${SCRIPT_ABSOLUTE_PATH}
   cd .. && make clean &>/dev/null
