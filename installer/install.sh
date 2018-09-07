@@ -458,17 +458,6 @@ function run_ansible_tasks() {
     info_msg "See the Mobile Services in your OpenShift Console. URL: https://${DEFAULT_CLUSTER_IP}:8443/console/"
     info_msg "For information on how to enable TLS communication on your device to this cluster see https://docs.aerogear.org/external/installer/self-signed-cert.html"
   fi
-<<<<<<< HEAD
-=======
-  ansible_playbook_task=${?}; if [[ ${ansible_playbook_task} -ne 0 ]]; then
-    echo -e  "${RED} ERROR: Unable to install the Mobile Services. ${RESET}"
-    echo -e  "${RED} ERROR: For further information use the --debug option to execute this installation. ${RESET}"
-    exit 1
-  fi
-  install_with_success_msg "Mobile Services"
-  info_msg "See the Mobile Services in your OpenShift Console. URL: https://${DEFAULT_CLUSTER_IP}:8443/console/"
-  info_msg "For information on how to enable TLS communication on your device to this cluster see https://docs.aerogear.org/external/installer/self-signed-cert.html"
->>>>>>> add url
 }
 
 # Run all scripts to install after the checks
